@@ -5,10 +5,17 @@ async function main() {
   const PassingSecretInfo = await ethers.getContractFactory(SMART_CONTRACTS.PASSING_SECRET_INFO);
   const passingSecretInfo = await PassingSecretInfo.deploy()
 
+  const CompaniesSalaries = await ethers.getContractFactory(SMART_CONTRACTS.PASSING_SECRET_INFO);
+  const companiesSalaries = await CompaniesSalaries.deploy()
+
   await passingSecretInfo.deployed();
+  await companiesSalaries.deployed();
 
   console.log(
-    `ETH and unlock timestamp deployed to ${passingSecretInfo.address}`
+    `Address passing secret info ${passingSecretInfo.address}`
+  );
+  console.log(
+    `Address companies salaries ${companiesSalaries.address}`
   );
 }
 
