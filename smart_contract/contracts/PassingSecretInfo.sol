@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 contract PassingSecretInfo {
     uint256 secret_info_id = 0;
@@ -16,26 +16,31 @@ contract PassingSecretInfo {
     }
 
     struct SecretInfoAccessed {
-        SecretInfo secretInfo;
+        SecretInfo secret_info;
         string info;
-        address[] accessedAdresses;
+        address[] accessed_adresses;
     }
 
-    SecretInfo[] public secretInfos;
-    SecretInfoAccessed[] private secretInfosAccessed;
+    SecretInfo[] public secret_infos;
+    SecretInfoAccessed[] private secret_infos_accessed;
+
 
     function getSecretInfos () public view returns (SecretInfo[] memory) {
-        return secretInfos;
+        return secret_infos;
+    }
+
+    function getSecretInfoById (uint256 id) public view returns (SecretInfo memory) {
+        return secret_infos[id];
     }
 
     function getSecretInfoAccessed (uint256 id) public view returns (SecretInfoAccessed memory) {
-        if (secretInfosAccessed[id].secretInfo.owner_address == msg.sender) {
-            return secretInfosAccessed[id];
+        if (secret_infos_accessed[id].secret_info.owner_address == msg.sender) {
+            return secret_infos_accessed[id];
         }
 
-        for (uint256 i = 0; i < secretInfosAccessed[id].accessedAdresses.length; i++) {
-            if (secretInfosAccessed[id].accessedAdresses[i] == msg.sender) {
-                return secretInfosAccessed[id];
+        for (uint256 i = 0; i < secret_infos_accessed[id].accessed_adresses.length; i++) {
+            if (secret_infos_accessed[id].accessed_adresses[i] == msg.sender) {
+                return secret_infos_accessed[id];
             }
         }
         revert("You don't have access to this info. You have to pay owner of info.");
@@ -43,13 +48,13 @@ contract PassingSecretInfo {
 
     // amount in WEI
     function addSecretInfo (uint256 amount, string memory title, string memory description, string memory info) public {
-        address[] memory accessedAdresses = new address[](0);
-        secretInfos.push(SecretInfo(secret_info_id, msg.sender, amount, title, description));
-        secretInfosAccessed.push(
+        address[] memory accessed_adresses = new address[](0);
+        secret_infos.push(SecretInfo(secret_info_id, msg.sender, amount, title, description));
+        secret_infos_accessed.push(
             SecretInfoAccessed(
                 SecretInfo(secret_info_id, msg.sender, amount, title, description),
                 info,
-                accessedAdresses
+                accessed_adresses
             )
         );
 
@@ -57,9 +62,16 @@ contract PassingSecretInfo {
     }
 
     function payForSecretInfoAccess (uint256 id) public payable {
-        require(secretInfos[id].amount == msg.value, "Wrong ETH (WEI) value");
-        (bool sent,) = secretInfos[id].owner_address.call{value: msg.value}("");
+        require(secret_infos[id].amount == msg.value, "Wrong ETH (WEI) value");
+
+        for (uint256 i = 0; i < secret_infos_accessed[id].accessed_adresses.length; i++) {
+            if (secret_infos_accessed[id].accessed_adresses[i] == msg.sender) {
+                revert("You already paid for this info");
+            }
+        }
+
+        (bool sent,) = secret_infos[id].owner_address.call{value: msg.value}("");
         require(sent, "Failed to send Ether");
-        secretInfosAccessed[id].accessedAdresses.push(msg.sender);
+        secret_infos_accessed[id].accessed_adresses.push(msg.sender);
     }
 }
