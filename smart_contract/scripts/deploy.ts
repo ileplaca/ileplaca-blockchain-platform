@@ -5,7 +5,7 @@ async function main() {
   const PassingSecretInfo = await ethers.getContractFactory(SMART_CONTRACTS.PASSING_SECRET_INFO);
   const passingSecretInfo = await PassingSecretInfo.deploy()
 
-  const CompaniesSalaries = await ethers.getContractFactory(SMART_CONTRACTS.PASSING_SECRET_INFO);
+  const CompaniesSalaries = await ethers.getContractFactory(SMART_CONTRACTS.COMPANIES_SALARIES);
   const companiesSalaries = await CompaniesSalaries.deploy()
 
   await passingSecretInfo.deployed();

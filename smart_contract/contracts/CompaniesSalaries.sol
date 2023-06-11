@@ -13,6 +13,8 @@ contract CompaniesSalaries {
         uint256 first;
         uint256 speed_of_growth;
         uint256 raise_change;
+        string role;
+        string experience;
         string opinion;
         uint256 company_id;
     }
@@ -25,10 +27,12 @@ contract CompaniesSalaries {
         uint256 first,
         uint256 speed_of_growth,
         uint256 raise_change,
+        string memory role,
+        string memory experience,
         string memory opinion,
         uint256 company_id
     ) public {
-        salaries.push(Salary(salary_id, msg.sender, current, first, speed_of_growth, raise_change, opinion, company_id));
+        salaries.push(Salary(salary_id, msg.sender, current, first, speed_of_growth, raise_change, role, experience, opinion, company_id));
         salary_id++;
     }
 

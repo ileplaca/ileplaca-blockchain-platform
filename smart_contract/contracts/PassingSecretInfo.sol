@@ -83,6 +83,31 @@ contract PassingSecretInfo {
         revert("You don't have access to this info. You have to pay owner of info.");
     }
 
+    function getPaidSecretInfosAccessed () public view returns (SecretInfoAccessed[] memory) {
+        SecretInfoAccessed[] memory paid_secret_infos_accessed = new SecretInfoAccessed[](secret_infos.length);
+        uint256 counter = 0;
+
+        for (uint256 i = 0; i < secret_infos_accessed.length; i++) {
+            if (secret_infos_accessed[i].secret_info.owner_address == msg.sender) {
+                paid_secret_infos_accessed[counter] = secret_infos_accessed[i];
+                counter++;
+            } else {
+                for (uint256 j = 0; j < secret_infos_accessed[i].accessed_adresses.length; j++) {
+                    if (secret_infos_accessed[i].accessed_adresses[j] == msg.sender) {
+                        paid_secret_infos_accessed[counter] = secret_infos_accessed[i];
+                        counter++;
+                    }
+                }
+            }
+        }
+
+        assembly {
+            mstore(paid_secret_infos_accessed, counter)
+        }
+
+        return paid_secret_infos_accessed;
+    }
+
     function payForSecretInfoAccess (uint256 id) public payable {
         require(secret_infos[id].amount == msg.value, "Wrong ETH (WEI) value");
 

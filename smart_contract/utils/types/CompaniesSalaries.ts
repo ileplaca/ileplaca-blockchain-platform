@@ -7,6 +7,8 @@ export interface Salary {
   first: number
   speed_of_growth: number
   raise_change: number
+  role: string
+  experience: string
   opinion: string
   company_id: number
 }
@@ -17,6 +19,8 @@ export interface CompaniesSalaries {
     first: number,
     speed_of_growth: number,
     raise_change: number,
+    role: string,
+    experience: string,
     opinion: string,
     company_id: number
   ) => Promise<void>

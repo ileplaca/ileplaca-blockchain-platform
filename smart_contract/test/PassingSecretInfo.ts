@@ -80,6 +80,36 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         (await passingSecretInfo.connect(account)).getSecretInfoAccessed(0)
       ).to.be.revertedWith("You don't have access to this info. You have to pay owner of info.");
     })
+
+    it("get paid secret info access as owner" , async () => {
+      await passingSecretInfo.addSecretInfo(
+        utils.parseEther('0.1'),
+        'Test secret info title',
+        'Test secret info description',
+        'Test secret info company name',
+        'Test secret info info',
+      )
+      const secretInfoAccessed = await passingSecretInfo.getPaidSecretInfosAccessed();
+      assert.equal(secretInfoAccessed[0].secret_info.amount, Number(utils.parseEther('0.1')))
+    })
+
+
+    it("get paid secret info access as user" , async () => {
+      await passingSecretInfo.addSecretInfo(
+        utils.parseEther('0.1'),
+        'Test secret info title',
+        'Test secret info description',
+        'Test secret info company name',
+        'Test secret info info',
+      )
+      const accounts = await ethers.getSigners();
+      const secondAccount = accounts[1];
+
+      const secondAccountContract = await passingSecretInfo.connect(secondAccount);
+      await secondAccountContract.payForSecretInfoAccess(0, { value: utils.parseEther('0.1') })
+      const secretInfoAccessed = await passingSecretInfo.getPaidSecretInfosAccessed();
+      assert.equal(secretInfoAccessed[0].secret_info.amount, Number(utils.parseEther('0.1')))
+    })
   })
 
   describe("payForSecretInfoAccess", () => {

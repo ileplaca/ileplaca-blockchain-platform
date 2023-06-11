@@ -21,6 +21,7 @@ export interface PassingSecretInfo {
   getSecretInfoById: (id: number | string) => Promise<SecretInfo>,
   getSecretInfosByCompanyName: (company_name: string) => Promise<SecretInfo[]>,
   getSecretInfoAccessed: (id: number | string) => Promise<SecretInfoAccessed>,
+  getPaidSecretInfosAccessed: () => Promise<SecretInfoAccessed[]>,
   addSecretInfo: (amount: number | BigNumber, title: string, description: string, company_name: string, info: string) => Promise<void>;
   payForSecretInfoAccess: (id: number | string, ...args: any) => Promise<void>
 
