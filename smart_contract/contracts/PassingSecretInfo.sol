@@ -13,53 +13,112 @@ contract PassingSecretInfo {
         uint256 amount;
         string title;
         string description;
+        string company_name;
     }
 
     struct SecretInfoAccessed {
-        SecretInfo secretInfo;
+        SecretInfo secret_info;
         string info;
-        address[] accessedAdresses;
+        address[] accessed_adresses;
     }
 
-    SecretInfo[] public secretInfos;
-    SecretInfoAccessed[] private secretInfosAccessed;
-
-    function getSecretInfos () public view returns (SecretInfo[] memory) {
-        return secretInfos;
-    }
-
-    function getSecretInfoAccessed (uint256 id) public view returns (SecretInfoAccessed memory) {
-        if (secretInfosAccessed[id].secretInfo.owner_address == msg.sender) {
-            return secretInfosAccessed[id];
-        }
-
-        for (uint256 i = 0; i < secretInfosAccessed[id].accessedAdresses.length; i++) {
-            if (secretInfosAccessed[id].accessedAdresses[i] == msg.sender) {
-                return secretInfosAccessed[id];
-            }
-        }
-        revert("You don't have access to this info. You have to pay owner of info.");
-    }
+    SecretInfo[] public secret_infos;
+    SecretInfoAccessed[] private secret_infos_accessed;
 
     // amount in WEI
-    function addSecretInfo (uint256 amount, string memory title, string memory description, string memory info) public {
-        address[] memory accessedAdresses = new address[](0);
-        secretInfos.push(SecretInfo(secret_info_id, msg.sender, amount, title, description));
-        secretInfosAccessed.push(
+    function addSecretInfo (uint256 amount, string memory title, string memory description, string memory company_name, string memory info) public {
+        address[] memory accessed_adresses = new address[](0);
+        secret_infos.push(SecretInfo(secret_info_id, msg.sender, amount, title, description, company_name));
+        secret_infos_accessed.push(
             SecretInfoAccessed(
-                SecretInfo(secret_info_id, msg.sender, amount, title, description),
+                SecretInfo(secret_info_id, msg.sender, amount, title, description, company_name),
                 info,
-                accessedAdresses
+                accessed_adresses
             )
         );
 
         secret_info_id++;
     }
 
+    function compareStrings(string storage a, string memory b) private pure returns (bool) {
+        return keccak256(abi.encodePacked(a)) == keccak256(abi.encodePacked(b));
+    }
+
+    function getSecretInfos () public view returns (SecretInfo[] memory) {
+        return secret_infos;
+    }
+
+    function getSecretInfoById (uint256 id) public view returns (SecretInfo memory) {
+        return secret_infos[id];
+    }
+
+    function getSecretInfosByCompanyName (string memory company_name) public view returns (SecretInfo[] memory) {
+        SecretInfo[] memory secret_infos_by_company_name = new SecretInfo[](secret_infos.length);
+        uint256 counter = 0;
+
+        for (uint256 i = 0; i < secret_infos.length; i++) {
+            if (compareStrings(secret_infos[i].company_name, company_name)) {
+                secret_infos_by_company_name[counter] = secret_infos[i];
+                counter++;
+            }
+        }
+
+        assembly {
+            mstore(secret_infos_by_company_name, counter)
+        }
+
+        return secret_infos_by_company_name;
+    }
+
+    function getSecretInfoAccessed (uint256 id) public view returns (SecretInfoAccessed memory) {
+        if (secret_infos_accessed[id].secret_info.owner_address == msg.sender) {
+            return secret_infos_accessed[id];
+        }
+
+        for (uint256 i = 0; i < secret_infos_accessed[id].accessed_adresses.length; i++) {
+            if (secret_infos_accessed[id].accessed_adresses[i] == msg.sender) {
+                return secret_infos_accessed[id];
+            }
+        }
+        revert("You don't have access to this info. You have to pay owner of info.");
+    }
+
+    function getPaidSecretInfosAccessed () public view returns (SecretInfoAccessed[] memory) {
+        SecretInfoAccessed[] memory paid_secret_infos_accessed = new SecretInfoAccessed[](secret_infos.length);
+        uint256 counter = 0;
+
+        for (uint256 i = 0; i < secret_infos_accessed.length; i++) {
+            if (secret_infos_accessed[i].secret_info.owner_address == msg.sender) {
+                paid_secret_infos_accessed[counter] = secret_infos_accessed[i];
+                counter++;
+            } else {
+                for (uint256 j = 0; j < secret_infos_accessed[i].accessed_adresses.length; j++) {
+                    if (secret_infos_accessed[i].accessed_adresses[j] == msg.sender) {
+                        paid_secret_infos_accessed[counter] = secret_infos_accessed[i];
+                        counter++;
+                    }
+                }
+            }
+        }
+
+        assembly {
+            mstore(paid_secret_infos_accessed, counter)
+        }
+
+        return paid_secret_infos_accessed;
+    }
+
     function payForSecretInfoAccess (uint256 id) public payable {
-        require(secretInfos[id].amount == msg.value, "Wrong ETH (WEI) value");
-        (bool sent,) = secretInfos[id].owner_address.call{value: msg.value}("");
+        require(secret_infos[id].amount == msg.value, "Wrong ETH (WEI) value");
+
+        for (uint256 i = 0; i < secret_infos_accessed[id].accessed_adresses.length; i++) {
+            if (secret_infos_accessed[id].accessed_adresses[i] == msg.sender) {
+                revert("You already paid for this info");
+            }
+        }
+
+        (bool sent,) = secret_infos[id].owner_address.call{value: msg.value}("");
         require(sent, "Failed to send Ether");
-        secretInfosAccessed[id].accessedAdresses.push(msg.sender);
+        secret_infos_accessed[id].accessed_adresses.push(msg.sender);
     }
 }
