@@ -1,4 +1,4 @@
 import PassingSecretInfoAbiJson from './passing-secret-info-abi.json'
 
-export const passingSecretInfoAddress = "0xa4f2071A68CAAcf039a58a6B312cbe7ef2E16fa2"
+export const passingSecretInfoAddress = "0x293CbC359e63090b5cc793C6Eb725A6099b817D1"
 export const passingSecretInfoAbi = PassingSecretInfoAbiJson.abi

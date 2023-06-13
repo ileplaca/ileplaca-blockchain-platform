@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { connectWallet } from 'smart-contracts/connect';
 import { setAccount } from 'smart-contracts/slice';
 
-
 const Index: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

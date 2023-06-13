@@ -10,7 +10,8 @@ export type Salary = [
   role: string,
   experience: string,
   opinion: string,
-  company_id: number
+  company_id: number,
+  company_name: string
 ]
 
 export interface CompaniesSalaries {
@@ -22,7 +23,8 @@ export interface CompaniesSalaries {
     role: string,
     experience: string,
     opinion: string,
-    company_id: number
+    company_id: number,
+    company_name: string
   ) => Promise<ResponseContractEnum>
   getSalaries: () => Promise<Salary[]>
   getSalariesByCompanyId: (company_id: number) => Promise<Salary[]>

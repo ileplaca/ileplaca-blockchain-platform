@@ -17,6 +17,7 @@ contract CompaniesSalaries {
         string experience;
         string opinion;
         uint256 company_id;
+        string company_name;
     }
 
     Salary[] salaries;
@@ -30,9 +31,10 @@ contract CompaniesSalaries {
         string memory role,
         string memory experience,
         string memory opinion,
-        uint256 company_id
+        uint256 company_id,
+        string memory company_name
     ) public {
-        salaries.push(Salary(salary_id, msg.sender, current, first, speed_of_growth, raise_change, role, experience, opinion, company_id));
+        salaries.push(Salary(salary_id, msg.sender, current, first, speed_of_growth, raise_change, role, experience, opinion, company_id, company_name));
         salary_id++;
     }
 

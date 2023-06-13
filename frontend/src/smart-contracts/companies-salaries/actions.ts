@@ -20,7 +20,8 @@ export const companiesSalariesContract: CompaniesSalaries = {
     role,
     experience,
     opinion,
-    company_id
+    company_id,
+    company_name
   ) {
     try {
       const companiesSalariesContract = await createEthereumContract();
@@ -32,7 +33,8 @@ export const companiesSalariesContract: CompaniesSalaries = {
         role,
         experience,
         opinion,
-        company_id
+        company_id,
+        company_name
       )
 
       return ResponseContractEnum.SUCCESS

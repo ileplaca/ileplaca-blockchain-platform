@@ -18,14 +18,14 @@ describe(SMART_CONTRACTS.COMPANIES_SALARIES, () => {
 
   describe('salaries',  () => {
     it('get and add salaries', async () => {
-      await companiesSalaries.addSalary(4000, 3000, 10, 300, "Frontend developer", "1 year","Test salary", 1);
+      await companiesSalaries.addSalary(4000, 3000, 10, 300, "Frontend developer", "1 year","Test salary", 1, "idk");
       const salaries = await companiesSalaries.getSalaries();
       assert.equal(salaries[0].current, 4000);
     })
 
     it('get salaries by company id', async () => {
-      await companiesSalaries.addSalary(4000, 3000, 10, 300, "Frontend developer", "1 year","Test salary", 1);
-      await companiesSalaries.addSalary(4000, 3000, 10, 300, "Frontend developer", "1 year","Test salary", 1);
+      await companiesSalaries.addSalary(4000, 3000, 10, 300, "Frontend developer", "1 year","Test salary", 1, "idk");
+      await companiesSalaries.addSalary(4000, 3000, 10, 300, "Frontend developer", "1 year","Test salary", 1, "idk");
       const salaries = await companiesSalaries.getSalariesByCompanyId(1);
       assert.equal(salaries.length, 2);
     })
