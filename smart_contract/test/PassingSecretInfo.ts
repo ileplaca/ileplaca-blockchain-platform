@@ -23,6 +23,8 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         'Test secret info title',
         'Test secret info description',
         'Test secret info company name',
+        3,
+        3,
         'Test secret info info',
       )
 
@@ -36,6 +38,8 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         'Test secret info title',
         'Test secret info description',
         'companyname',
+        3,
+        3,
         'Test secret info info',
       )
 
@@ -44,6 +48,8 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         'Test secret info title',
         'Test secret info description',
         'companyname',
+        3,
+        3,
         'Test secret info info',
       )
 
@@ -58,9 +64,11 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         'Test secret info title',
         'Test secret info description',
         'Test secret info company name',
+        3,
+        3,
         'Test secret info info',
       )
-      const secretInfoAccessed = await passingSecretInfo.getSecretInfoAccessed(0);
+      const secretInfoAccessed = await passingSecretInfo.getSecretInfoAccessedById(0);
       assert.equal(secretInfoAccessed.secret_info.amount, Number(utils.parseEther('0.1')))
     })
 
@@ -71,13 +79,15 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         'Test secret info title',
         'Test secret info description',
         'Test secret info company name',
+        3,
+        3,
         'Test secret info info',
       )
 
       const accounts = await ethers.getSigners();
       const account = await accounts[1].getAddress();
       expect(
-        (await passingSecretInfo.connect(account)).getSecretInfoAccessed(0)
+        (await passingSecretInfo.connect(account)).getSecretInfoAccessedById(0)
       ).to.be.revertedWith("You don't have access to this info. You have to pay owner of info.");
     })
 
@@ -87,6 +97,8 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         'Test secret info title',
         'Test secret info description',
         'Test secret info company name',
+        3,
+        3,
         'Test secret info info',
       )
       const secretInfoAccessed = await passingSecretInfo.getPaidSecretInfosAccessed();
@@ -100,6 +112,8 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         'Test secret info title',
         'Test secret info description',
         'Test secret info company name',
+        3,
+        3,
         'Test secret info info',
       )
       const accounts = await ethers.getSigners();
@@ -119,6 +133,8 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         'Test secret info title',
         'Test secret info description',
         'Test secret info company name',
+        3,
+        3,
         'Test secret info info',
       )
 
@@ -128,7 +144,7 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
       const secondAccountContract = await passingSecretInfo.connect(secondAccount);
       await secondAccountContract.payForSecretInfoAccess(0, { value: utils.parseEther('0.1') })
 
-      const secretInfoAccessed = await secondAccountContract.getSecretInfoAccessed(0);
+      const secretInfoAccessed = await secondAccountContract.getSecretInfoAccessedById(0);
       assert.equal(secretInfoAccessed.secret_info.amount, Number(utils.parseEther('0.1')))
     })
 
@@ -138,6 +154,8 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         'Test secret info title',
         'Test secret info description',
         'Test secret info company name',
+        3,
+        3,
         'Test secret info info',
       )
 
@@ -156,6 +174,8 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         'Test secret info title',
         'Test secret info description',
         'Test secret info company name',
+        3,
+        3,
         'Test secret info info',
       )
 
@@ -167,6 +187,155 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
       expect(
        secondAccountContract.payForSecretInfoAccess(0, { value: utils.parseEther('0.1') })
       ).to.be.revertedWith("You already paid for this info");
+    })
+  })
+
+  describe("reply", () => {
+    it("Add reply to secret info", async () => {
+      await passingSecretInfo.addSecretInfo(
+        utils.parseEther('0.1'),
+        'Test secret info title',
+        'Test secret info description',
+        'Test secret info company name',
+        3,
+        3,
+        'Test secret info info',
+      )
+
+      await passingSecretInfo.addSecretInfoReply(0, "content");
+      const secret_info = await passingSecretInfo.getSecretInfoById(0);
+      assert.equal(secret_info.replies[0].content, "content");
+    })
+  })
+
+  describe("rate", () => {
+    it("Add positive rate to secret info", async () => {
+      await passingSecretInfo.addSecretInfo(
+        utils.parseEther('0.1'),
+        'Test secret info title',
+        'Test secret info description',
+        'Test secret info company name',
+        3,
+        3,
+        'Test secret info info',
+      )
+
+      await passingSecretInfo.addSecretInfoRate(0, true);
+      const secret_info = await passingSecretInfo.getSecretInfoById(0);
+      assert.equal(secret_info.rates[0].rate, true);
+    })
+
+    it("Add negative rate to secret info", async () => {
+      await passingSecretInfo.addSecretInfo(
+        utils.parseEther('0.1'),
+        'Test secret info title',
+        'Test secret info description',
+        'Test secret info company name',
+        3,
+        3,
+        'Test secret info info',
+      )
+
+      await passingSecretInfo.addSecretInfoRate(0, false);
+      const secret_info = await passingSecretInfo.getSecretInfoById(0);
+      assert.equal(secret_info.rates[0].rate, false);
+    })
+
+    it("Add 2 rates from different accounts to secret info", async () => {
+      await passingSecretInfo.addSecretInfo(
+        utils.parseEther('0.1'),
+        'Test secret info title',
+        'Test secret info description',
+        'Test secret info company name',
+        3,
+        3,
+        'Test secret info info',
+      )
+      await passingSecretInfo.addSecretInfoRate(0, true);
+
+      const accounts = await ethers.getSigners();
+      const secondAccount = accounts[1];
+
+      const secondAccountContract = await passingSecretInfo.connect(secondAccount);
+      secondAccountContract.addSecretInfoRate(0, false)
+
+      const secret_info = await secondAccountContract.getSecretInfoById(0);
+      assert.equal(secret_info.rates.length, 2);
+    })
+
+    it("Fail Add 2 rates from same account to secret info", async () => {
+      await passingSecretInfo.addSecretInfo(
+        utils.parseEther('0.1'),
+        'Test secret info title',
+        'Test secret info description',
+        'Test secret info company name',
+        3,
+        3,
+        'Test secret info info',
+      )
+      await passingSecretInfo.addSecretInfoRate(0, true);
+      expect(passingSecretInfo.addSecretInfoRate(0, true)).to.be.revertedWith("You already rate this info")
+    })
+
+    it("Remove rate from secret info", async () => {
+      await passingSecretInfo.addSecretInfo(
+        utils.parseEther('0.1'),
+        'Test secret info title',
+        'Test secret info description',
+        'Test secret info company name',
+        3,
+        3,
+        'Test secret info info',
+      )
+      await passingSecretInfo.addSecretInfoRate(0, true);
+      await passingSecretInfo.removeSecretInfoRate(0);
+      const secret_info = await passingSecretInfo.getSecretInfoById(0);
+      assert.equal(secret_info.rates.length, 0);
+    })
+
+    it("Fail Remove rate from secret info", async () => {
+      await passingSecretInfo.addSecretInfo(
+        utils.parseEther('0.1'),
+        'Test secret info title',
+        'Test secret info description',
+        'Test secret info company name',
+        3,
+        3,
+        'Test secret info info',
+      )
+
+      expect(passingSecretInfo.removeSecretInfoRate(0)).to.be.revertedWith("You don't have any rate")
+    })
+
+    it("Change already exists rate from secret info", async () => {
+      await passingSecretInfo.addSecretInfo(
+        utils.parseEther('0.1'),
+        'Test secret info title',
+        'Test secret info description',
+        'Test secret info company name',
+        3,
+        3,
+        'Test secret info info',
+      )
+
+      await passingSecretInfo.addSecretInfoRate(0, true);
+      await passingSecretInfo.changeSecretInfoRate(0);
+      const secret_info = await passingSecretInfo.getSecretInfoById(0);
+      assert.equal(secret_info.rates[0].rate, false)
+    })
+
+    it("Fail Change already exists rate from secret info", async () => {
+      await passingSecretInfo.addSecretInfo(
+        utils.parseEther('0.1'),
+        'Test secret info title',
+        'Test secret info description',
+        'Test secret info company name',
+        3,
+        3,
+        'Test secret info info',
+      )
+
+      expect(passingSecretInfo.changeSecretInfoRate(0)).to.be.revertedWith("You don't have any rate")
     })
   })
 })

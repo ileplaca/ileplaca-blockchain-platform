@@ -11,7 +11,8 @@ export type Salary = [
   experience: string,
   opinion: string,
   company_id: number,
-  company_name: string
+  company_name: string,
+  created_at: number
 ]
 
 export interface CompaniesSalaries {

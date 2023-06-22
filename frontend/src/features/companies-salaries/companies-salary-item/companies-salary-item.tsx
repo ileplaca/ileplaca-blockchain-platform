@@ -1,12 +1,13 @@
 import React, { FC } from 'react';
 import { Salary } from 'smart-contracts/companies-salaries/types';
+import { parseDateFns } from 'utils/constans/date-fns';
 
 export interface CompaniesSalaryItemProps {
   salary: Salary
 }
 
 const CompaniesSalaryItem: FC<CompaniesSalaryItemProps> = ({
-  salary: [salary_id, owner_address, current, first, speed_of_growth, raise_change, role, experience, opinion, company_id, company_name] 
+  salary: [salary_id, owner_address, current, first, speed_of_growth, raise_change, role, experience, opinion, company_id, company_name, created_at] 
 }) => {
   return (
     <div key={salary_id} className='w-full p-6 mt-10 border border-gray-600 rounded text-text'>
@@ -19,11 +20,14 @@ const CompaniesSalaryItem: FC<CompaniesSalaryItemProps> = ({
       <div className='-mt-1 font-light'>
         {experience}
       </div>
+      <div className='mt-2 text-sm text-opacity-60 text-secondary'>
+        {company_name}
+      </div>
       <div>
         {opinion}
       </div>
-      <div className='text-sm text-opacity-60 text-secondary'>
-        {company_name}
+      <div className='font-light'>
+        {parseDateFns(new Date(Number(created_at) * 1000))}
       </div>
       <div className='flex flex-wrap items-center gap-4 mt-4'>
         <div className='px-2 py-1 border border-gray-500 rounded-button'>

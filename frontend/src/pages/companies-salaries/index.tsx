@@ -1,20 +1,35 @@
-import CompaniesSalariesList from 'features/companies-salaries/companies-salary-list/companies-salary-list';
-import Sidebar from 'features/ui/sidebar/sidebar';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { companiesSalariesContract } from 'smart-contracts/companies-salaries/actions';
-import { Salary } from 'smart-contracts/companies-salaries/types';
 import { useQuery } from 'react-query'
+import CompaniesSalariesList from 'features/companies-salaries/companies-salary-list';
 
 const CompaniesSalaries: FC = () => {
   const { data, error } = useQuery('companies-salaries', companiesSalariesContract.getSalaries);
 
-  {/* <button onClick={() => {
-      companiesSalariesContract.addSalary(8000, 4000, 50, 2000, "Java Spring developer", "1 year", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis adipisci, quasi ut deserunt similique enim, magni facere natus, error voluptate a quisquam consectetur qui quidem exercitationem non est? Dolor, perspiciatis?", 0, "Samsung");
-    }}>dodaj</button> */}
+  if (!data) {
+    return <>Loading...</>;
+  }
+
+  if (error) {
+    return <>{error}</>
+  }
 
   return (
     <>
-      { data ? <CompaniesSalariesList companiesSalaries={data} /> : "Loading..." }
+    {/* <button onClick={() => {
+      companiesSalariesContract.addSalary(10000, 5000, 1000, 5000, "React developer", "2 years", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis adipisci, quasi ut deserunt similique enim, magni facere natus, error voluptate a quisquam consectetur qui quidem exercitationem non est? Dolor, perspiciatis?", 1, "Escola");
+    }}>dodaj</button> */}
+      <section className='flex items-center gap-8'>
+        <input type="text" className='px-4 py-3 text-white border border-gray-600 outline-none placeholder:text-gray-300 bg-bg rounded-button' placeholder='Search salary' />
+        <select className='px-4 py-3 text-white border border-gray-600 outline-none placeholder:text-gray-300 bg-bg rounded-button' name="" id="">
+          <option value="">Newest</option>
+        </select>
+        <button className='px-4 py-3 font-medium duration-100 rounded-button bg-primary hover:bg-primary-hover'>
+          Add company salary
+        </button>
+      </section>
+
+      <CompaniesSalariesList companiesSalaries={data} />
     </>
   )
 }
