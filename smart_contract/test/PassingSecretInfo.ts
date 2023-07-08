@@ -22,8 +22,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -37,8 +35,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'companyname',
-        3,
         3,
         'Test secret info info',
       )
@@ -47,13 +43,11 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'companyname',
-        3,
         3,
         'Test secret info info',
       )
 
-      assert.equal((await passingSecretInfo.getSecretInfosByCompanyName('companyname')).length, 2)
+      assert.equal((await passingSecretInfo.getSecretInfos()).length, 2)
     })
   })
 
@@ -63,8 +57,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -78,8 +70,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -96,12 +86,10 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
-      const secretInfoAccessed = await passingSecretInfo.getPaidSecretInfosAccessed();
+      const secretInfoAccessed = await passingSecretInfo.getSecretInfosAccessed();
       assert.equal(secretInfoAccessed[0].secret_info.amount, Number(utils.parseEther('0.1')))
     })
 
@@ -111,8 +99,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -121,19 +107,17 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
 
       const secondAccountContract = await passingSecretInfo.connect(secondAccount);
       await secondAccountContract.payForSecretInfoAccess(0, { value: utils.parseEther('0.1') })
-      const secretInfoAccessed = await passingSecretInfo.getPaidSecretInfosAccessed();
+      const secretInfoAccessed = await passingSecretInfo.getSecretInfosAccessed();
       assert.equal(secretInfoAccessed[0].secret_info.amount, Number(utils.parseEther('0.1')))
     })
   })
 
-  describe("payForSecretInfoAccess", () => {
+  describe("pay for secret info access", () => {
     it("get secret info after paid with valid amount for secret info accessed as other user" , async () => {
       await passingSecretInfo.addSecretInfo(
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -153,8 +137,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -173,8 +155,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -196,8 +176,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -214,8 +192,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -230,8 +206,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -246,8 +220,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -268,8 +240,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -282,8 +252,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -298,8 +266,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -312,8 +278,6 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
@@ -329,13 +293,25 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         utils.parseEther('0.1'),
         'Test secret info title',
         'Test secret info description',
-        'Test secret info company name',
-        3,
         3,
         'Test secret info info',
       )
 
       expect(passingSecretInfo.changeSecretInfoRate(0)).to.be.revertedWith("You don't have any rate")
+    })
+  })
+
+  describe("account opinion", () => {
+    it("add and get account opinions", async () => {
+      const accounts = await ethers.getSigners();
+      const secondAccount = accounts[1];
+
+      await passingSecretInfo.addAccountOpinion(secondAccount.address, "it's ok", true);
+      await passingSecretInfo.addAccountOpinion(secondAccount.address, "it's ok", false);
+
+      const response = await passingSecretInfo.getAccountOpinionsByAddress(secondAccount.address)
+      assert.equal(response.length, 2);
+      assert.equal(response[0].rate, true);
     })
   })
 })

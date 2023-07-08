@@ -25,6 +25,7 @@ export interface SecretInfo {
   company_id: number,
   created_at: number,
   max_uses: number,
+  current_uses: number,
   replies: Reply[],
   rates: Rate[]
 }
@@ -39,24 +40,33 @@ export interface SecretInfoAccessedResponse {
   secret_info_accessed: SecretInfoAccessed
 }
 
+export interface AccountOpinion {
+  owner_address: string,
+  account_address: string,
+  created_at : number,
+  content: string,
+  rate: boolean
+}
+
 
 
 export interface PassingSecretInfo {
   getSecretInfos: () => Promise<SecretInfo[]>,
   getSecretInfoById: (secret_info_id: number | string) => Promise<SecretInfo>,
-  getSecretInfosByCompanyName: (company_name: string) => Promise<SecretInfo[]>,
-  getSecretInfosByCompanyId: (company_id: number) => Promise<SecretInfo[]>,
 
   getSecretInfoAccessedById: (secret_info_id: number | string) => Promise<SecretInfoAccessedResponse>,
-  getPaidSecretInfosAccessed: () => Promise<SecretInfoAccessedResponse[]>,
+  getSecretInfosAccessed: () => Promise<SecretInfoAccessedResponse[]>,
 
-  addSecretInfo: (amount: number | BigNumber, title: string, description: string, company_name: string, company_id: number, max_uses: number, info: string) => Promise<void>;
+  addSecretInfo: (amount: number | BigNumber, title: string, description: string, max_uses: number, info: string) => Promise<void>;
   payForSecretInfoAccess: (secret_info_id: number | string, ...args: any) => Promise<void>
 
   addSecretInfoReply: (secret_info_id: number, content: string) => Promise<void>,
   addSecretInfoRate: (secret_info_id: number, rate: boolean) => Promise<void>,
   removeSecretInfoRate: (secret_info_id: number) => Promise<void>,
   changeSecretInfoRate: (secret_info_id: number) => Promise<void>,
+
+  addAccountOpinion: (account_address: string, content: string, rate: boolean) => Promise<void>,
+  getAccountOpinionsByAddress: (account_address: string) => Promise<AccountOpinion[]>,
 
   deployed: () => Promise<void>
   connect: (address: any) => Promise<PassingSecretInfo>

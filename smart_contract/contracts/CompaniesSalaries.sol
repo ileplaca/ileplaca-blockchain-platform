@@ -24,8 +24,17 @@ contract CompaniesSalaries {
         uint256 _company_id,
         string memory _company_name
     ) public {
-        
         CompaniesSalariesStructs.Salary storage salary = salaries.push();
+        Helpers.validateInt(_current, 1e7);
+        Helpers.validateInt(_first, 1e7);
+        Helpers.validateInt(_speed_of_growth, 1e4);
+        Helpers.validateInt(_raise_change, 1e6);
+        Helpers.validateStringLength(_role, 100);
+        Helpers.validateStringLength(_experience, 100);
+        Helpers.validateStringLength(_opinion, 1000);
+        Helpers.validateInt(_company_id, 1e18);
+        Helpers.validateStringLength(_experience, 100);
+
         salary.salary_id = salary_id;
         salary.owner_address = msg.sender;
         salary.current = _current;
@@ -38,14 +47,14 @@ contract CompaniesSalaries {
         salary.company_id = _company_id;
         salary.company_name = _company_name;
         salary.created_at = block.timestamp;
-        
+
         salary_id++;
     }
 
     function getSalaries () public view  returns (CompaniesSalariesStructs.Salary[] memory) {
         return salaries;
     }
-    
+
     function getSalaryById (uint256 _salary_id) public view  returns (CompaniesSalariesStructs.Salary memory) {
         return salaries[_salary_id];
     }
@@ -89,6 +98,7 @@ contract CompaniesSalaries {
     }
 
     function addSalaryReply (uint256 _salary_id, string memory _content) public {
+        Helpers.validateStringLength(_content, 1000);
         salaries[_salary_id].replies.push(Structs.Reply(salary_reply_id, msg.sender, block.timestamp, _content));
         salary_reply_id++;
     }

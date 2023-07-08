@@ -1,1 +1,1 @@
-export { default } from './companies-salary-item'
+export { default } from './companies-salary-item';

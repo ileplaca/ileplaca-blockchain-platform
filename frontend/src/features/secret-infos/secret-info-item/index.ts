@@ -1,1 +1,1 @@
-export { default } from './secret-info-list'
+export { default } from './secret-info-item';

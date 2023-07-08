@@ -11,10 +11,9 @@ library PassingSecretInfoStructs {
       uint256 amount;
       string title;
       string description;
-      string company_name;
-      uint256 company_id;
       uint256 created_at;
       uint256 max_uses;
+      uint256 current_uses;
       Structs.Reply[] replies;
       Structs.Rate[] rates;
   }
@@ -27,5 +26,13 @@ library PassingSecretInfoStructs {
   struct SecretInfoAccessedResponse {
       SecretInfo secret_info;
       SecretInfoAccessed secret_info_accessed;
+  }
+
+  struct AccountOpinion {
+    address owner_address;
+    address account_address;
+    uint256 created_at;
+    string content;
+    bool rate;
   }
 }
