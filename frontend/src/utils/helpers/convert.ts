@@ -1,4 +1,5 @@
 import { BigNumberish } from 'ethers';
+import { UnitType } from 'utils/types/units';
 
 export const convertEthGweiWei = (num: number | BigNumberish) => {
   num = Number(num);
@@ -11,4 +12,16 @@ export const convertEthGweiWei = (num: number | BigNumberish) => {
   }
 
   return `${num / 1e18} ETH`;
+};
+
+export const parseEthGweiToWei = (value: number, unit: UnitType) => {
+  if (unit === 'ETH') {
+    return value * 1e18;
+  }
+
+  if (unit === 'GWEI') {
+    return value * 1e9;
+  }
+
+  return value;
 };

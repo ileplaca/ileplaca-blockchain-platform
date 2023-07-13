@@ -24,16 +24,25 @@ const PassingSecretInfoSlice = createSlice({
       state.error = 'Failed with fetching data';
     });
 
-    builder.addCase(fetchSecretInfosAccessed.pending, (state, action) => {});
+    builder.addCase(fetchSecretInfosAccessed.pending, (state, action) => {
+      state.status = ResponseStatus.PENDING;
+    });
 
-    builder.addCase(fetchSecretInfosAccessed.fulfilled, (state, action) => {});
+    builder.addCase(fetchSecretInfosAccessed.fulfilled, (state, action) => {
+      state.secretInfosAccessed = action.payload;
+      state.status = ResponseStatus.SUCCEEDED;
+    });
 
-    builder.addCase(fetchSecretInfosAccessed.rejected, (state, action) => {});
+    builder.addCase(fetchSecretInfosAccessed.rejected, (state, action) => {
+      state.status = ResponseStatus.FAILED;
+      state.error = 'Failed with fetching data';
+    });
   },
 });
 
 // export const { setAccount } = PassingSecretInfoSlice.actions;
 export const getSecretInfos = (state: RootState) => state.secretInfos.secretInfos;
+export const getSecretInfosAccessed = (state: RootState) => state.secretInfos.secretInfosAccessed;
 export const getSecretInfosStatus = (state: RootState) => state.secretInfos.status;
 export const getSecretInfosError = (state: RootState) => state.secretInfos.status;
 

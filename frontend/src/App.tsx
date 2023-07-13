@@ -6,10 +6,14 @@ import { useDispatch } from 'react-redux';
 import { setAccount } from 'smart-contracts/slice';
 import Cookies from 'js-cookie';
 import SecretInfosAccessed from 'pages/secret-infos-accessed';
-import { fetchSecretInfos } from 'smart-contracts/passing-secret-info/slice/thunks';
+import {
+  fetchSecretInfos,
+  fetchSecretInfosAccessed,
+} from 'smart-contracts/passing-secret-info/slice/thunks';
 import { store } from 'redux/store';
 
 store.dispatch(fetchSecretInfos());
+store.dispatch(fetchSecretInfosAccessed());
 
 function App() {
   const dispatch = useDispatch();

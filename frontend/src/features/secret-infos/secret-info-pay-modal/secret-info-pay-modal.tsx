@@ -1,8 +1,6 @@
-import { faExclamation, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { FC } from 'react';
-import { motion } from 'framer-motion';
-import { passingSecretInfoContract } from 'smart-contracts/passing-secret-info/actions';
 
 export interface SecretInfoModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,51 +10,42 @@ export interface SecretInfoModalProps {
 
 const SecretInfosModal: FC<SecretInfoModalProps> = ({ setIsModalOpen, amount, action }) => {
   return (
-    <motion.div
-      animate={{ y: [200, 0] }}
-      className="bg-text rounded-button py-8 px-8 flex flex-col justify-between gap-4"
-    >
-      <h1 className="text-black text-2xl font-semibold">Are you sure?</h1>
+    <>
+      <h1 className="text-2xl font-semibold text-black">Are you sure?</h1>
 
       <div className="flex flex-col gap-1">
         <div className="flex gap-2">
           <FontAwesomeIcon icon={faExclamationCircle} className="text-lg text-yellow-600" />
-          <span className="text-black text-sm">
+          <span className="text-sm text-black">
             Make sure before you buy that this information is not a scam.
           </span>
         </div>
 
         <div className="flex gap-2">
           <FontAwesomeIcon icon={faExclamationCircle} className="text-lg text-yellow-600" />
-          <span className="text-black text-sm">
+          <span className="text-sm text-black">
             The information will be permanently assigned to your wallet.
           </span>
         </div>
 
         <div className="flex gap-2">
           <FontAwesomeIcon icon={faExclamationCircle} className="text-lg text-yellow-600" />
-          <span className="text-black text-sm">
+          <span className="text-sm text-black">
             The cost of this information is {amount} + gas fee
           </span>
         </div>
       </div>
 
       <div className="flex gap-4">
-        <button
-          onClick={action}
-          className="bg-green-600 border border-green-600 hover:border-green-700 hover:bg-green-700 duration-75 py-2 px-4 rounded-button"
-        >
+        <button onClick={action} className="button-approve">
           Yes, {"I'm"} sure
         </button>
 
-        <button
-          onClick={() => setIsModalOpen(false)}
-          className="border text-black hover:bg-primary-text hover:duration-75 border-black duration-75 py-2 px-4 rounded-button"
-        >
+        <button onClick={() => setIsModalOpen(false)} className="button-cancel">
           No, cancel
         </button>
       </div>
-    </motion.div>
+    </>
   );
 };
 

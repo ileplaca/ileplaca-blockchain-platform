@@ -1,1 +1,1 @@
-export { default } from './secret-info-reply-item'
+export { default } from './secret-info-reply-item';

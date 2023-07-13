@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import { SearchInput } from 'features/components';
-import { SecretInfoList, SecretInfoPayModal } from 'features/secret-infos';
+import Sort from 'features/components/sort/sort';
+import { SecretInfoList, CreateSecretInfoForm } from 'features/secret-infos';
 import { ModalLayout } from 'features/ui';
 import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -9,7 +10,6 @@ import {
   getSecretInfosError,
   getSecretInfosStatus,
 } from 'smart-contracts/passing-secret-info/slice';
-import { SecretInfo } from 'smart-contracts/passing-secret-info/types';
 import { ResponseStatus } from 'utils/types/api';
 
 const SecretInfos: FC = () => {
@@ -17,23 +17,31 @@ const SecretInfos: FC = () => {
   const status = useSelector(getSecretInfosStatus);
   const secretInfosCopy = useSelector(getSecretInfos);
   const [secretInfos, setSecretInfos] = useState([...secretInfosCopy]);
+  const [isCreateSecretInfoModalOpen, setIsCreateSecretInfoModalOpen] = useState(false);
+
+  useEffect(() => {
+    console.log(secretInfos[0]);
+  }, [secretInfos]);
 
   if (status === ResponseStatus.PENDING) return <>Loading...</>;
   if (status === ResponseStatus.FAILED) return <>{error}</>;
 
   return (
     <>
+      {isCreateSecretInfoModalOpen ? (
+        <ModalLayout>
+          <CreateSecretInfoForm setIsModalOpen={setIsCreateSecretInfoModalOpen} />
+        </ModalLayout>
+      ) : null}
+
       <section className="flex items-center gap-8">
         <SearchInput setEntities={setSecretInfos} />
-        <select
-          className="px-4 py-3 text-white border border-gray-600 outline-none placeholder:text-gray-300 bg-bg rounded-button"
-          name=""
-          id=""
+        <Sort setEntities={setSecretInfos} />
+        <button
+          onClick={() => setIsCreateSecretInfoModalOpen(true)}
+          className="px-4 py-3 font-medium duration-100 rounded-button bg-primary hover:bg-primary-hover"
         >
-          <option value="">Newest</option>
-        </select>
-        <button className="px-4 py-3 font-medium duration-100 rounded-button bg-primary hover:bg-primary-hover">
-          Add company salary
+          Create secret info
         </button>
       </section>
 

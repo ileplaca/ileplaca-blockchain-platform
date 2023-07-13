@@ -1,9 +1,9 @@
 import { ResponseStatusType } from 'utils/types/api';
-import { SecretInfo, SecretInfoAccessed } from '../types';
+import { SecretInfo, SecretInfoAccessed, SecretInfoAccessedResponse } from '../types';
 
 export interface PassingSecretInfoSliceInitialState {
   secretInfos: SecretInfo[];
-  secretInfosAccessed: SecretInfoAccessed[];
+  secretInfosAccessed: SecretInfoAccessedResponse[];
   status: ResponseStatusType;
   error: string | null;
 }

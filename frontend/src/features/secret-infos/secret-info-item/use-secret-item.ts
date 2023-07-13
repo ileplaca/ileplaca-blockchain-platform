@@ -4,6 +4,8 @@ import { getAccount } from 'smart-contracts/slice';
 import { SecretInfoItemProps } from './secret-info-item';
 import { useEffect, useState } from 'react';
 import { Rate } from 'smart-contracts/types';
+import { getSecretInfosAccessed } from 'smart-contracts/passing-secret-info/slice';
+import { convertEthGweiWei } from 'utils/helpers/convert';
 
 const useSecretItem = ({
   secretInfo: [
@@ -20,6 +22,7 @@ const useSecretItem = ({
   ],
 }: SecretInfoItemProps) => {
   const account = useSelector(getAccount);
+  const secretInfosAccessed = useSelector(getSecretInfosAccessed);
   const positiveRates = rates.filter(([id, owner_address, rate]) => rate === true).length;
   const negativeRates = rates.length - positiveRates;
   const currentRateArray = rates.filter(
@@ -56,7 +59,28 @@ const useSecretItem = ({
     await passingSecretInfoContract.addSecretInfoRate(secret_info_id, false);
   };
 
+  const getUserAccess = () => {
+    if (
+      secretInfosAccessed.some(
+        (secretInfoAccessed) =>
+          secretInfoAccessed[0][1].toLocaleLowerCase() === account.toLocaleLowerCase() &&
+          secretInfoAccessed[0][0] === secret_info_id
+      )
+    ) {
+      return 'You are owner of this information';
+    }
+
+    if (
+      secretInfosAccessed.some((secretInfoAccessed) => secretInfoAccessed[0][0] === secret_info_id)
+    ) {
+      return 'You already have access this information';
+    }
+
+    return `Buy for ${convertEthGweiWei(amount)}`;
+  };
+
   return {
+    accountAccess: getUserAccess(),
     positiveRates,
     negativeRates,
     currentRate,
