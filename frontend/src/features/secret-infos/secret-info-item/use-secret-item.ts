@@ -33,12 +33,12 @@ const useSecretItem = ({
   const [isPayModalOpen, setIsPayModalOpen] = useState(false);
 
   const like = async () => {
-    if (currentRate && currentRate[2]) {
+    if (currentRate && currentRate[2] === true) {
       await passingSecretInfoContract.removeSecretInfoRate(secret_info_id);
       return;
     }
 
-    if (currentRate && !currentRate[2]) {
+    if (currentRate && currentRate[2] === false) {
       await passingSecretInfoContract.changeSecretInfoRate(secret_info_id);
       return;
     }
@@ -47,12 +47,12 @@ const useSecretItem = ({
   };
 
   const unlike = async () => {
-    if (currentRate && !currentRate[2]) {
+    if (currentRate && currentRate[2] === false) {
       await passingSecretInfoContract.removeSecretInfoRate(secret_info_id);
       return;
     }
 
-    if (currentRate && currentRate[2]) {
+    if (currentRate && currentRate[2] === true) {
       await passingSecretInfoContract.changeSecretInfoRate(secret_info_id);
     }
 
@@ -74,6 +74,10 @@ const useSecretItem = ({
       secretInfosAccessed.some((secretInfoAccessed) => secretInfoAccessed[0][0] === secret_info_id)
     ) {
       return 'You already have access this information';
+    }
+
+    if (current_uses >= max_uses) {
+      return 'Supply has been used';
     }
 
     return `Buy for ${convertEthGweiWei(amount)}`;

@@ -1,5 +1,6 @@
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ModalLayout } from 'features/ui';
 import React, { FC } from 'react';
 
 export interface SecretInfoModalProps {
@@ -10,7 +11,7 @@ export interface SecretInfoModalProps {
 
 const SecretInfosModal: FC<SecretInfoModalProps> = ({ setIsModalOpen, amount, action }) => {
   return (
-    <>
+    <ModalLayout>
       <h1 className="text-2xl font-semibold text-black">Are you sure?</h1>
 
       <div className="flex flex-col gap-1">
@@ -45,7 +46,7 @@ const SecretInfosModal: FC<SecretInfoModalProps> = ({ setIsModalOpen, amount, ac
           No, cancel
         </button>
       </div>
-    </>
+    </ModalLayout>
   );
 };
 

@@ -7,6 +7,10 @@ export interface SecretInfoListProps {
 }
 
 const SecretInfoList: FC<SecretInfoListProps> = ({ secretInfos }) => {
+  if (secretInfos.length <= 0) {
+    <div className="mt-4">There is no secret infos here</div>;
+  }
+
   return (
     <>
       {secretInfos.map((secretInfo) => (

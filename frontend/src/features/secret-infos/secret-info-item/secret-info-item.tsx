@@ -42,27 +42,28 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo }) => {
   } = useSecretItem({ secretInfo });
 
   return (
-    <div className="w-full p-6 mt-10 border border-gray-600 rounded text-text">
+    <motion.div
+      whileInView={{
+        opacity: [0, 100],
+      }}
+      className="w-full p-6 mt-10 border border-gray-600 rounded text-text"
+    >
       {isRepliesModalOpen ? (
-        <ModalLayout>
-          <SecretInfoRepliesModal
-            setIsModalOpen={setIsRespliesModalOpen}
-            replies={replies}
-            secret_info_id={secret_info_id}
-          />
-        </ModalLayout>
+        <SecretInfoRepliesModal
+          setIsModalOpen={setIsRespliesModalOpen}
+          replies={replies}
+          secret_info_id={secret_info_id}
+        />
       ) : null}
 
       {isPayModalOpen ? (
-        <ModalLayout>
-          <SecretInfoPayModal
-            setIsModalOpen={setIsPayModalOpen}
-            amount={convertEthGweiWei(amount)}
-            action={() =>
-              passingSecretInfoContract.payForSecretInfoAccess(secret_info_id, { value: amount })
-            }
-          />
-        </ModalLayout>
+        <SecretInfoPayModal
+          setIsModalOpen={setIsPayModalOpen}
+          amount={convertEthGweiWei(amount)}
+          action={() =>
+            passingSecretInfoContract.payForSecretInfoAccess(secret_info_id, { value: amount })
+          }
+        />
       ) : null}
 
       <div className="flex flex-row">
@@ -138,7 +139,7 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo }) => {
       >
         {accountAccess}
       </motion.button>
-    </div>
+    </motion.div>
   );
 };
 

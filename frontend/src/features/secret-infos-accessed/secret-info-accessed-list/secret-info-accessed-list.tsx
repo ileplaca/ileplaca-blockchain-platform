@@ -12,10 +12,18 @@ export interface SecretInfoAccessedListProps {
 const SecretInfoAccessedList: FC<SecretInfoAccessedListProps> = ({
   secretInfosAccessedResponse,
 }) => {
+  if (secretInfosAccessedResponse.length <= 0) {
+    return <div className="mt-4">You don't have any secret infos accessed</div>;
+  }
+
   return (
     <>
       {secretInfosAccessedResponse.map(([secretInfo, secretInfoAccessed]) => (
-        <SecretInfoAccessedItem secretInfo={secretInfo} secretInfoAccessed={secretInfoAccessed} />
+        <SecretInfoAccessedItem
+          key={secretInfo[0]}
+          secretInfo={secretInfo}
+          secretInfoAccessed={secretInfoAccessed}
+        />
       ))}
     </>
   );

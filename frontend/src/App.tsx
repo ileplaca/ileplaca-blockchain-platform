@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import { Layout } from 'features/ui';
-import { CompaniesSalaries, Index, SecretInfos } from 'pages';
+import { CompaniesSalaries, Index, Profile, SecretInfos } from 'pages';
 import { useDispatch } from 'react-redux';
 import { setAccount } from 'smart-contracts/slice';
 import Cookies from 'js-cookie';
@@ -11,15 +11,23 @@ import {
   fetchSecretInfosAccessed,
 } from 'smart-contracts/passing-secret-info/slice/thunks';
 import { store } from 'redux/store';
+import { ethereum } from 'smart-contracts';
 
 store.dispatch(fetchSecretInfos());
 store.dispatch(fetchSecretInfosAccessed());
 
 function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(setAccount(Cookies.get('account')));
+
+    ethereum.on('accountsChanged', function (accounts: string[]) {
+      Cookies.set('account', accounts[0]);
+      dispatch(setAccount(accounts[0]));
+      navigate(0);
+    });
   }, []);
 
   return (
@@ -54,6 +62,16 @@ function App() {
         path="secret-info-accessed"
       >
         <Route index element={<SecretInfosAccessed />} />
+      </Route>
+      <Route
+        element={
+          <Layout>
+            <Outlet />
+          </Layout>
+        }
+        path="profile"
+      >
+        <Route index element={<Profile />} />
       </Route>
     </Routes>
   );

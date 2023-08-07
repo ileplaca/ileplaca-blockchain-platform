@@ -1,4 +1,4 @@
-const { ethereum } = window as any;
+export const { ethereum } = window as any;
 
 export const connectWallet: () => Promise<string | null> = async () => {
   try {

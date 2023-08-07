@@ -1,15 +1,14 @@
 import React, { FC, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getSecretInfos } from 'smart-contracts/passing-secret-info/slice';
-import { SecretInfo } from 'smart-contracts/passing-secret-info/types';
-import useSort, { sortTypes } from './use-sort';
+import useSort from './use-sort';
+import { PassingSecretInfoTypes } from 'smart-contracts/passing-secret-info/types';
+import { sortTypes } from './sort.types';
 
 export interface SortProps {
-  setEntities: React.Dispatch<React.SetStateAction<SecretInfo[]>>;
+  type: PassingSecretInfoTypes;
 }
 
-const Sort: FC<SortProps> = ({ setEntities }) => {
-  const { handleOnChange } = useSort({ setEntities });
+const Sort: FC<SortProps> = ({ type }) => {
+  const { handleOnChange } = useSort({ type });
 
   return (
     <select

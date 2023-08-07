@@ -9,6 +9,15 @@ const Index: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const connectWalletAndSetAccount = async () => {
+    const account = await connectWallet();
+    if (account) {
+      dispatch(setAccount(account));
+      Cookies.set('account', account);
+      navigate('/companies-salaries');
+    }
+  };
+
   return (
     <main className="flex items-center justify-center w-screen h-screen text-center">
       <img src="../../images/eth_logo.png" className="absolute z-10 w-96 opacity-30 rotating-360" />
@@ -23,14 +32,7 @@ const Index: FC = () => {
           </p>
         </div>
         <button
-          onClick={async () => {
-            const account = await connectWallet();
-            if (account) {
-              dispatch(setAccount(account));
-              Cookies.set('account', account);
-              navigate('/companies-salaries');
-            }
-          }}
+          onClick={connectWalletAndSetAccount}
           className="px-10 py-3 mt-4 text-2xl font-medium text-white duration-100 bg-primary hover:bg-primary-hover rounded-button"
         >
           Connect wallet

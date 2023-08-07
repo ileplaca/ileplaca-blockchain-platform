@@ -2,9 +2,23 @@ import { passingSecretInfoContract } from 'smart-contracts/passing-secret-info/a
 import { CreateSecretInfoDto } from './create-secret-info-form.config';
 import { parseEthGweiToWei } from 'utils/helpers/convert';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import {
+  createSecretInfoFormValidationSchema,
+  seYupValidationResolver,
+} from './create-secret-info-form.config';
+import { UnitEnum } from 'utils/types/units';
 
 const useCreateSecretInfoForm = () => {
-  const [error, setError] = useState();
+  const resolver = seYupValidationResolver(createSecretInfoFormValidationSchema);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({ resolver });
+
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleOnChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,7 +28,7 @@ const useCreateSecretInfoForm = () => {
       e.target.value = value.split('').splice(-1, 1).join('');
     }
     if (value === '') {
-      e.target.value = '0';
+      e.target.value = '1';
     }
   };
 
@@ -31,8 +45,8 @@ const useCreateSecretInfoForm = () => {
         data.secret_info
       );
     } catch (err) {
-      const error = err as any;
-      console.log(error);
+      setError('Something went wrong');
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -43,6 +57,9 @@ const useCreateSecretInfoForm = () => {
     onSubmit,
     error,
     loading,
+    register,
+    handleSubmit,
+    errors,
   };
 };
 

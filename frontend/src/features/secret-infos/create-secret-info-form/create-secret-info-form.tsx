@@ -1,26 +1,19 @@
 import { faExclamationCircle, faLock, faUserSecret } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { FC } from 'react';
-import { useForm } from 'react-hook-form';
-import {
-  createSecretInfoFormValidationSchema,
-  seYupValidationResolver,
-} from './create-secret-info-form.config';
+
 import useCreateSecretInfoForm from './use-create-secret-info-form';
+import { Loading } from 'features/components';
+import { Link } from 'react-router-dom';
+import { WarningText } from 'features/ui';
 
 export interface CreateSecretInfoFormProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen }) => {
-  const resolver = seYupValidationResolver(createSecretInfoFormValidationSchema);
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm({ resolver });
-  const { handleOnChangeAmount, onSubmit } = useCreateSecretInfoForm();
+  const { handleOnChangeAmount, onSubmit, loading, error, handleSubmit, register, errors } =
+    useCreateSecretInfoForm();
 
   return (
     <form className="text-black" onSubmit={handleSubmit(onSubmit)}>
@@ -46,15 +39,16 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
         <label className="form-label" htmlFor="">
           <FontAwesomeIcon icon={faLock} /> Your secret information
         </label>
-        <textarea className="h-36 form-input" {...register('secret_info')} />
+        <textarea className="h-64 form-input" {...register('secret_info')} />
         <span className="text-red-600">{errors.secret_info?.message as string}</span>
       </div>
-      <div className="flex gap-2 mt-2">
-        <FontAwesomeIcon icon={faExclamationCircle} className="text-lg text-yellow-600" />
-        <span className="text-sm text-black">
-          This information will be secret until someone buys it
-        </span>
-      </div>
+      <WarningText>This information will be secret until someone buys it</WarningText>
+      <WarningText>
+        If you want to pass more data than 10k chars checkout{' '}
+        <Link target="_blank" className="underline text-primary hover:text-primary-hover" to={'/'}>
+          ileplaca blockchain big data sharing{'(100k chars per data)'}
+        </Link>
+      </WarningText>
 
       <div className="form-input-block">
         <label htmlFor="" className="form-label">
@@ -64,9 +58,9 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
           <input
             className="form-input"
             type="number"
-            min={0}
+            min={1}
             placeholder="Amount"
-            defaultValue={0}
+            defaultValue={1}
             {...register('amount', { onChange: handleOnChangeAmount })}
           />
           <select className="form-input" {...register('amount_unit')}>
@@ -86,10 +80,16 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
         <span className="text-red-600">{errors.max_uses?.message as string}</span>
       </div>
 
-      <button className="button bg-primary" type="submit">
-        Create secret info
+      <div className="text-red-600">{error}</div>
+
+      <button disabled={loading} className="button bg-primary" type="submit">
+        {loading ? <Loading /> : 'Create secret info'}
       </button>
-      <button onClick={() => setIsModalOpen(false)} className="ml-4 button-cancel">
+      <button
+        disabled={loading}
+        onClick={() => setIsModalOpen(false)}
+        className="ml-4 button-cancel"
+      >
         Cancel
       </button>
     </form>

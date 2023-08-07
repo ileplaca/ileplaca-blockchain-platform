@@ -1,63 +1,115 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getSecretInfos } from 'smart-contracts/passing-secret-info/slice';
-import { SecretInfo } from 'smart-contracts/passing-secret-info/types';
-import { convertEthGweiWei } from 'utils/helpers/convert';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  getManipulatedSecretInfos,
+  getManipulatedSecretInfosAccessed,
+  getSecretInfos,
+  getSecretInfosAccessed,
+  setManipulatedSecretInfos,
+  setManipulatedSecretInfosAccessed,
+} from 'smart-contracts/passing-secret-info/slice';
+import {
+  PASSING_SECRET_INFO_TYPES,
+  SecretInfo,
+  SecretInfoAccessedResponse,
+} from 'smart-contracts/passing-secret-info/types';
 import { SearchInputProps } from './search-input';
+import { searchAndPushSecretInfos } from 'utils/helpers/search';
+import { SEARCH_TYPE, SearchType } from './search-inputs.types';
 
-const searchBySingleWord = (a: string, b: string) => {
-  return a
-    .toLocaleLowerCase()
-    .split(' ')
-    .some((word) =>
-      b
-        .toLocaleLowerCase()
-        .split(' ')
-        .some((secondWord) => word.includes(secondWord))
-    );
-};
-
-const useSearchInput = ({ setEntities }: SearchInputProps) => {
+const useSearchInput = ({ type }: SearchInputProps) => {
   const secretInfos = useSelector(getSecretInfos);
+  const secretInfosAccessed = useSelector(getSecretInfosAccessed);
+  const dispatch = useDispatch();
   const [result, setResult] = useState<SecretInfo[]>([]);
   const [value, setValue] = useState('');
 
-  const search = (type: 'tip' | 'result') => {
+  const search = (searchType: SearchType) => {
     if (value === '') {
       setResult([]);
-      setEntities(secretInfos);
+
+      if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO) {
+        dispatch(setManipulatedSecretInfos(secretInfos));
+      }
+
+      if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO_ACCESSED) {
+        dispatch(setManipulatedSecretInfosAccessed(secretInfosAccessed));
+      }
+
       return;
     }
 
-    const searchedSecretInfos: SecretInfo[] = [];
-    secretInfos.forEach(([secret_info_id, owner_address, amount, title, description]) => {
-      if (
-        owner_address.toLocaleLowerCase().includes(value) ||
-        searchBySingleWord(convertEthGweiWei(amount), value) ||
-        searchBySingleWord(title, value) ||
-        searchBySingleWord(description, value)
-      ) {
-        searchedSecretInfos.push(secretInfos[secret_info_id]);
-      }
-    });
-
-    if (type === 'tip') {
-      setResult(searchedSecretInfos.splice(0, 5));
+    const searchedSecretInfos: SecretInfo[] | SecretInfoAccessedResponse[] = [];
+    if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO) {
+      secretInfos.forEach((secretInfo, index) => {
+        searchAndPushSecretInfos(
+          secretInfos,
+          searchedSecretInfos,
+          secretInfo,
+          value,
+          PASSING_SECRET_INFO_TYPES.SECRET_INFO,
+          index
+        );
+      });
     }
 
-    if (type === 'result') {
+    if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO_ACCESSED) {
+      secretInfosAccessed.forEach(([secretInfo], index) => {
+        searchAndPushSecretInfos(
+          secretInfosAccessed,
+          searchedSecretInfos,
+          secretInfo,
+          value,
+          PASSING_SECRET_INFO_TYPES.SECRET_INFO_ACCESSED,
+          index
+        );
+      });
+    }
+
+    if (searchType === SEARCH_TYPE.TIP) {
+      if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO) {
+        setResult(searchedSecretInfos.splice(0, 5) as any);
+      }
+
+      if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO_ACCESSED) {
+        setResult(searchedSecretInfos.splice(0, 5).map(([secretInfo]) => secretInfo) as any);
+      }
+    }
+
+    if (searchType === SEARCH_TYPE.RESULT) {
       setResult([]);
-      setEntities(searchedSecretInfos);
+      if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO) {
+        dispatch(setManipulatedSecretInfos(searchedSecretInfos as SecretInfo[]));
+      }
+
+      if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO_ACCESSED) {
+        dispatch(
+          setManipulatedSecretInfosAccessed(searchedSecretInfos as SecretInfoAccessedResponse[])
+        );
+      }
     }
   };
 
   const setEntitiesById = (id: number) => {
-    setEntities([secretInfos[id]]);
+    if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO) {
+      const index = secretInfos.findIndex(
+        ([secret_info_id]) => Number(secret_info_id) === Number(id)
+      );
+      dispatch(setManipulatedSecretInfos([secretInfos[index]]));
+    }
+
+    if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO_ACCESSED) {
+      const index = secretInfosAccessed.findIndex(
+        ([secret_info]) => Number(secret_info[0]) === Number(id)
+      );
+      dispatch(setManipulatedSecretInfosAccessed([secretInfosAccessed[index]]));
+    }
+
     setResult([]);
   };
 
   useEffect(() => {
-    search('tip');
+    search(SEARCH_TYPE.TIP);
   }, [value]);
 
   return {

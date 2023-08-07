@@ -1,22 +1,23 @@
 import React, { FC } from 'react';
-import { SecretInfo } from 'smart-contracts/passing-secret-info/types';
 import useSearchInput from './use-search-input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { PassingSecretInfoTypes } from 'smart-contracts/passing-secret-info/types';
+import { SEARCH_TYPE } from './search-inputs.types';
 
 export interface SearchInputProps {
-  setEntities: React.Dispatch<React.SetStateAction<SecretInfo[]>>;
+  type: PassingSecretInfoTypes;
 }
 
-const SearchInput: FC<SearchInputProps> = ({ setEntities }) => {
-  const { result, setValue, setEntitiesById, search } = useSearchInput({ setEntities });
+const SearchInput: FC<SearchInputProps> = ({ type }) => {
+  const { result, setValue, setEntitiesById, search } = useSearchInput({ type });
 
   return (
     <div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          search('result');
+          search(SEARCH_TYPE.RESULT);
         }}
       >
         <input
@@ -26,7 +27,7 @@ const SearchInput: FC<SearchInputProps> = ({ setEntities }) => {
           placeholder="Search salary"
         />
         <button
-          onClick={() => search('result')}
+          onClick={() => search(SEARCH_TYPE.RESULT)}
           className="px-4 py-3 ml-2 duration-75 border border-gray-600 rounded-button hover:bg-primary-bg"
         >
           <FontAwesomeIcon icon={faMagnifyingGlass} />

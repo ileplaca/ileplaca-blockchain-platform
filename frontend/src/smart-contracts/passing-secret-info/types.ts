@@ -57,3 +57,9 @@ export interface PassingSecretInfo {
   removeSecretInfoRate: (secret_info_id: number | string) => Promise<void>;
   changeSecretInfoRate: (secret_info_id: number | string) => Promise<void>;
 }
+
+export enum PASSING_SECRET_INFO_TYPES {
+  SECRET_INFO = 'SecretInfo',
+  SECRET_INFO_ACCESSED = 'SecretInfoAccessed',
+}
+export type PassingSecretInfoTypes = `${PASSING_SECRET_INFO_TYPES}`;

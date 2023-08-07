@@ -1,29 +1,27 @@
 import { ethers } from 'ethers';
-import { SearchInput } from 'features/components';
+import { Loading, SearchInput } from 'features/components';
+import IsOwnerCheckbox from 'features/components/is-owner-checkbox/is-owner-checkbox';
 import Sort from 'features/components/sort/sort';
 import { SecretInfoList, CreateSecretInfoForm } from 'features/secret-infos';
 import { ModalLayout } from 'features/ui';
 import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
+  getManipulatedSecretInfos,
   getSecretInfos,
   getSecretInfosError,
   getSecretInfosStatus,
 } from 'smart-contracts/passing-secret-info/slice';
+import { PASSING_SECRET_INFO_TYPES } from 'smart-contracts/passing-secret-info/types';
 import { ResponseStatus } from 'utils/types/api';
 
 const SecretInfos: FC = () => {
   const error = useSelector(getSecretInfosError);
   const status = useSelector(getSecretInfosStatus);
-  const secretInfosCopy = useSelector(getSecretInfos);
-  const [secretInfos, setSecretInfos] = useState([...secretInfosCopy]);
+  const secretInfos = useSelector(getManipulatedSecretInfos);
   const [isCreateSecretInfoModalOpen, setIsCreateSecretInfoModalOpen] = useState(false);
 
-  useEffect(() => {
-    console.log(secretInfos[0]);
-  }, [secretInfos]);
-
-  if (status === ResponseStatus.PENDING) return <>Loading...</>;
+  if (status === ResponseStatus.PENDING) return <Loading />;
   if (status === ResponseStatus.FAILED) return <>{error}</>;
 
   return (
@@ -34,9 +32,10 @@ const SecretInfos: FC = () => {
         </ModalLayout>
       ) : null}
 
-      <section className="flex items-center gap-8">
-        <SearchInput setEntities={setSecretInfos} />
-        <Sort setEntities={setSecretInfos} />
+      <section className="flex flex-wrap items-center gap-8">
+        <SearchInput type={PASSING_SECRET_INFO_TYPES.SECRET_INFO} />
+        <Sort type={PASSING_SECRET_INFO_TYPES.SECRET_INFO} />
+        <IsOwnerCheckbox type={PASSING_SECRET_INFO_TYPES.SECRET_INFO} />
         <button
           onClick={() => setIsCreateSecretInfoModalOpen(true)}
           className="px-4 py-3 font-medium duration-100 rounded-button bg-primary hover:bg-primary-hover"
@@ -44,16 +43,6 @@ const SecretInfos: FC = () => {
           Create secret info
         </button>
       </section>
-
-      {/* <button onClick={() => passingSecretInfoContract.addSecretInfo(
-        ethers.parseEther('0.01'),
-        "Inside info COLIAN, ile sprzedaja jakie perspektywy",
-        "Wszystko co musisz wiedziec, zeby zarobic na COLIAN",
-        100,
-        "Wychodz z tego bo to cyrk na kolkach tylko udaja ze jest wszystko w porzadku, jak jebnie to do zera i bankructwo mimo ze to spolka panstwa"
-      )}>
-        add
-      </button> */}
 
       <SecretInfoList secretInfos={secretInfos} />
     </>

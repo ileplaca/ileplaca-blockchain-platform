@@ -2,17 +2,18 @@ import { BigNumberish, ethers } from 'ethers';
 import { ethereum } from 'smart-contracts';
 import { passingSecretInfoAbi, passingSecretInfoAddress } from '.';
 import { PassingSecretInfo } from './types';
+import Cookies from 'js-cookie';
 
 export const createEthereumContract = async () => {
   const provider = new ethers.BrowserProvider(ethereum);
   const signer = await provider.getSigner();
-  const companiesSalariesContract = new ethers.Contract(
+  const passingSecretInfoContract = new ethers.Contract(
     passingSecretInfoAddress,
     passingSecretInfoAbi,
     signer
   );
 
-  return companiesSalariesContract as unknown as PassingSecretInfo;
+  return passingSecretInfoContract as unknown as PassingSecretInfo;
 };
 
 class PassingSecretInfoClass {
@@ -72,6 +73,12 @@ class PassingSecretInfoClass {
   public async changeSecretInfoRate(secret_info_id: number | string) {
     const contract = await createEthereumContract();
     return await contract.changeSecretInfoRate(secret_info_id);
+  }
+
+  public async getBalance() {
+    await ethereum.request({ method: 'eth_requestAccounts' });
+    const provider = new ethers.BrowserProvider(ethereum);
+    return await provider.getBalance(Cookies.get('account') as string);
   }
 }
 
