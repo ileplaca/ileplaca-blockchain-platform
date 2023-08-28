@@ -1,0 +1,11 @@
+.button {
+  @apply px-3 py-2 text-sm sm:text-base sm:px-4 sm:py-2 font-medium duration-75 text-text border border-primary rounded-button bg-primary hover:bg-primary-hover
+}
+
+.button-approve {
+  @apply px-4 py-2 duration-75 bg-green-600 border border-green-600 hover:border-green-700 hover:bg-green-700 rounded-button
+}
+
+.button-cancel {
+  @apply px-4 py-2 text-black duration-75 border border-black hover:bg-primary-text hover:duration-75 rounded-button
+}

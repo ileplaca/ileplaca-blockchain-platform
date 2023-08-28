@@ -1,15 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "redux/store";
+import { createSlice } from '@reduxjs/toolkit';
+import { ethers } from 'ethers';
+import { RootState } from 'redux/store';
+import { ethereum } from 'smart-contracts';
 
 const SmartContractsSlice = createSlice({
-  name: "smart-contracts",
+  name: 'smart-contracts',
   initialState: {
-    account: ""
+    account: '',
   },
   reducers: {
     setAccount: (state, action) => {
-      state.account = action.payload
-    }
+      state.account = action.payload;
+    },
   },
 });
 

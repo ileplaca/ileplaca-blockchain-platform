@@ -1,60 +1,45 @@
-import Sidebar from 'features/ui/sidebar/sidebar';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { companiesSalariesContract } from 'smart-contracts/companies-salaries/actions';
-import { Salary } from 'smart-contracts/companies-salaries/types';
-import { passingSecretInfoContract } from 'smart-contracts/passing-secret-info/actions';
+import { useQuery } from 'react-query';
+import CompaniesSalariesList from 'features/companies-salaries/companies-salary-list';
 
 const CompaniesSalaries: FC = () => {
-  const [companiesSalaries, setCompaniesSalaries] = useState<Salary[]>([]);
+  const { data, error } = useQuery('companies-salaries', companiesSalariesContract.getSalaries);
 
-  useEffect(() => {
-    const fetchCompaniesSalaries = async () => {
-      const data = await companiesSalariesContract.getSalaries();
-      setCompaniesSalaries(data)
-      console.log(data)
-    }
-    fetchCompaniesSalaries()
-  }, [])
+  if (!data) {
+    return <>Loading...</>;
+  }
+
+  if (error) {
+    return <>{error}</>;
+  }
 
   return (
-    <main className='flex flex-row'>
-      <Sidebar />
-      <section>
-        {/* <button onClick={() => {
-          companiesSalariesContract.addSalary(3000, 2000, 50, 500, "Frontenddev", "2 years", "OK", 2);
-        }}>dodaj</button> */}
-        Companies salaries
-        {companiesSalaries.map(([salary_id, owner_address, current, first, speed_of_growth, raise_change, role, experience, opinion, company_id]) => (
-          <div className=' text-text'>
-            <div className='text-sm font-light'>
-              {owner_address}
-            </div>
-            <div>
-              {Number(current)}
-            </div>
-            <div>
-              {Number(first)}
-            </div>
-            <div>
-              {Number(speed_of_growth)}
-            </div>
-            <div>
-              {Number(raise_change)}
-            </div>
-            <div>
-              {role}
-            </div>
-            <div>
-              {experience}
-            </div>
-            <div>
-              {opinion}
-            </div>
-          </div>
-        ))}
+    <>
+      {/* <button onClick={() => {
+        companiesSalariesContract.addSalary(40000, 20000, 50, 10000, "Python machine learning", "8 years", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis adipisci, quasi ut deserunt similique enim, magni facere natus, error voluptate a quisquam consectetur qui quidem exercitationem non est? Dolor, perspiciatis?", 2, "Google");
+      }}>dodaj</button> */}
+      <section className="flex items-center gap-8">
+        <input
+          type="text"
+          className="px-4 py-3 text-white border border-gray-600 outline-none placeholder:text-gray-300 bg-bg rounded-button"
+          placeholder="Search salary"
+        />
+        <select
+          className="px-4 py-3 text-white border border-gray-600 outline-none placeholder:text-gray-300 bg-bg rounded-button"
+          name=""
+          id=""
+        >
+          <option value="">Newest</option>
+        </select>
+        <button className="px-4 py-3 font-medium duration-100 rounded-button bg-primary hover:bg-primary-hover">
+          Add company salary
+        </button>
       </section>
-    </main>
-  )
-}
+
+      <CompaniesSalariesList companiesSalaries={data} />
+    </>
+  );
+};
 
 export default CompaniesSalaries;

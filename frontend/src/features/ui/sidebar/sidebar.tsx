@@ -1,27 +1,36 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { sidebarRoutes } from 'utils/data/sidebar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Sidebar: FC = () => {
   return (
-    <aside className='p-10 border-r border-gray-600 w-80'>
-      <h1 className='flex items-end text-3xl font-black'>
+    <aside className="fixed h-screen p-2 border-r border-gray-600 xl:w-1/4 xl:p-10 bg-bg">
+      <h1 className="flex flex-col items-end text-base font-black sm:flex-row xl:text-3xl">
         ileplaca
-        <div className='-mb-1 text-xs font-thin'>blockchain</div>
+        <div className="text-xs font-thin sm:-mb-3 sm:-ml-8 xl:-mb-1 xl:-ml-0">blockchain</div>
       </h1>
-      <nav className='flex flex-col mt-6'>
-        {
-          sidebarRoutes.map(route => (
-            <Link to={route.route} className='px-4 py-2 mt-2 font-medium duration-75 hover:bg-primary-bg text-subtext rounded-button hover:text-text'>
-              <FontAwesomeIcon icon={route.icon} className='w-4 mr-2' />
+      <nav className="flex flex-col mt-6 text-center xl:text-left">
+        {sidebarRoutes.map((route) => (
+          <Link
+            key={route.name}
+            to={route.route}
+            className="px-4 py-2 mt-2 font-medium duration-75 hover:bg-primary-bg text-subtext rounded-button hover:text-text"
+          >
+            <FontAwesomeIcon
+              icon={route.icon}
+              className={`w-4 text-lg mr-2 ${
+                window.location.href.includes(route.route) ? 'text-secondary' : ''
+              }`}
+            />
+            <span className="hidden xl:inline-block">
               {route.name}
-            </Link>
-          ))
-        }
+            </span>
+          </Link>
+        ))}
       </nav>
     </aside>
-  )
-}
+  );
+};
 
 export default Sidebar;

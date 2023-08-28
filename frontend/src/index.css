@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import 'assets/styles/animations.css';
+@import 'assets/styles/inputs.css';
+@import 'assets/styles/buttons.css';
 
 @tailwind base;
 @tailwind components;
@@ -9,5 +11,29 @@ body {
   font-family: 'Inter', sans-serif;
   /* background: #151416; */
   @apply bg-bg text-text
-  
+}
+
+body::-webkit-scrollbar {
+  width: 1em;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #313031;
+}
+
+.dont-break-out {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+html {
+  overflow: -moz-scrollbars-vertical; 
+  overflow-y: scroll;
 }

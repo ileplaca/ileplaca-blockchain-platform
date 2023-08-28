@@ -1,32 +1,76 @@
-import { BigNumber } from "ethers";
-import { Address } from "hardhat-deploy/dist/types";
+import { BigNumber } from 'ethers';
+import { Address } from 'hardhat-deploy/dist/types';
+
+export interface Reply {
+  id: number;
+  owner_address: string;
+  created_at: number;
+  content: string;
+}
+
+export interface Rate {
+  id: number;
+  owner_address: string;
+  rate: boolean;
+}
 
 export interface SecretInfo {
-  secret_info_id: number;
+  id: number;
   owner_address: Address;
   amount: number | BigNumber;
-  company_name: string
-  title: string
+  title: string;
   description: string;
+  company_name: string;
+  company_id: number;
+  created_at: number;
+  max_uses: number;
+  current_uses: number;
+  replies: Reply[];
+  rates: Rate[];
+  zero_knowledge_proof: string;
 }
 
 export interface SecretInfoAccessed {
-  secret_info: SecretInfo
-  info: string
+  info: string;
   accessed_addresses: Address[];
 }
 
+export interface SecretInfoAccessedResponse {
+  secret_info: SecretInfo;
+  secret_info_accessed: SecretInfoAccessed;
+}
+
+export interface AccountOpinion {
+  owner_address: string;
+  account_address: string;
+  created_at: number;
+  content: string;
+  rate: boolean;
+}
+
 export interface PassingSecretInfo {
-  getSecretInfos: () => Promise<SecretInfo[]>,
-  getSecretInfoById: (id: number | string) => Promise<SecretInfo>,
-  getSecretInfosByCompanyName: (company_name: string) => Promise<SecretInfo[]>,
-  getSecretInfoAccessed: (id: number | string) => Promise<SecretInfoAccessed>,
-  getPaidSecretInfosAccessed: () => Promise<SecretInfoAccessed[]>,
-  addSecretInfo: (amount: number | BigNumber, title: string, description: string, company_name: string, info: string) => Promise<void>;
-  payForSecretInfoAccess: (id: number | string, ...args: any) => Promise<void>
+  getSecretInfos: () => Promise<SecretInfo[]>;
+  getSecretInfosAccessed: () => Promise<SecretInfoAccessedResponse[]>;
 
+  addSecretInfo: (
+    amount: number | BigNumber,
+    title: string,
+    description: string,
+    max_uses: number,
+    info: string,
+    zero_knowledge_proof: string
+  ) => Promise<void>;
+  payForSecretInfoAccess: (secret_info_id: number | string, ...args: any) => Promise<void>;
 
-  deployed: () => Promise<void>
-  connect: (address: any) => Promise<PassingSecretInfo>
-  receive: ({ value }: { value: number | BigNumber }) => Promise<PassingSecretInfo>
+  addSecretInfoReply: (secret_info_id: number, content: string) => Promise<void>;
+  addSecretInfoRate: (secret_info_id: number, rate: boolean) => Promise<void>;
+  removeSecretInfoRate: (secret_info_id: number) => Promise<void>;
+  changeSecretInfoRate: (secret_info_id: number) => Promise<void>;
+
+  addAccountOpinion: (account_address: string, content: string, rate: boolean) => Promise<void>;
+  getAccountOpinionsByAddress: (account_address: string) => Promise<AccountOpinion[]>;
+
+  deployed: () => Promise<void>;
+  connect: (address: any) => Promise<PassingSecretInfo>;
+  receive: ({ value }: { value: number | BigNumber }) => Promise<PassingSecretInfo>;
 }
