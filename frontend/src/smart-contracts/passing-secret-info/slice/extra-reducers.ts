@@ -19,7 +19,7 @@ export const passingSecretInfoExtraReducers = (
 
   builder.addCase(fetchSecretInfos.rejected, (state, action) => {
     state.status = ResponseStatus.FAILED;
-    state.error = 'Failed with fetching data';
+    state.error = 'Data fetch failed. Check if you have a connected wallet';
   });
 
   builder.addCase(fetchSecretInfosAccessed.pending, (state, action) => {
@@ -38,6 +38,6 @@ export const passingSecretInfoExtraReducers = (
 
   builder.addCase(fetchSecretInfosAccessed.rejected, (state, action) => {
     state.status = ResponseStatus.FAILED;
-    state.error = 'Failed with fetching data';
+    state.error = 'Data fetch failed. Check if you have a connected wallet';
   });
 };

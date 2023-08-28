@@ -23,12 +23,12 @@ const SearchInput: FC<SearchInputProps> = ({ type }) => {
         <input
           onChange={(e) => setValue(e.target.value.toLocaleLowerCase())}
           type="text"
-          className="px-4 py-3 text-white duration-75 border border-gray-600 outline-none focus:bg-primary-bg placeholder:text-gray-300 bg-bg rounded-button "
+          className="px-2 py-1 text-sm text-white duration-75 border border-gray-600 outline-none sm:text-base sm:px-4 sm:py-3 focus:bg-primary-bg placeholder:text-gray-300 bg-bg rounded-button "
           placeholder="Search salary"
         />
         <button
           onClick={() => search(SEARCH_TYPE.RESULT)}
-          className="px-4 py-3 ml-2 duration-75 border border-gray-600 rounded-button hover:bg-primary-bg"
+          className="px-2 py-1 ml-2 text-sm duration-75 border border-gray-600 sm:text-base sm:py-3 sm:px-4 rounded-button hover:bg-primary-bg"
         >
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
@@ -39,7 +39,7 @@ const SearchInput: FC<SearchInputProps> = ({ type }) => {
           <button
             onClick={() => setEntitiesById(secret_info_id)}
             key={secret_info_id}
-            className="w-full px-2 py-1 text-xs duration-75 border border-gray-600 bg-zinc-800 hover:bg-zinc-900 text-subtext rounded-button"
+            className="w-full px-2 py-1 text-sm duration-75 border border-gray-600 bg-zinc-800 hover:bg-zinc-900 text-subtext rounded-button"
           >
             {title.substring(0, 40)}
             {title.length > 40 ? '...' : ''}

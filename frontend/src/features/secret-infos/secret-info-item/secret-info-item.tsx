@@ -10,6 +10,7 @@ import { SecretInfoPayModal } from 'features/secret-infos';
 import { ModalLayout } from 'features/ui';
 import { motion } from 'framer-motion';
 import SecretInfoRepliesModal from '../secret-info-replies-modal/secret-info-replies-modal';
+import { copy } from 'utils/helpers/copy';
 
 export interface SecretInfoItemProps {
   secretInfo: SecretInfo;
@@ -46,7 +47,7 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo }) => {
       whileInView={{
         opacity: [0, 100],
       }}
-      className="w-full p-6 mt-10 border border-gray-600 rounded text-text"
+      className="flex flex-col items-start w-full gap-2 p-3 mt-4 border border-gray-600 rounded xl:p-6 lg:mg-6 xl:mt-10 text-text"
     >
       {isRepliesModalOpen ? (
         <SecretInfoRepliesModal
@@ -66,56 +67,61 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo }) => {
         />
       ) : null}
 
-      <div className="flex flex-row">
-        <div className="w-full text-sm font-light dont-break-out">{owner_address}</div>
-        <div className="flex flex-row items-center justify-end w-full gap-4">
+      <div className="flex flex-col w-full gap-2 lg:flex-row">
+        <div onClick={() => copy(owner_address)} className="w-full text-xs font-light duration-75 cursor-pointer lg:text-sm xl:text-base dont-break-out">{owner_address}</div>
+        <div className="flex flex-row items-center justify-between w-full gap-4 lg:justify-end">
           <button
             onClick={() => setIsRespliesModalOpen(true)}
-            className="duration-75 cursor-pointer text-text hover:text-primary-text"
+            className="px-2 py-1 text-sm duration-75 border cursor-pointer lg:text-base text-text rounded-button hover:border-text hover:text-primary-text"
           >
             Reply {`(${replies.length})`}
           </button>
-          <motion.button
-            whileHover={{
-              rotate: [0, 20, 0],
-              transition: {
-                duration: 0.125,
-              },
-            }}
-            onClick={like}
-            className={`hover:text-green-400 duration-75 ${
-              currentRate?.[2] ? 'text-green-500' : ''
-            }`}
-          >
-            <FontAwesomeIcon icon={faThumbsUp} /> {positiveRates}
-          </motion.button>
-          <motion.button
-            whileHover={{
-              rotate: [0, 20, 0],
-              transition: {
-                duration: 0.125,
-              },
-            }}
-            onClick={unlike}
-            className={`hover:text-red-400 duration-75 ${
-              currentRate?.[2] === false ? 'text-red-500' : ''
-            }`}
-          >
-            <FontAwesomeIcon icon={faThumbsDown} /> {negativeRates}
-          </motion.button>
+          <div className='flex gap-2'>
+            <motion.button
+              whileHover={{
+                rotate: [0, 20, 0],
+                transition: {
+                  duration: 0.125,
+                },
+              }}
+              onClick={like}
+              className={`hover:text-green-400 duration-75 ${
+                currentRate?.[2] ? 'text-green-500' : ''
+              }`}
+            >
+              <FontAwesomeIcon icon={faThumbsUp} /> {positiveRates}
+            </motion.button>
+            <motion.button
+              whileHover={{
+                rotate: [0, 20, 0],
+                transition: {
+                  duration: 0.125,
+                },
+              }}
+              onClick={unlike}
+              className={`hover:text-red-400 duration-75 ${
+                currentRate?.[2] === false ? 'text-red-500' : ''
+              }`}
+            >
+              <FontAwesomeIcon icon={faThumbsDown} /> {negativeRates}
+            </motion.button>
+          </div>
         </div>
       </div>
 
-      <div className="text-xl font-medium">{title}</div>
-      <div>{description}</div>
-      <div className="font-light">{parseDateFns(created_at)}</div>
+      <div>
+        <div className="text-base font-medium lg:text-lg xl:text-xl">{title}</div>
+        <div className='text-sm sm:text-base'>{description}</div>
+        <div className="text-sm font-light sm:text-base">{parseDateFns(created_at)}</div>
+      </div>
+      
 
-      <div className="flex flex-wrap items-center gap-4 mt-2">
-        <div className="px-2 py-1 border border-gray-500 rounded-button">
+      <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+        <div className="px-2 py-1 text-sm border border-gray-500 md:text-base rounded-button">
           <span className="font-light">Left to buy </span>
           {Number(max_uses) - Number(current_uses)}
         </div>
-        <div className="px-2 py-1 border border-gray-500 rounded-button">
+        <div className="px-2 py-1 text-sm border border-gray-500 md:text-base rounded-button">
           <span className="font-light">Already bought </span>
           {Number(current_uses)}
         </div>
@@ -128,7 +134,7 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo }) => {
           rotate: [0, 5, 0],
         }}
         className={`
-          px-6 py-2 mt-4 font-medium duration-75 rounded-button
+          text-sm px-4 py-2 sm:text-base sm:px-6 font-medium duration-75 rounded-button
           ${
             accountAccess.includes('Buy for')
               ? 'hover:bg-primary-hover bg-primary'

@@ -21,6 +21,6 @@ export const getSecretInfosAccessed = (state: RootState) => state.secretInfos.se
 export const getManipulatedSecretInfosAccessed = (state: RootState) =>
   state.secretInfos.manipulatedSecretInfosAccessed;
 export const getSecretInfosStatus = (state: RootState) => state.secretInfos.status;
-export const getSecretInfosError = (state: RootState) => state.secretInfos.status;
+export const getSecretInfosError = (state: RootState) => state.secretInfos.error;
 
 export default PassingSecretInfoSlice.reducer;

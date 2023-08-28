@@ -2,14 +2,15 @@ import Cookies from 'js-cookie';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { passingSecretInfoContract } from 'smart-contracts/passing-secret-info/actions';
-import { getSecretInfosAccessed } from 'smart-contracts/passing-secret-info/slice';
+import { getSecretInfosAccessed, getSecretInfosStatus } from 'smart-contracts/passing-secret-info/slice';
 import { getAccount } from 'smart-contracts/slice';
+import { defaultStats } from 'utils/constans/stats';
+import { calcChange } from 'utils/helpers/calc';
+import { CookiesEnum } from 'utils/types/cookies';
 
-const calcChange = (value: number, lastValue: number) => {
-  return (((Number(value) - Number(lastValue)) / Number(value)) * 100).toFixed(2);
-};
 
 const useSecretInfoAccessedStats = () => {
+  const status = useSelector(getSecretInfosStatus);
   const account = useSelector(getAccount);
   const secretInfosAccessed = useSelector(getSecretInfosAccessed);
   const { data: accountBalance } = useQuery(
@@ -19,7 +20,8 @@ const useSecretInfoAccessedStats = () => {
   );
 
   const getStats = () => {
-    if (!secretInfosAccessed || !account || !accountBalance) return;
+    if (!secretInfosAccessed || !account || !accountBalance) return defaultStats;
+
     let ownerSecretInfosAccessedCounter = 0;
     let earnings = 0;
     let expenses = 0;
@@ -58,42 +60,9 @@ const useSecretInfoAccessedStats = () => {
       }
     });
 
-    let lastStats = {
-      ownerSecretInfosAccessedLength: {
-        value: 0,
-        change: 0,
-      },
-      bought: {
-        value: 0,
-        change: 0,
-      },
-      earnings: {
-        value: 0,
-        change: 0,
-      },
-      expenses: {
-        value: 0,
-        change: 0,
-      },
-      sold: {
-        value: 0,
-        change: 0,
-      },
-      averageRate: {
-        value: 0,
-        change: 0,
-      },
-      balance: {
-        value: 0,
-        change: 0,
-      },
-      accessToSecretInfos: {
-        value: 0,
-        change: 0,
-      },
-    };
+    let lastStats = defaultStats;
 
-    const lastStatsCookie = Cookies.get('last_stats');
+    const lastStatsCookie = Cookies.get(CookiesEnum.LAST_STATS);
     if (lastStatsCookie) {
       lastStats = JSON.parse(lastStatsCookie);
     }
@@ -140,15 +109,13 @@ const useSecretInfoAccessedStats = () => {
     };
 
     if (
-      (JSON.stringify(stats) !== Cookies.get('last_stats') &&
-        Number(Cookies.get('time_to_refresh_last_stats')) < Number(new Date())) ||
-      !Cookies.get('last_stats') ||
-      !Cookies.get('before_last_stats') ||
-      !Cookies.get('time_to_refresh_last_stats')
+      (JSON.stringify(stats) !== Cookies.get(CookiesEnum.LAST_STATS) &&
+        Number(Cookies.get(CookiesEnum.TIME_TO_REFRESH_LAST_STATS)) < Number(new Date())) ||
+      !Cookies.get(CookiesEnum.LAST_STATS) ||
+      !Cookies.get(CookiesEnum.TIME_TO_REFRESH_LAST_STATS)
     ) {
-      Cookies.set('last_stats', JSON.stringify(stats));
-      Cookies.set('before_last_stats', Cookies.get('last_stats') ?? JSON.stringify(stats));
-      Cookies.set('time_to_refresh_last_stats', String(Number(new Date()) + 86400000 * 7));
+      Cookies.set(CookiesEnum.LAST_STATS, JSON.stringify(stats));
+      Cookies.set(CookiesEnum.TIME_TO_REFRESH_LAST_STATS, String(Number(new Date()) + 86400000 * 7));
     }
 
     return stats;
@@ -159,6 +126,7 @@ const useSecretInfoAccessedStats = () => {
     getStats,
     accountBalance,
     secretInfosAccessed,
+    status
   };
 };
 

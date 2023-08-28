@@ -12,6 +12,7 @@ import {
 } from 'smart-contracts/passing-secret-info/slice/thunks';
 import { store } from 'redux/store';
 import { ethereum } from 'smart-contracts';
+import { CookiesEnum } from 'utils/types/cookies';
 
 store.dispatch(fetchSecretInfos());
 store.dispatch(fetchSecretInfosAccessed());
@@ -24,7 +25,9 @@ function App() {
     dispatch(setAccount(Cookies.get('account')));
 
     ethereum.on('accountsChanged', function (accounts: string[]) {
-      Cookies.set('account', accounts[0]);
+      Cookies.remove(CookiesEnum.LAST_STATS);
+      Cookies.remove(CookiesEnum.TIME_TO_REFRESH_LAST_STATS);
+      Cookies.set(CookiesEnum.ACCOUNT, accounts[0]);
       dispatch(setAccount(accounts[0]));
       navigate(0);
     });

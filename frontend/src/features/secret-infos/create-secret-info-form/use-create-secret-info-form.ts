@@ -28,7 +28,7 @@ const useCreateSecretInfoForm = () => {
       e.target.value = value.split('').splice(-1, 1).join('');
     }
     if (value === '') {
-      e.target.value = '1';
+      e.target.value = '0';
     }
   };
 
@@ -42,7 +42,8 @@ const useCreateSecretInfoForm = () => {
         data.title,
         data.description,
         data.max_uses,
-        data.secret_info
+        data.secret_info,
+        data.zero_knowledge_proof
       );
     } catch (err) {
       setError('Something went wrong');

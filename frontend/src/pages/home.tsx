@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { connectWallet } from 'smart-contracts/connect';
 import { setAccount } from 'smart-contracts/slice';
 import Cookies from 'js-cookie';
+import { CookiesEnum } from 'utils/types/cookies';
 
 const Index: FC = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const Index: FC = () => {
     const account = await connectWallet();
     if (account) {
       dispatch(setAccount(account));
-      Cookies.set('account', account);
+      Cookies.set(CookiesEnum.ACCOUNT, account);
       navigate('/companies-salaries');
     }
   };
@@ -25,6 +26,7 @@ const Index: FC = () => {
         <div>
           <h1 className="text-5xl font-semibold text-primary-text">Welcome!</h1>
           <h2 className="mt-2 text-xl font-medium text-text">
+            <a href="tel:+48739501383">kordian tel</a>
             Connect wallet and start your adventure
           </h2>
           <p className="-mt-2 -light text text-subtext">
