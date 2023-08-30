@@ -27,8 +27,8 @@ library PassingSecretInfoStructs {
   struct AccountOpinion {
     address owner_address;
     address account_address;
-    uint256 created_at;
     string content;
+    uint256 created_at;
     bool rate;
   }
 }

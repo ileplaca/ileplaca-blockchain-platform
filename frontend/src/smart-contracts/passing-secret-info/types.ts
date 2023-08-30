@@ -7,40 +7,52 @@ export type SecretInfo = [
   amount: number | BigNumberish,
   title: string,
   description: string,
-  created_at: number,
+  zero_knowledge_proof: string,
   max_uses: number,
   current_uses: number,
+  created_at: number,
   replies: Reply[],
   rates: Rate[],
-  zero_knowledge_proof: string
 ];
 
-export type SecretInfoAccessed = [info: string, accessed_addresses: string[]];
+// [
+//   id,
+//   owner_address,
+//   amount,
+//   title,
+//   description,
+//   zero_knowledge_proof,
+//   max_uses,
+//   current_uses,
+//   created_at,
+//   replies,
+//   rates
+// ]
 
 export type SecretInfoAccessedResponse = [
   secret_info: SecretInfo,
-  secret_info_accessed: SecretInfoAccessed
+  content: string
 ];
 
 export type AccountOpinion = [
   owner_address: string,
   account_address: string,
-  created_at: number,
   content: string,
+  created_at: number,
   rate: boolean
 ];
 
 export interface PassingSecretInfo {
   getSecretInfos: () => Promise<SecretInfo[]>;
-  getSecretInfosAccessed: () => Promise<SecretInfoAccessedResponse[]>;
+  getSecretInfoAccessedById: (secret_info_id: number) => Promise<SecretInfoAccessedResponse>;
 
   addSecretInfo: (
     amount: number | BigNumberish,
     title: string,
     description: string,
+    zero_knowledge_proof: string,
     max_uses: number,
     info: string,
-    zero_knowledge_proof: string
   ) => Promise<void>;
   payForSecretInfoAccess: (
     secret_info_id: number | string,

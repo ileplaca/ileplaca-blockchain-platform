@@ -41,9 +41,9 @@ const useCreateSecretInfoForm = () => {
         BigInt(parsedAmount),
         data.title,
         data.description,
+        data.zero_knowledge_proof,
         data.max_uses,
-        data.secret_info,
-        data.zero_knowledge_proof
+        data.info,
       );
     } catch (err) {
       setError('Something went wrong');

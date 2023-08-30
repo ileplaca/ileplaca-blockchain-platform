@@ -5,8 +5,8 @@ library Structs {
   struct Reply {
     uint256 id;
     address owner_address;
-    uint256 created_at;
     string content;
+    uint256 created_at;
   }
 
   struct Rate {

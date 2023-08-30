@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import {
   SecretInfo,
-  SecretInfoAccessed,
   SecretInfoAccessedResponse,
 } from 'smart-contracts/passing-secret-info/types';
 import { motion } from 'framer-motion';
@@ -19,12 +18,12 @@ import { copy } from 'utils/helpers/copy';
 
 export interface SecretInfoAccessedItemProps {
   secretInfo: SecretInfo;
-  secretInfoAccessed: SecretInfoAccessed;
+  content: string;
 }
 
 const SecretInfoAccessedItem: FC<SecretInfoAccessedItemProps> = ({
   secretInfo,
-  secretInfoAccessed,
+  content,
 }) => {
   const [
     secret_info_id,
@@ -32,13 +31,14 @@ const SecretInfoAccessedItem: FC<SecretInfoAccessedItemProps> = ({
     amount,
     title,
     description,
-    created_at,
+    zero_knowledge_proof,
     max_uses,
     current_uses,
+    created_at,
     replies,
-    rates,
+    rates
   ] = secretInfo;
-  const [info, accessed_addresses] = secretInfoAccessed;
+  const [info, accessed_addresses] = content;
   const {
     like,
     unlike,

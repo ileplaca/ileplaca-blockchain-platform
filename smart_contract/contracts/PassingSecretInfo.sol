@@ -34,9 +34,9 @@ contract PassingSecretInfo {
     uint256 _amount,
     string memory _title,
     string memory _description,
+    string memory _zero_knowledge_proof,
     uint256 _max_uses,
-    string memory _info,
-    string memory _zero_knowledge_proof
+    string memory _info
   ) public {
     PassingSecretInfoStructs.SecretInfo storage secret_info = secret_infos.push();
 
@@ -87,10 +87,9 @@ contract PassingSecretInfo {
       'Supply has been used'
     );
 
-    for (uint256 id = 0; id < accessed_ids[msg.sender].length; id++) {
-      // id = secret_info_id
+    for (uint256 i = 0; i < accessed_ids[msg.sender].length; i++) {
       require(
-        id != _secret_info_id,
+        accessed_ids[msg.sender][i] != _secret_info_id,
         'You already paid for this secret info'
       );
     }
@@ -111,7 +110,7 @@ contract PassingSecretInfo {
   function addSecretInfoReply(uint256 _secret_info_id, string memory _content) public {
     Helpers.validateStringLength(_content, 1000);
     secret_infos[_secret_info_id].replies.push(
-      Structs.Reply(secret_info_reply_id, msg.sender, block.timestamp, _content)
+      Structs.Reply(secret_info_reply_id, msg.sender, _content, block.timestamp)
     );
     secret_info_reply_id++;
   }
@@ -162,7 +161,7 @@ contract PassingSecretInfo {
   function addAccountOpinion(address account_address, string memory _content, bool _rate) public {
     require(account_address != msg.sender, 'You cannot add opinion to your account');
     Helpers.validateStringLength(_content, 1000);
-    account_opinions[secret_info_opinion_id] = PassingSecretInfoStructs.AccountOpinion(msg.sender, account_address, block.timestamp, _content, _rate);
+    account_opinions[secret_info_opinion_id] = PassingSecretInfoStructs.AccountOpinion(msg.sender, account_address, _content, block.timestamp, _rate);
     secret_info_opinion_id++;
   }
 

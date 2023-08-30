@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
+import { accountActions } from 'smart-contracts/account/actions';
 import { passingSecretInfoContract } from 'smart-contracts/passing-secret-info/actions';
 import { getSecretInfosAccessed, getSecretInfosStatus } from 'smart-contracts/passing-secret-info/slice';
 import { getAccount } from 'smart-contracts/slice';
@@ -15,7 +16,7 @@ const useSecretInfoAccessedStats = () => {
   const secretInfosAccessed = useSelector(getSecretInfosAccessed);
   const { data: accountBalance } = useQuery(
     'accountBalance',
-    passingSecretInfoContract.getBalance,
+    accountActions.getBalance,
     { cacheTime: 0 }
   );
 
@@ -36,11 +37,12 @@ const useSecretInfoAccessedStats = () => {
         amount,
         title,
         description,
-        created_at,
+        zero_knowledge_proof,
         max_uses,
         current_uses,
+        created_at,
         replies,
-        rates,
+        rates
       ] = secret_info;
       if (owner_address.toLocaleLowerCase() === account) {
         ownerSecretInfosAccessedCounter++;

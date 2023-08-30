@@ -20,11 +20,12 @@ const SecretInfoAccessedStatsModal: FC<SecretInfoAccessedStatsModalProps> = ({
     amount,
     title,
     description,
-    created_at,
+    zero_knowledge_proof,
     max_uses,
     current_uses,
+    created_at,
     replies,
-    rates,
+    rates
   ] = secretInfo;
 
   const { calcRate } = useSecretInfoAccessedStatsModal({ secretInfo, setIsModalOpen });

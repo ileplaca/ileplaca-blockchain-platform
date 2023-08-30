@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import {
-  SecretInfoAccessed,
   SecretInfoAccessedResponse,
 } from 'smart-contracts/passing-secret-info/types';
 import SecretInfoAccessedItem from '../secret-info-accessed-item/secret-info-accessed-item';
@@ -18,11 +17,11 @@ const SecretInfoAccessedList: FC<SecretInfoAccessedListProps> = ({
 
   return (
     <>
-      {secretInfosAccessedResponse.map(([secretInfo, secretInfoAccessed]) => (
+      {secretInfosAccessedResponse.map(([secretInfo, content]) => (
         <SecretInfoAccessedItem
           key={secretInfo[0]}
           secretInfo={secretInfo}
-          secretInfoAccessed={secretInfoAccessed}
+          content={content}
         />
       ))}
     </>
