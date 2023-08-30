@@ -50,7 +50,7 @@ export interface AccountOpinion {
 
 export interface PassingSecretInfo {
   getSecretInfos: () => Promise<SecretInfo[]>;
-  getSecretInfosAccessed: () => Promise<SecretInfoAccessedResponse[]>;
+  getSecretInfoAccessedById: (secret_info_id: number) => Promise<SecretInfoAccessedResponse>;
 
   addSecretInfo: (
     amount: number | BigNumber,

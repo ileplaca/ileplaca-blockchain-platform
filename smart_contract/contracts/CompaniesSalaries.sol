@@ -3,8 +3,7 @@ pragma solidity ^0.8.9;
 
 import './CompaniesSalariesStructs.sol';
 import './Helpers.sol';
-
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 contract CompaniesSalaries {
   uint256 salary_id = 0;

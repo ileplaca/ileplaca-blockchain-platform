@@ -11,22 +11,17 @@ library PassingSecretInfoStructs {
     uint256 amount;
     string title;
     string description;
-    uint256 created_at;
+    string zero_knowledge_proof;
     uint256 max_uses;
     uint256 current_uses;
+    uint256 created_at;
     Structs.Reply[] replies;
     Structs.Rate[] rates;
-    string zero_knowledge_proof;
-  }
-
-  struct SecretInfoAccessed {
-    string info;
-    address[] accessed_adresses;
   }
 
   struct SecretInfoAccessedResponse {
     SecretInfo secret_info;
-    SecretInfoAccessed secret_info_accessed;
+    string info;
   }
 
   struct AccountOpinion {

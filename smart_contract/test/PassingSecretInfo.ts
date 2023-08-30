@@ -68,8 +68,9 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         'Test secret info info',
         'Zero knowledge proof'
       );
-      const secretInfoAccessed = await passingSecretInfo.getSecretInfosAccessed();
-      assert.equal(secretInfoAccessed[0].secret_info.amount, Number(utils.parseEther('0.1')));
+      const secretInfoAccessed = await passingSecretInfo.getSecretInfoAccessedById(0);
+      console.log("🚀 ~ file: PassingSecretInfo.ts:72 ~ it ~ secretInfoAccessed:", secretInfoAccessed)
+      assert.equal(secretInfoAccessed.secret_info.amount, Number(utils.parseEther('0.1')));
     });
 
     it('get paid secret info access as owner', async () => {
@@ -81,8 +82,8 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
         'Test secret info info',
         'Zero knowledge proof'
       );
-      const secretInfoAccessed = await passingSecretInfo.getSecretInfosAccessed();
-      assert.equal(secretInfoAccessed[0].secret_info.amount, Number(utils.parseEther('0.1')));
+      const secretInfoAccessed = await passingSecretInfo.getSecretInfoAccessedById(0);
+      assert.equal(secretInfoAccessed.secret_info.amount, Number(utils.parseEther('0.1')));
     });
 
     it('get paid secret info access as user', async () => {
@@ -101,13 +102,13 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
       await secondAccountContract.payForSecretInfoAccess(0, {
         value: utils.parseEther('0.1'),
       });
-      const secretInfoAccessed = await passingSecretInfo.getSecretInfosAccessed();
-      assert.equal(secretInfoAccessed[0].secret_info.amount, Number(utils.parseEther('0.1')));
+      const secretInfoAccessed = await passingSecretInfo.getSecretInfoAccessedById(0);
+      assert.equal(secretInfoAccessed.secret_info.amount, Number(utils.parseEther('0.1')));
     });
   });
 
   describe('pay for secret info access', () => {
-    it.only('get secret info after paid with valid amount for secret info accessed as other user, check if tax properly sent', async () => {
+    it('get secret info after paid with valid amount for secret info accessed as other user, check if tax properly sent', async () => {
       const accounts = await ethers.getSigners();
 
       const secondAccount = accounts[1];
@@ -138,8 +139,8 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
 
       expect(ownerBalanceBeforeTransaction).to.be.equal(ownerBalanceWithoutTaxedValue);
 
-      const secretInfoAccessed = await thirdAccountContract.getSecretInfosAccessed();
-      assert.equal(secretInfoAccessed[0].secret_info.amount, Number(utils.parseEther('0.1')));
+      const secretInfoAccessed = await thirdAccountContract.getSecretInfoAccessedById(0);
+      assert.equal(secretInfoAccessed.secret_info.amount, Number(utils.parseEther('0.1')));
     });
 
     it('fail get secret info after paid with valid amount for secret info accessed as other user', async () => {
@@ -352,6 +353,7 @@ describe(SMART_CONTRACTS.PASSING_SECRET_INFO, () => {
       await passingSecretInfo.addAccountOpinion(secondAccount.address, "it's ok", false);
 
       const response = await passingSecretInfo.getAccountOpinionsByAddress(secondAccount.address);
+
       assert.equal(response.length, 2);
       assert.equal(response[0].rate, true);
     });
