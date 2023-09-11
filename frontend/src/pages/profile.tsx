@@ -11,13 +11,13 @@ import { ResponseStatus } from 'utils/types/api';
 import { copy } from 'utils/helpers/copy';
 
 const Profile: FC = () => {
-  const { account, accountBalance, getStats, secretInfosAccessed, status } = useSecretInfoAccessedStats();
+  const { account, accountBalance, getStats, status } = useSecretInfoAccessedStats();
   const getCookie = Cookies.get(CookiesEnum.LAST_STATS);
   const [stats, setStats] = useState(defaultStats);
 
   useEffect(() => {
     setStats(getStats() as any);
-  }, [secretInfosAccessed, accountBalance, getCookie]);
+  },[accountBalance, getCookie]);
 
   if (status === ResponseStatus.FAILED) return <ErrorMessage />;
   if (!stats || isNaN(Number(accountBalance))) return <Loading />;
@@ -36,7 +36,7 @@ const Profile: FC = () => {
       <div className="flex flex-wrap gap-4">
         <SecretInfoProfileStatistic
           variant="dark"
-          name="Access to secret infos (with yours)"
+          name="Access to secret infos"
           value={stats.accessToSecretInfos.value}
           change={stats.accessToSecretInfos.change}
         />
@@ -73,8 +73,8 @@ const Profile: FC = () => {
         <SecretInfoProfileStatistic
           variant="dark"
           name="Average rate"
-          value={stats.averageRate.value*100+"%"}
-          change={stats.averageRate.change}
+          value={isNaN(stats.averageRate.value) ? "0" : stats.averageRate.value*100+"%"}
+          change={isNaN(stats.averageRate.change) ? "0" : stats.averageRate.change}
         />
       </div>
     </motion.main>

@@ -11,15 +11,13 @@ const PassingSecretInfoSlice = createSlice({
   extraReducers: passingSecretInfoExtraReducers,
 });
 
-export const { setManipulatedSecretInfos, setManipulatedSecretInfosAccessed } =
+export const { setManipulatedSecretInfos } =
   PassingSecretInfoSlice.actions;
 
 export const getSecretInfos = (state: RootState) => state.secretInfos.secretInfos;
 export const getManipulatedSecretInfos = (state: RootState) =>
   state.secretInfos.manipulatedSecretInfos;
-export const getSecretInfosAccessed = (state: RootState) => state.secretInfos.secretInfosAccessed;
-export const getManipulatedSecretInfosAccessed = (state: RootState) =>
-  state.secretInfos.manipulatedSecretInfosAccessed;
+export const getAccessedIds = (state: RootState) => state.secretInfos.accessedIds;
 export const getSecretInfosStatus = (state: RootState) => state.secretInfos.status;
 export const getSecretInfosError = (state: RootState) => state.secretInfos.error;
 

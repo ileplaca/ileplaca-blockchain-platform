@@ -2,7 +2,6 @@ import { BigNumberish, ethers } from 'ethers';
 import { ethereum } from 'smart-contracts';
 import { passingSecretInfoAbi, passingSecretInfoAddress } from '.';
 import { PassingSecretInfo } from './types';
-import Cookies from 'js-cookie';
 
 export const createEthereumContract = async () => {
   const provider = new ethers.BrowserProvider(ethereum);
@@ -22,9 +21,14 @@ class PassingSecretInfoClass {
     return await contract.getSecretInfos();
   }
 
-  public async getSecretInfoAccessedById(secret_info_id: number) {
+  public async getSecretInfoAccessedById(secret_info_id: number | bigint) {
     const contract = await createEthereumContract();
     return await contract.getSecretInfoAccessedById(secret_info_id);
+  }
+
+  public async getAccessedIds () {
+    const contract = await createEthereumContract();
+    return await contract.getAccessedIds();
   }
 
   public async addSecretInfo(

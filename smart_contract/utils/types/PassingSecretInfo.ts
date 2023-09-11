@@ -28,12 +28,6 @@ export interface SecretInfo {
   zero_knowledge_proof: string;
 }
 
-
-export interface SecretInfoAccessedResponse {
-  secret_info: SecretInfo;
-  content: string;
-}
-
 export interface AccountOpinion {
   owner_address: string;
   account_address: string;
@@ -44,7 +38,8 @@ export interface AccountOpinion {
 
 export interface PassingSecretInfo {
   getSecretInfos: () => Promise<SecretInfo[]>;
-  getSecretInfoAccessedById: (secret_info_id: number) => Promise<SecretInfoAccessedResponse>;
+  getSecretInfoAccessedById: (secret_info_id: number) => Promise<string>;
+  getAccessedIds: () => Promise<number[]>;
 
   addSecretInfo: (
     amount: number | BigNumber,

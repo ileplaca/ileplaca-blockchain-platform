@@ -15,20 +15,6 @@ export type SecretInfo = [
   rates: Rate[],
 ];
 
-// [
-//   id,
-//   owner_address,
-//   amount,
-//   title,
-//   description,
-//   zero_knowledge_proof,
-//   max_uses,
-//   current_uses,
-//   created_at,
-//   replies,
-//   rates
-// ]
-
 export type SecretInfoAccessedResponse = [
   secret_info: SecretInfo,
   content: string
@@ -44,7 +30,8 @@ export type AccountOpinion = [
 
 export interface PassingSecretInfo {
   getSecretInfos: () => Promise<SecretInfo[]>;
-  getSecretInfoAccessedById: (secret_info_id: number) => Promise<SecretInfoAccessedResponse>;
+  getSecretInfoAccessedById: (secret_info_id: number | bigint) => Promise<SecretInfoAccessedResponse>;
+  getAccessedIds: () => Promise<number[]>
 
   addSecretInfo: (
     amount: number | BigNumberish,

@@ -1,5 +1,4 @@
-import { fetchSecretInfos, fetchSecretInfosAccessed } from './thunks';
-import { SecretInfo } from '../types';
+import { fetchAccessedIds, fetchSecretInfos } from './thunks';
 import { ResponseStatus } from 'utils/types/api';
 import { ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { PassingSecretInfoSliceInitialState } from './initial-state';
@@ -22,21 +21,16 @@ export const passingSecretInfoExtraReducers = (
     state.error = 'Data fetch failed. Check if you have a connected wallet';
   });
 
-  builder.addCase(fetchSecretInfosAccessed.pending, (state, action) => {
+  builder.addCase(fetchAccessedIds.pending, (state, action) => {
     state.status = ResponseStatus.PENDING;
   });
 
-  builder.addCase(fetchSecretInfosAccessed.fulfilled, (state, action) => {
-    state.manipulatedSecretInfosAccessed = [...action.payload].sort(
-      ([AsecretInfo], [BsecretInfo]) => Number(BsecretInfo[0]) - Number(AsecretInfo[0])
-    );
-    state.secretInfosAccessed = [...action.payload].sort(
-      ([AsecretInfo], [BsecretInfo]) => Number(BsecretInfo[0]) - Number(AsecretInfo[0])
-    );
+  builder.addCase(fetchAccessedIds.fulfilled, (state, action) => {
+    state.accessedIds = action.payload;
     state.status = ResponseStatus.SUCCEEDED;
   });
 
-  builder.addCase(fetchSecretInfosAccessed.rejected, (state, action) => {
+  builder.addCase(fetchAccessedIds.rejected, (state, action) => {
     state.status = ResponseStatus.FAILED;
     state.error = 'Data fetch failed. Check if you have a connected wallet';
   });

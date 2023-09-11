@@ -4,9 +4,10 @@ import SecretInfoItem from '../secret-info-item/secret-info-item';
 
 export interface SecretInfoListProps {
   secretInfos: SecretInfo[];
+  accessed: boolean
 }
 
-const SecretInfoList: FC<SecretInfoListProps> = ({ secretInfos }) => {
+const SecretInfoList: FC<SecretInfoListProps> = ({ secretInfos, accessed }) => {
   if (secretInfos.length <= 0) {
     <div className="mt-4">There is no secret infos here</div>;
   }
@@ -14,7 +15,7 @@ const SecretInfoList: FC<SecretInfoListProps> = ({ secretInfos }) => {
   return (
     <>
       {secretInfos.map((secretInfo) => (
-        <SecretInfoItem key={Number(secretInfo[0])} secretInfo={secretInfo} />
+        <SecretInfoItem key={Number(secretInfo[0])} accessed={accessed} secretInfo={secretInfo} />
       ))}
     </>
   );

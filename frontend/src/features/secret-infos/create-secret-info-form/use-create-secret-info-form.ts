@@ -8,6 +8,8 @@ import {
   seYupValidationResolver,
 } from './create-secret-info-form.config';
 import { UnitEnum } from 'utils/types/units';
+import { useNavigate } from 'react-router-dom';
+import { successAlert } from 'utils/helpers/alert';
 
 const useCreateSecretInfoForm = () => {
   const resolver = seYupValidationResolver(createSecretInfoFormValidationSchema);
@@ -17,6 +19,7 @@ const useCreateSecretInfoForm = () => {
     watch,
     formState: { errors },
   } = useForm({ resolver });
+  const navigate = useNavigate()
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -45,6 +48,11 @@ const useCreateSecretInfoForm = () => {
         data.max_uses,
         data.info,
       );
+      successAlert({
+        title: "First step success!",
+        text: "Waiting for confirmation..."
+      })
+      navigate('/secret-info-accessed')
     } catch (err) {
       setError('Something went wrong');
       console.log(err);

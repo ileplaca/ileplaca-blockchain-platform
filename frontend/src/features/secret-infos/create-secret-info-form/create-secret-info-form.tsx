@@ -95,8 +95,8 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
 
         <div className="text-red-600">{error}</div>
 
-        <button disabled={loading} className="mt-4 button bg-primary" type="submit">
-          {loading ? <Loading /> : 'Create secret info'}
+        <button disabled={loading} className={`mt-4 button bg-primary ${loading ? 'bg-opacity-80 cursor-not-allowed hover:bg-primary hover:bg-opacity-80' : ''}`} type="submit">
+          Create secret info
         </button>
         <button
           disabled={loading}

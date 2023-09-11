@@ -26,10 +26,6 @@ contract PassingSecretInfo {
     owner = msg.sender;
   }
 
-  function getSecretInfoId() public view returns (uint256) {
-    return secret_info_id;
-  }
-
   function addSecretInfo(
     uint256 _amount,
     string memory _title,
@@ -57,6 +53,7 @@ contract PassingSecretInfo {
     secret_info.current_uses = 0;
     secret_info.created_at = block.timestamp;
 
+    secret_infos_accessed[secret_info_id] = _info;
     accessed_ids[msg.sender].push(secret_info_id);
 
     secret_info_id++;
@@ -66,13 +63,14 @@ contract PassingSecretInfo {
     return secret_infos;
   }
 
-  function getSecretInfoAccessedById(uint256 _secret_info_id) public view returns (PassingSecretInfoStructs.SecretInfoAccessedResponse memory) {
+  function getAccessedIds() public view returns (uint256[] memory) {
+    return accessed_ids[msg.sender];
+  }
+
+  function getSecretInfoAccessedById(uint256 _secret_info_id) public view returns (string memory) {
     for (uint256 i = 0; i < accessed_ids[msg.sender].length; i++) {
       if (accessed_ids[msg.sender][i] == _secret_info_id) {
-        return PassingSecretInfoStructs.SecretInfoAccessedResponse(
-          secret_infos[_secret_info_id],
-          secret_infos_accessed[_secret_info_id]
-        );
+        return secret_infos_accessed[_secret_info_id];
       }
     }
 
@@ -98,7 +96,7 @@ contract PassingSecretInfo {
     uint256 taxed_amount = msg.value - tax_amount;
 
     (bool sentTax, ) = owner.call{value: tax_amount}('');
-    require(sentTax, 'Transfer to owner failed');
+    require(sentTax, 'Tax transfer to owner failed');
 
     (bool sent, ) = secret_infos[_secret_info_id].owner_address.call{value: taxed_amount}('');
     require(sent, 'Failed to send Ether');
@@ -145,13 +143,13 @@ contract PassingSecretInfo {
   function changeSecretInfoRate(uint256 _secret_info_id) public {
     for (uint256 i = 0; i < secret_infos[_secret_info_id].rates.length; i++) {
       if (secret_infos[_secret_info_id].rates[i].owner_address == msg.sender) {
-        if (secret_infos[_secret_info_id].rates[i].rate == true) {
+        if (secret_infos[_secret_info_id].rates[i].rate) {
           secret_infos[_secret_info_id].rates[i].rate = false;
           return;
-        } else {
-          secret_infos[_secret_info_id].rates[i].rate = true;
-          return;
         }
+
+        secret_infos[_secret_info_id].rates[i].rate = true;
+        return;
       }
     }
 

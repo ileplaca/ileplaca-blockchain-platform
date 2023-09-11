@@ -38,7 +38,7 @@ const SecretInfosModal: FC<SecretInfoModalProps> = ({ setIsModalOpen, amount, ac
       </div>
 
       <div className="flex gap-4">
-        <button onClick={action} className="button-approve">
+        <button onClick={action} className="button-approve focus:bg-green-700">
           Yes, {"I'm"} sure
         </button>
 

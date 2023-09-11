@@ -42,7 +42,7 @@ const SecretInfos: FC = () => {
         </button>
       </section>
 
-      <SecretInfoList secretInfos={secretInfos} />
+      <SecretInfoList secretInfos={secretInfos} accessed={false} />
     </>
   );
 };
