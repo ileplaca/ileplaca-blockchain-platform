@@ -17,7 +17,7 @@ const SecretInfoProfileStatistic: FC<SecretInfoProfileStatisticProps> = ({
     <div
       className={`flex flex-col gap-2 p-6 mt-4 border ${
         variant === 'dark' ? '' : 'border-black'
-      } min-w-[24rem] rounded-button`}
+      } min-w-[100%] md:min-w-[24rem] rounded-button`}
     >
       <div
         className={`flex justify-between gap-10 ${

@@ -4,19 +4,23 @@ pragma solidity ^0.8.9;
 import './PassingSecretInfoStructs.sol';
 import './Helpers.sol';
 import './Structs.sol';
+// import "hardhat/console.sol";
 
 contract PassingSecretInfo {
-  address public owner;
+  address public immutable owner;
+  uint8 private constant tax_percent = 5;
 
   uint256 private secret_info_id = 0;
   uint256 private secret_info_reply_id = 0;
   uint256 private secret_info_rate_id = 0;
-
-  uint8 private constant tax_percent = 5;
+  uint256 private secret_info_opinion_id = 0;
 
   PassingSecretInfoStructs.SecretInfo[] private secret_infos;
-  PassingSecretInfoStructs.SecretInfoAccessed[] private secret_infos_accessed;
-  PassingSecretInfoStructs.AccountOpinion[] private account_opinions;
+
+  mapping(uint256 => string) private secret_infos_accessed;
+  mapping(uint256 => PassingSecretInfoStructs.AccountOpinion) private account_opinions;
+  // address => secret infos accessed ids
+  mapping(address => uint256[]) private accessed_ids;
 
   constructor() {
     owner = msg.sender;
@@ -26,36 +30,31 @@ contract PassingSecretInfo {
     uint256 _amount,
     string memory _title,
     string memory _description,
+    string memory _zero_knowledge_proof,
     uint256 _max_uses,
-    string memory _info,
-    string memory _zero_knowledge_proof
+    string memory _info
   ) public {
-    address[] memory accessed_adresses = new address[](0);
     PassingSecretInfoStructs.SecretInfo storage secret_info = secret_infos.push();
+
+    Helpers.validateInt(_amount, 1e24);
+    Helpers.validateStringLength(_title, 250);
+    Helpers.validateStringLength(_description, 1000);
+    Helpers.validateInt(_max_uses, 1e24);
+    Helpers.validateStringLength(_zero_knowledge_proof, 1000);
+    Helpers.validateStringLength(_info, 10000);
 
     secret_info.id = secret_info_id;
     secret_info.owner_address = msg.sender;
-
-    Helpers.validateInt(_amount, 1e24);
     secret_info.amount = _amount;
-
-    Helpers.validateStringLength(_title, 250);
     secret_info.title = _title;
-
-    Helpers.validateStringLength(_description, 1000);
     secret_info.description = _description;
-
-    Helpers.validateInt(_max_uses, 1e24);
-    secret_info.max_uses = _max_uses;
-
-    Helpers.validateStringLength(_zero_knowledge_proof, 1000);
     secret_info.zero_knowledge_proof = _zero_knowledge_proof;
-
-    secret_info.created_at = block.timestamp;
+    secret_info.max_uses = _max_uses;
     secret_info.current_uses = 0;
+    secret_info.created_at = block.timestamp;
 
-    Helpers.validateStringLength(_info, 10000);
-    secret_infos_accessed.push(PassingSecretInfoStructs.SecretInfoAccessed(_info, accessed_adresses));
+    secret_infos_accessed[secret_info_id] = _info;
+    accessed_ids[msg.sender].push(secret_info_id);
 
     secret_info_id++;
   }
@@ -64,50 +63,32 @@ contract PassingSecretInfo {
     return secret_infos;
   }
 
-  function getSecretInfosAccessed() public view returns (PassingSecretInfoStructs.SecretInfoAccessedResponse[] memory) {
-    PassingSecretInfoStructs.SecretInfoAccessedResponse[]
-      memory _secret_infos_accessed = new PassingSecretInfoStructs.SecretInfoAccessedResponse[](secret_infos.length);
-    uint256 counter = 0;
+  function getAccessedIds() public view returns (uint256[] memory) {
+    return accessed_ids[msg.sender];
+  }
 
-    for (uint256 i = 0; i < secret_infos_accessed.length; i++) {
-      if (secret_infos[i].owner_address == msg.sender) {
-        _secret_infos_accessed[counter] = PassingSecretInfoStructs.SecretInfoAccessedResponse(
-          secret_infos[i],
-          secret_infos_accessed[i]
-        );
-        counter++;
-      } else {
-        for (uint256 j = 0; j < secret_infos_accessed[i].accessed_adresses.length; j++) {
-          if (secret_infos_accessed[i].accessed_adresses[j] == msg.sender) {
-            _secret_infos_accessed[counter] = PassingSecretInfoStructs.SecretInfoAccessedResponse(
-              secret_infos[i],
-              secret_infos_accessed[i]
-            );
-            counter++;
-          }
-        }
+  function getSecretInfoAccessedById(uint256 _secret_info_id) public view returns (string memory) {
+    for (uint256 i = 0; i < accessed_ids[msg.sender].length; i++) {
+      if (accessed_ids[msg.sender][i] == _secret_info_id) {
+        return secret_infos_accessed[_secret_info_id];
       }
     }
 
-    assembly {
-      mstore(_secret_infos_accessed, counter)
-    }
-
-    return _secret_infos_accessed;
+    revert("You don't have access to this secret info");
   }
 
   function payForSecretInfoAccess(uint256 _secret_info_id) public payable {
-    require(secret_infos[_secret_info_id].owner_address != msg.sender, 'You are owner of this secret info');
+    require(secret_infos[_secret_info_id].owner_address != msg.sender, 'You are owner of this secret info, you cannot pay for yours secret infos');
     require(secret_infos[_secret_info_id].amount == msg.value, 'Wrong amount value');
     require(
       secret_infos[_secret_info_id].max_uses > secret_infos[_secret_info_id].current_uses,
       'Supply has been used'
     );
 
-    for (uint256 i = 0; i < secret_infos_accessed[_secret_info_id].accessed_adresses.length; i++) {
+    for (uint256 i = 0; i < accessed_ids[msg.sender].length; i++) {
       require(
-        secret_infos_accessed[_secret_info_id].accessed_adresses[i] != msg.sender,
-        'You already paid for this info'
+        accessed_ids[msg.sender][i] != _secret_info_id,
+        'You already paid for this secret info'
       );
     }
 
@@ -115,19 +96,19 @@ contract PassingSecretInfo {
     uint256 taxed_amount = msg.value - tax_amount;
 
     (bool sentTax, ) = owner.call{value: tax_amount}('');
-    require(sentTax, 'Transfer to owner failed');
+    require(sentTax, 'Tax transfer to owner failed');
 
     (bool sent, ) = secret_infos[_secret_info_id].owner_address.call{value: taxed_amount}('');
     require(sent, 'Failed to send Ether');
 
     secret_infos[_secret_info_id].current_uses += 1;
-    secret_infos_accessed[_secret_info_id].accessed_adresses.push(msg.sender);
+    accessed_ids[msg.sender].push(_secret_info_id);
   }
 
   function addSecretInfoReply(uint256 _secret_info_id, string memory _content) public {
     Helpers.validateStringLength(_content, 1000);
     secret_infos[_secret_info_id].replies.push(
-      Structs.Reply(secret_info_reply_id, msg.sender, block.timestamp, _content)
+      Structs.Reply(secret_info_reply_id, msg.sender, _content, block.timestamp)
     );
     secret_info_reply_id++;
   }
@@ -162,13 +143,13 @@ contract PassingSecretInfo {
   function changeSecretInfoRate(uint256 _secret_info_id) public {
     for (uint256 i = 0; i < secret_infos[_secret_info_id].rates.length; i++) {
       if (secret_infos[_secret_info_id].rates[i].owner_address == msg.sender) {
-        if (secret_infos[_secret_info_id].rates[i].rate == true) {
+        if (secret_infos[_secret_info_id].rates[i].rate) {
           secret_infos[_secret_info_id].rates[i].rate = false;
           return;
-        } else {
-          secret_infos[_secret_info_id].rates[i].rate = true;
-          return;
         }
+
+        secret_infos[_secret_info_id].rates[i].rate = true;
+        return;
       }
     }
 
@@ -178,21 +159,20 @@ contract PassingSecretInfo {
   function addAccountOpinion(address account_address, string memory _content, bool _rate) public {
     require(account_address != msg.sender, 'You cannot add opinion to your account');
     Helpers.validateStringLength(_content, 1000);
-    account_opinions.push(
-      PassingSecretInfoStructs.AccountOpinion(msg.sender, account_address, block.timestamp, _content, _rate)
-    );
+    account_opinions[secret_info_opinion_id] = PassingSecretInfoStructs.AccountOpinion(msg.sender, account_address, _content, block.timestamp, _rate);
+    secret_info_opinion_id++;
   }
 
   function getAccountOpinionsByAddress(
     address _account_address
   ) public view returns (PassingSecretInfoStructs.AccountOpinion[] memory) {
     PassingSecretInfoStructs.AccountOpinion[]
-      memory account_opinions_by_address = new PassingSecretInfoStructs.AccountOpinion[](account_opinions.length);
+      memory account_opinions_by_address = new PassingSecretInfoStructs.AccountOpinion[](secret_info_opinion_id);
     uint256 counter = 0;
 
-    for (uint256 i = 0; i < account_opinions.length; i++) {
+    for (uint256 i = 0; i < secret_info_opinion_id; i++) {
       if (account_opinions[i].account_address == _account_address) {
-        account_opinions_by_address[counter] = (account_opinions[i]);
+        account_opinions_by_address[counter] = account_opinions[i];
         counter++;
       }
     }

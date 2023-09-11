@@ -1,11 +1,10 @@
 import { ResponseStatusType } from 'utils/types/api';
-import { SecretInfo, SecretInfoAccessedResponse } from '../types';
+import { SecretInfo } from '../types';
 
 export interface PassingSecretInfoSliceInitialState {
   manipulatedSecretInfos: SecretInfo[];
   secretInfos: SecretInfo[];
-  manipulatedSecretInfosAccessed: SecretInfoAccessedResponse[];
-  secretInfosAccessed: SecretInfoAccessedResponse[];
+  accessedIds: number[],
   status: ResponseStatusType;
   error: string | null;
 }
@@ -13,8 +12,7 @@ export interface PassingSecretInfoSliceInitialState {
 export const passingSecretInfoSliceInitialState: PassingSecretInfoSliceInitialState = {
   manipulatedSecretInfos: [],
   secretInfos: [],
-  manipulatedSecretInfosAccessed: [],
-  secretInfosAccessed: [],
+  accessedIds: [],
   status: 'pending',
   error: null,
 };

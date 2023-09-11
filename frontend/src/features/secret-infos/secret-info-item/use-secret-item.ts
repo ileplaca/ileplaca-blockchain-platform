@@ -4,8 +4,8 @@ import { getAccount } from 'smart-contracts/slice';
 import { SecretInfoItemProps } from './secret-info-item';
 import { useEffect, useState } from 'react';
 import { Rate } from 'smart-contracts/types';
-import { getSecretInfosAccessed } from 'smart-contracts/passing-secret-info/slice';
 import { convertEthGweiWei } from 'utils/helpers/convert';
+import { getAccessedIds } from 'smart-contracts/passing-secret-info/slice';
 
 const useSecretItem = ({
   secretInfo: [
@@ -14,19 +14,20 @@ const useSecretItem = ({
     amount,
     title,
     description,
-    created_at,
+    zero_knowledge_proof,
     max_uses,
     current_uses,
+    created_at,
     replies,
-    rates,
+    rates
   ],
 }: SecretInfoItemProps) => {
   const account = useSelector(getAccount);
-  const secretInfosAccessed = useSelector(getSecretInfosAccessed);
+  const accessedIds = useSelector(getAccessedIds);
   const positiveRates = rates.filter(([id, owner_address, rate]) => rate === true).length;
   const negativeRates = rates.length - positiveRates;
   const currentRateArray = rates.filter(
-    ([id, owner_address, rate]) => owner_address.toLocaleLowerCase() === account.toLocaleLowerCase()
+    ([id, owner_address, rate]) => owner_address.toLocaleLowerCase() === account
   );
   const currentRate = currentRateArray.length > 0 ? currentRateArray[0] : null;
   const [isRepliesModalOpen, setIsRespliesModalOpen] = useState(false);
@@ -60,23 +61,17 @@ const useSecretItem = ({
   };
 
   const getUserAccess = () => {
-    if (
-      secretInfosAccessed.some(
-        (secretInfoAccessed) =>
-          secretInfoAccessed[0][1].toLocaleLowerCase() === account.toLocaleLowerCase() &&
-          secretInfoAccessed[0][0] === secret_info_id
-      )
-    ) {
-      return 'You are owner of this information';
+    if (owner_address.toLocaleLowerCase() === account) {
+      return 'You are owner of this information'
     }
 
     if (
-      secretInfosAccessed.some((secretInfoAccessed) => secretInfoAccessed[0][0] === secret_info_id)
+      accessedIds.some((id) => Number(id) === Number(secret_info_id))
     ) {
-      return 'You already have access this information';
+      return 'You have access to this information';
     }
 
-    if (current_uses >= max_uses) {
+    if (Number(current_uses) >= Number(max_uses)) {
       return 'Supply has been used';
     }
 

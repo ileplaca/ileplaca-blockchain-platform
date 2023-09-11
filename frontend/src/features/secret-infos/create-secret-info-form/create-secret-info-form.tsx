@@ -48,8 +48,8 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
           <label className="form-label" htmlFor="">
             <FontAwesomeIcon icon={faLock} /> Your secret information
           </label>
-          <textarea className="h-64 form-input" {...register('secret_info')} />
-          <span className="text-red-600">{errors.secret_info?.message as string}</span>
+          <textarea className="h-64 form-input" {...register('info')} />
+          <span className="text-red-600">{errors.info?.message as string}</span>
         </div>
         <WarningText>This information will be secret until someone buys it</WarningText>
         <WarningText>
@@ -95,8 +95,8 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
 
         <div className="text-red-600">{error}</div>
 
-        <button disabled={loading} className="mt-4 button bg-primary" type="submit">
-          {loading ? <Loading /> : 'Create secret info'}
+        <button disabled={loading} className={`mt-4 button bg-primary ${loading ? 'bg-opacity-80 cursor-not-allowed hover:bg-primary hover:bg-opacity-80' : ''}`} type="submit">
+          Create secret info
         </button>
         <button
           disabled={loading}

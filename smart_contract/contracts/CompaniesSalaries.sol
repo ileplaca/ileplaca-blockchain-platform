@@ -3,8 +3,7 @@ pragma solidity ^0.8.9;
 
 import './CompaniesSalariesStructs.sol';
 import './Helpers.sol';
-
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 contract CompaniesSalaries {
   uint256 salary_id = 0;
@@ -103,11 +102,11 @@ contract CompaniesSalaries {
     return salaries_by_company_name;
   }
 
-  function addSalaryReply(uint256 _salary_id, string memory _content) public {
-    Helpers.validateStringLength(_content, 1000);
-    salaries[_salary_id].replies.push(Structs.Reply(salary_reply_id, msg.sender, block.timestamp, _content));
-    salary_reply_id++;
-  }
+  // function addSalaryReply(uint256 _salary_id, string memory _content) public {
+  //   Helpers.validateStringLength(_content, 1000);
+  //   salaries[_salary_id].replies.push(Structs.Reply(salary_reply_id, msg.sender, block.timestamp, _content));
+  //   salary_reply_id++;
+  // }
 
   function addSalaryRate(uint256 _salary_id, bool _rate) public {
     for (uint256 i = 0; i < salaries[_salary_id].rates.length; i++) {

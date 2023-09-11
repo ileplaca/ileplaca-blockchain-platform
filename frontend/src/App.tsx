@@ -8,14 +8,15 @@ import Cookies from 'js-cookie';
 import SecretInfosAccessed from 'pages/secret-infos-accessed';
 import {
   fetchSecretInfos,
-  fetchSecretInfosAccessed,
+  fetchAccessedIds,
 } from 'smart-contracts/passing-secret-info/slice/thunks';
 import { store } from 'redux/store';
 import { ethereum } from 'smart-contracts';
 import { CookiesEnum } from 'utils/types/cookies';
+import Account from 'pages/accounts/[account_address]';
 
 store.dispatch(fetchSecretInfos());
-store.dispatch(fetchSecretInfosAccessed());
+store.dispatch(fetchAccessedIds());
 
 function App() {
   const dispatch = useDispatch();
@@ -75,6 +76,16 @@ function App() {
         path="profile"
       >
         <Route index element={<Profile />} />
+      </Route>
+      <Route
+        element={
+          <Layout>
+            <Outlet />
+          </Layout>
+        }
+        path="accounts"
+      >
+        <Route path=':account_address' element={<Account />} />
       </Route>
     </Routes>
   );

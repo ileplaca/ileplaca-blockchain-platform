@@ -26,7 +26,6 @@ const Index: FC = () => {
         <div>
           <h1 className="text-5xl font-semibold text-primary-text">Welcome!</h1>
           <h2 className="mt-2 text-xl font-medium text-text">
-            <a href="tel:+48739501383">kordian tel</a>
             Connect wallet and start your adventure
           </h2>
           <p className="-mt-2 -light text text-subtext">

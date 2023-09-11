@@ -8,11 +8,5 @@ export const passingSecretInfoReducers = {
     action: PayloadAction<SecretInfo[]>
   ) => {
     state.manipulatedSecretInfos = action.payload;
-  },
-  setManipulatedSecretInfosAccessed: (
-    state: PassingSecretInfoSliceInitialState,
-    action: PayloadAction<SecretInfoAccessedResponse[]>
-  ) => {
-    state.manipulatedSecretInfosAccessed = action.payload;
-  },
+  }
 };

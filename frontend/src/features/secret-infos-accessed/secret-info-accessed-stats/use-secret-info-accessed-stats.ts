@@ -1,8 +1,9 @@
 import Cookies from 'js-cookie';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
+import { accountActions } from 'smart-contracts/account/actions';
 import { passingSecretInfoContract } from 'smart-contracts/passing-secret-info/actions';
-import { getSecretInfosAccessed, getSecretInfosStatus } from 'smart-contracts/passing-secret-info/slice';
+import { getAccessedIds, getSecretInfos, getSecretInfosStatus } from 'smart-contracts/passing-secret-info/slice';
 import { getAccount } from 'smart-contracts/slice';
 import { defaultStats } from 'utils/constans/stats';
 import { calcChange } from 'utils/helpers/calc';
@@ -12,15 +13,16 @@ import { CookiesEnum } from 'utils/types/cookies';
 const useSecretInfoAccessedStats = () => {
   const status = useSelector(getSecretInfosStatus);
   const account = useSelector(getAccount);
-  const secretInfosAccessed = useSelector(getSecretInfosAccessed);
+  const secretInfos = useSelector(getSecretInfos);
+  const accessedIds = useSelector(getAccessedIds);
   const { data: accountBalance } = useQuery(
     'accountBalance',
-    passingSecretInfoContract.getBalance,
+    accountActions.getBalance,
     { cacheTime: 0 }
   );
 
   const getStats = () => {
-    if (!secretInfosAccessed || !account || !accountBalance) return defaultStats;
+    if (!secretInfos || !account || !accountBalance) return defaultStats;
 
     let ownerSecretInfosAccessedCounter = 0;
     let earnings = 0;
@@ -29,19 +31,20 @@ const useSecretInfoAccessedStats = () => {
     let positiveRates = 0;
     let ratesCounter = 0;
 
-    secretInfosAccessed.forEach(([secret_info]) => {
-      const [
-        secret_info_id,
-        owner_address,
-        amount,
-        title,
-        description,
-        created_at,
-        max_uses,
-        current_uses,
-        replies,
-        rates,
-      ] = secret_info;
+    [...secretInfos].filter(([secret_info_id]) => accessedIds.some(accessedId => accessedId === secret_info_id)).forEach(([
+      secret_info_id,
+      owner_address,
+      amount,
+      title,
+      description,
+      zero_knowledge_proof,
+      max_uses,
+      current_uses,
+      created_at,
+      replies,
+      rates
+    ]) => {
+
       if (owner_address.toLocaleLowerCase() === account) {
         ownerSecretInfosAccessedCounter++;
         earnings += Number(current_uses) * Number(amount);
@@ -76,9 +79,9 @@ const useSecretInfoAccessedStats = () => {
         ),
       },
       bought: {
-        value: secretInfosAccessed.length - ownerSecretInfosAccessedCounter,
+        value: accessedIds.length - ownerSecretInfosAccessedCounter,
         change: calcChange(
-          secretInfosAccessed.length - ownerSecretInfosAccessedCounter,
+          accessedIds.length - ownerSecretInfosAccessedCounter,
           lastStats.bought.value
         ),
       },
@@ -103,8 +106,8 @@ const useSecretInfoAccessedStats = () => {
         change: calcChange(Number(accountBalance), Number(lastStats.balance.value)),
       },
       accessToSecretInfos: {
-        value: secretInfosAccessed.length,
-        change: calcChange(secretInfosAccessed.length, lastStats.accessToSecretInfos.value),
+        value: accessedIds.length,
+        change: calcChange(accessedIds.length, lastStats.accessToSecretInfos.value),
       },
     };
 
@@ -125,7 +128,7 @@ const useSecretInfoAccessedStats = () => {
     account,
     getStats,
     accountBalance,
-    secretInfosAccessed,
+    // secretInfosAccessed,
     status
   };
 };

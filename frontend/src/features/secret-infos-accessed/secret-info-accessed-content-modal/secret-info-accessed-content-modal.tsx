@@ -3,18 +3,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ModalLayout } from 'features/ui';
 import CloseModal from 'features/ui/close-modal/close-modal';
 import React, { FC } from 'react';
+import { useQuery } from 'react-query';
+import { passingSecretInfoContract } from 'smart-contracts/passing-secret-info/actions';
 
 export interface SecretInfoAccessedContentModalProps {
   title: string;
-  info: string;
+  secret_info_id: number;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SecretInfoAccessedContentModal: FC<SecretInfoAccessedContentModalProps> = ({
   title,
-  info,
+  secret_info_id,
   setIsModalOpen,
 }) => {
+  const { data, isLoading } = useQuery(`secret-infos-accessed/${secret_info_id}`, () => passingSecretInfoContract.getSecretInfoAccessedById(BigInt(secret_info_id)))
+
   return (
     <ModalLayout>
       <div
@@ -33,7 +37,10 @@ const SecretInfoAccessedContentModal: FC<SecretInfoAccessedContentModalProps> = 
             maxHeight: '60vh',
           }}
         >
-          <p className="mt-4 text-black">{info}</p>
+          <div className='text-black'>
+            {secret_info_id}
+            {isLoading ? "Loading..." : data}
+          </div>
         </div>
       </div>
     </ModalLayout>

@@ -5,6 +5,6 @@ export const fetchSecretInfos = createAsyncThunk('secret-infos', async () => {
   return await passingSecretInfoContract.getSecretInfos();
 });
 
-export const fetchSecretInfosAccessed = createAsyncThunk('secret-infos-accsesed', async () => {
-  return await passingSecretInfoContract.getSecretInfosAccessed();
+export const fetchAccessedIds = createAsyncThunk('accessed-ids', async () => {
+  return await passingSecretInfoContract.getAccessedIds();
 });

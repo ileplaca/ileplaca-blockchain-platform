@@ -4,8 +4,8 @@ import { Address } from 'hardhat-deploy/dist/types';
 export interface Reply {
   id: number;
   owner_address: string;
-  created_at: number;
   content: string;
+  created_at: number;
 }
 
 export interface Rate {
@@ -20,24 +20,12 @@ export interface SecretInfo {
   amount: number | BigNumber;
   title: string;
   description: string;
-  company_name: string;
-  company_id: number;
   created_at: number;
   max_uses: number;
   current_uses: number;
   replies: Reply[];
   rates: Rate[];
   zero_knowledge_proof: string;
-}
-
-export interface SecretInfoAccessed {
-  info: string;
-  accessed_addresses: Address[];
-}
-
-export interface SecretInfoAccessedResponse {
-  secret_info: SecretInfo;
-  secret_info_accessed: SecretInfoAccessed;
 }
 
 export interface AccountOpinion {
@@ -50,15 +38,16 @@ export interface AccountOpinion {
 
 export interface PassingSecretInfo {
   getSecretInfos: () => Promise<SecretInfo[]>;
-  getSecretInfosAccessed: () => Promise<SecretInfoAccessedResponse[]>;
+  getSecretInfoAccessedById: (secret_info_id: number) => Promise<string>;
+  getAccessedIds: () => Promise<number[]>;
 
   addSecretInfo: (
     amount: number | BigNumber,
     title: string,
     description: string,
+    zero_knowledge_proof: string,
     max_uses: number,
-    info: string,
-    zero_knowledge_proof: string
+    info: string
   ) => Promise<void>;
   payForSecretInfoAccess: (secret_info_id: number | string, ...args: any) => Promise<void>;
 
