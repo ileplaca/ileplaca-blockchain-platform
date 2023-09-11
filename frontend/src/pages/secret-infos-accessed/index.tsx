@@ -1,9 +1,8 @@
 import { Loading, SearchInput } from 'features/components';
 import { ErrorMessage, IsOwnerCheckbox, Sort } from 'features/components';
 import { SecretInfoList } from 'features/secret-infos';
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { passingSecretInfoContract } from 'smart-contracts/passing-secret-info/actions';
 import {
   getAccessedIds,
   getManipulatedSecretInfos,
@@ -16,6 +15,7 @@ const SecretInfosAccessed: FC = () => {
   const status = useSelector(getSecretInfosStatus);
   const secretInfos = useSelector(getManipulatedSecretInfos);
   const accessedIds = useSelector(getAccessedIds);
+  const secretInfosAccesseed = [...secretInfos].filter(([secret_info_id]) => accessedIds.some(accessedId => accessedId === secret_info_id));
 
   if (status === ResponseStatus.FAILED) return <ErrorMessage />;
   if (status === ResponseStatus.PENDING) return <Loading />;
@@ -28,7 +28,7 @@ const SecretInfosAccessed: FC = () => {
         <IsOwnerCheckbox type={PASSING_SECRET_INFO_TYPES.SECRET_INFO} />
       </section>
 
-      <SecretInfoList secretInfos={[...secretInfos].filter(([secret_info_id]) => accessedIds.some(accessedId => accessedId === secret_info_id))} accessed />
+      <SecretInfoList secretInfos={secretInfosAccesseed} accessed />
     </>
   );
 };

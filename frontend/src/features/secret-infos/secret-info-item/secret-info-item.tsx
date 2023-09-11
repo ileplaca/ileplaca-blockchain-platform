@@ -139,8 +139,12 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
       </div>
 
       <div>
-        <div className="text-base font-medium lg:text-lg xl:text-xl">{title}</div>
+        <div className="text-base font-semibold lg:text-lg xl:text-xl">{title}</div>
         <div className='text-sm sm:text-base'>{description}</div>
+        <div className='mt-2 text-base font-semibold lg:text-lg'>
+          Zero knowledge proof:
+        </div>
+        <div className='text-sm sm:text-base'>{zero_knowledge_proof}</div>
         <div className="text-sm font-light sm:text-base">{parseDateFns(created_at)}</div>
       </div>
 
