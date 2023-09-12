@@ -4,7 +4,7 @@ import SecretInfoItem from '../secret-info-item/secret-info-item';
 
 export interface SecretInfoListProps {
   secretInfos: SecretInfo[];
-  accessed: boolean
+  accessed: boolean;
 }
 
 const SecretInfoList: FC<SecretInfoListProps> = ({ secretInfos, accessed }) => {

@@ -17,7 +17,7 @@ const Profile: FC = () => {
 
   useEffect(() => {
     setStats(getStats() as any);
-  },[accountBalance, getCookie]);
+  }, [accountBalance, getCookie]);
 
   if (status === ResponseStatus.FAILED) return <ErrorMessage />;
   if (!stats || isNaN(Number(accountBalance))) return <Loading />;
@@ -25,7 +25,9 @@ const Profile: FC = () => {
   return (
     <motion.main whileInView={{ opacity: [0, 100] }} className="flex flex-col items-start">
       <h1 className="text-5xl font-bold">Hello</h1>
-      <h2 className="text-xl dont-break-out" onClick={() => copy(account)}>{account}</h2>
+      <h2 className="text-xl dont-break-out" onClick={() => copy(account)}>
+        {account}
+      </h2>
       <SecretInfoProfileStatistic
         variant="dark"
         name="Balance"
@@ -73,8 +75,8 @@ const Profile: FC = () => {
         <SecretInfoProfileStatistic
           variant="dark"
           name="Average rate"
-          value={isNaN(stats.averageRate.value) ? "0" : stats.averageRate.value*100+"%"}
-          change={isNaN(stats.averageRate.change) ? "0" : stats.averageRate.change}
+          value={isNaN(stats.averageRate.value) ? '0' : stats.averageRate.value * 100 + '%'}
+          change={isNaN(stats.averageRate.change) ? '0' : stats.averageRate.change}
         />
       </div>
     </motion.main>

@@ -25,7 +25,7 @@ const SecretInfoAccessedStatsModal: FC<SecretInfoAccessedStatsModalProps> = ({
     current_uses,
     created_at,
     replies,
-    rates
+    rates,
   ] = secretInfo;
 
   const { calcRate } = useSecretInfoAccessedStatsModal({ secretInfo, setIsModalOpen });

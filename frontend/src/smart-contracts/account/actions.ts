@@ -1,7 +1,7 @@
-import { ethers } from "ethers";
-import Cookies from "js-cookie";
-import { ethereum } from "smart-contracts";
-import { CookiesEnum } from "utils/types/cookies";
+import { ethers } from 'ethers';
+import Cookies from 'js-cookie';
+import { ethereum } from 'smart-contracts';
+import { CookiesEnum } from 'utils/types/cookies';
 
 class AccountActions {
   public async getBalance() {

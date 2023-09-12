@@ -11,12 +11,17 @@ import { motion } from 'framer-motion';
 import SecretInfoRepliesModal from '../secret-info-replies-modal/secret-info-replies-modal';
 import { copy } from 'utils/helpers/copy';
 import useSecretInfoAccessedItem from './use-secret-info-accessed-item';
-import { SecretInfoAccessedContentModal, SecretInfoAccessedStatsModal } from 'features/secret-infos-accessed';
+import {
+  SecretInfoAccessedContentModal,
+  SecretInfoAccessedStatsModal,
+} from 'features/secret-infos-accessed';
 import { useNavigate } from 'react-router-dom';
+import Tooltip from 'features/components/tooltip/tooltip';
+import { zeroKnowledgeProofText } from 'features/components/tooltip/tooltip-texts';
 
 export interface SecretInfoItemProps {
   secretInfo: SecretInfo;
-  accessed: boolean
+  accessed: boolean;
 }
 
 const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
@@ -32,7 +37,7 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
     current_uses,
     created_at,
     replies,
-    rates
+    rates,
   ] = secretInfo;
   const {
     accountAccess,
@@ -75,8 +80,10 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
           setIsModalOpen={setIsPayModalOpen}
           amount={convertEthGweiWei(amount)}
           action={async () => {
-            await passingSecretInfoContract.payForSecretInfoAccess(secret_info_id, { value: amount })
-            navigate('/secret-info-accessd')
+            await passingSecretInfoContract.payForSecretInfoAccess(secret_info_id, {
+              value: amount,
+            });
+            navigate('/secret-info-accessd');
           }}
         />
       )}
@@ -97,7 +104,12 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
       )}
 
       <div className="flex flex-col w-full gap-2 lg:flex-row">
-        <div onClick={() => copy(owner_address)} className="w-full text-xs font-light duration-75 cursor-pointer lg:text-sm xl:text-base dont-break-out">{owner_address}</div>
+        <div
+          onClick={() => copy(owner_address)}
+          className="w-full text-xs font-light duration-75 cursor-pointer lg:text-sm xl:text-base dont-break-out"
+        >
+          {owner_address}
+        </div>
         <div className="flex flex-row items-center justify-between w-full gap-4 lg:justify-end">
           <button
             onClick={() => setIsRespliesModalOpen(true)}
@@ -105,7 +117,7 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
           >
             Reply {`(${replies.length})`}
           </button>
-          <div className='flex gap-2'>
+          <div className="flex gap-2">
             <motion.button
               whileHover={{
                 rotate: [0, 20, 0],
@@ -140,11 +152,12 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
 
       <div>
         <div className="text-base font-semibold lg:text-lg xl:text-xl">{title}</div>
-        <div className='text-sm sm:text-base'>{description}</div>
-        <div className='mt-2 text-base font-semibold lg:text-lg'>
-          Zero knowledge proof:
+        <div className="text-sm sm:text-base">{description}</div>
+        <div className="mt-2 flex  items-center ">
+          <div className="text-base font-semibold lg:text-lg">Zero knowledge proof</div>
+          <Tooltip text={zeroKnowledgeProofText} />
         </div>
-        <div className='text-sm sm:text-base'>{zero_knowledge_proof}</div>
+        <div className="text-sm sm:text-base">{zero_knowledge_proof}</div>
         <div className="text-sm font-light sm:text-base">{parseDateFns(created_at)}</div>
       </div>
 
@@ -157,7 +170,7 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
           <span className="font-light">Already bought </span>
           {Number(current_uses)}
         </div>
-      </div> 
+      </div>
 
       {!accessed ? (
         <motion.button
@@ -199,7 +212,7 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
               <button onClick={() => setIsStatsModalOpen(true)} className="ml-4 button">
                 Stats
               </button>
-          ) : null}
+            ) : null}
           </div>
         </>
       )}

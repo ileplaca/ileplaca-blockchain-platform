@@ -19,7 +19,7 @@ const useSecretItem = ({
     current_uses,
     created_at,
     replies,
-    rates
+    rates,
   ],
 }: SecretInfoItemProps) => {
   const account = useSelector(getAccount);
@@ -62,12 +62,10 @@ const useSecretItem = ({
 
   const getUserAccess = () => {
     if (owner_address.toLocaleLowerCase() === account) {
-      return 'You are owner of this information'
+      return 'You are owner of this information';
     }
 
-    if (
-      accessedIds.some((id) => Number(id) === Number(secret_info_id))
-    ) {
+    if (accessedIds.some((id) => Number(id) === Number(secret_info_id))) {
       return 'You have access to this information';
     }
 

@@ -26,7 +26,7 @@ class PassingSecretInfoClass {
     return await contract.getSecretInfoAccessedById(secret_info_id);
   }
 
-  public async getAccessedIds () {
+  public async getAccessedIds() {
     const contract = await createEthereumContract();
     return await contract.getAccessedIds();
   }
@@ -37,10 +37,17 @@ class PassingSecretInfoClass {
     description: string,
     zero_knowledge_proof: string,
     max_uses: number,
-    info: string,
+    info: string
   ) {
     const contract = await createEthereumContract();
-    return await contract.addSecretInfo(amount, title, description, zero_knowledge_proof, max_uses, info);
+    return await contract.addSecretInfo(
+      amount,
+      title,
+      description,
+      zero_knowledge_proof,
+      max_uses,
+      info
+    );
   }
 
   public async payForSecretInfoAccess(
@@ -71,14 +78,14 @@ class PassingSecretInfoClass {
     return await contract.changeSecretInfoRate(secret_info_id);
   }
 
-  public async addAccountOpinion (account_address: string, content: string, rate: boolean) {
+  public async addAccountOpinion(account_address: string, content: string, rate: boolean) {
     const contract = await createEthereumContract();
-    return contract.addAccountOpinion(account_address, content, rate)
+    return contract.addAccountOpinion(account_address, content, rate);
   }
 
-  public async getAccountOpinionsByAddress (account_address: string) {
+  public async getAccountOpinionsByAddress(account_address: string) {
     const contract = await createEthereumContract();
-    return contract.getAccountOpinionsByAddress(account_address)
+    return contract.getAccountOpinionsByAddress(account_address);
   }
 }
 

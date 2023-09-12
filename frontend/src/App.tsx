@@ -85,7 +85,7 @@ function App() {
         }
         path="accounts"
       >
-        <Route path=':account_address' element={<Account />} />
+        <Route path=":account_address" element={<Account />} />
       </Route>
     </Routes>
   );

@@ -15,7 +15,9 @@ const SecretInfosAccessed: FC = () => {
   const status = useSelector(getSecretInfosStatus);
   const secretInfos = useSelector(getManipulatedSecretInfos);
   const accessedIds = useSelector(getAccessedIds);
-  const secretInfosAccesseed = [...secretInfos].filter(([secret_info_id]) => accessedIds.some(accessedId => accessedId === secret_info_id));
+  const secretInfosAccesseed = [...secretInfos].filter(([secret_info_id]) =>
+    accessedIds.some((accessedId) => accessedId === secret_info_id)
+  );
 
   if (status === ResponseStatus.FAILED) return <ErrorMessage />;
   if (status === ResponseStatus.PENDING) return <Loading />;

@@ -34,10 +34,7 @@ const SecretInfos: FC = () => {
         <SearchInput type={PASSING_SECRET_INFO_TYPES.SECRET_INFO} />
         <Sort type={PASSING_SECRET_INFO_TYPES.SECRET_INFO} />
         <IsOwnerCheckbox type={PASSING_SECRET_INFO_TYPES.SECRET_INFO} />
-        <button
-          onClick={() => setIsCreateSecretInfoModalOpen(true)}
-          className="button"
-        >
+        <button onClick={() => setIsCreateSecretInfoModalOpen(true)} className="button">
           Create secret info
         </button>
       </section>

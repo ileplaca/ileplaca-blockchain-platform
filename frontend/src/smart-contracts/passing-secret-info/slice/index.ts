@@ -11,8 +11,7 @@ const PassingSecretInfoSlice = createSlice({
   extraReducers: passingSecretInfoExtraReducers,
 });
 
-export const { setManipulatedSecretInfos } =
-  PassingSecretInfoSlice.actions;
+export const { setManipulatedSecretInfos } = PassingSecretInfoSlice.actions;
 
 export const getSecretInfos = (state: RootState) => state.secretInfos.secretInfos;
 export const getManipulatedSecretInfos = (state: RootState) =>

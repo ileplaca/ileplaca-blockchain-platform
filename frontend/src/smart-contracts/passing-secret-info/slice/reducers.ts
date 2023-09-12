@@ -8,5 +8,5 @@ export const passingSecretInfoReducers = {
     action: PayloadAction<SecretInfo[]>
   ) => {
     state.manipulatedSecretInfos = action.payload;
-  }
+  },
 };

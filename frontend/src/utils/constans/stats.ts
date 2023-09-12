@@ -31,4 +31,4 @@ export const defaultStats = {
     value: 0,
     change: 0,
   },
-}
+};

@@ -23,9 +23,7 @@ const Sidebar: FC = () => {
                 window.location.href.includes(route.route) ? 'text-secondary' : ''
               }`}
             />
-            <span className="hidden xl:inline-block">
-              {route.name}
-            </span>
+            <span className="hidden xl:inline-block">{route.name}</span>
           </Link>
         ))}
       </nav>

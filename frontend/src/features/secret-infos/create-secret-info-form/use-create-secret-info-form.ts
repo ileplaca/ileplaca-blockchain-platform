@@ -19,7 +19,7 @@ const useCreateSecretInfoForm = () => {
     watch,
     formState: { errors },
   } = useForm({ resolver });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -46,13 +46,13 @@ const useCreateSecretInfoForm = () => {
         data.description,
         data.zero_knowledge_proof,
         data.max_uses,
-        data.info,
+        data.info
       );
       successAlert({
-        title: "First step success!",
-        text: "Waiting for confirmation..."
-      })
-      navigate('/secret-info-accessed')
+        title: 'First step success!',
+        text: 'Waiting for confirmation...',
+      });
+      navigate('/secret-info-accessed');
     } catch (err) {
       setError('Something went wrong');
       console.log(err);

@@ -12,13 +12,10 @@ export type SecretInfo = [
   current_uses: number,
   created_at: number,
   replies: Reply[],
-  rates: Rate[],
+  rates: Rate[]
 ];
 
-export type SecretInfoAccessedResponse = [
-  secret_info: SecretInfo,
-  content: string
-];
+export type SecretInfoAccessedResponse = [secret_info: SecretInfo, content: string];
 
 export type AccountOpinion = [
   owner_address: string,
@@ -30,8 +27,10 @@ export type AccountOpinion = [
 
 export interface PassingSecretInfo {
   getSecretInfos: () => Promise<SecretInfo[]>;
-  getSecretInfoAccessedById: (secret_info_id: number | bigint) => Promise<SecretInfoAccessedResponse>;
-  getAccessedIds: () => Promise<number[]>
+  getSecretInfoAccessedById: (
+    secret_info_id: number | bigint
+  ) => Promise<SecretInfoAccessedResponse>;
+  getAccessedIds: () => Promise<number[]>;
 
   addSecretInfo: (
     amount: number | BigNumberish,
@@ -39,7 +38,7 @@ export interface PassingSecretInfo {
     description: string,
     zero_knowledge_proof: string,
     max_uses: number,
-    info: string,
+    info: string
   ) => Promise<void>;
   payForSecretInfoAccess: (
     secret_info_id: number | string,
@@ -51,8 +50,8 @@ export interface PassingSecretInfo {
   removeSecretInfoRate: (secret_info_id: number | string) => Promise<void>;
   changeSecretInfoRate: (secret_info_id: number | string) => Promise<void>;
 
-  addAccountOpinion: (account_address: string, content: string, rate: boolean) => Promise<void>
-  getAccountOpinionsByAddress: (account_address: string) => Promise<AccountOpinion[]>
+  addAccountOpinion: (account_address: string, content: string, rate: boolean) => Promise<void>;
+  getAccountOpinionsByAddress: (account_address: string) => Promise<AccountOpinion[]>;
 }
 
 export enum PASSING_SECRET_INFO_TYPES {

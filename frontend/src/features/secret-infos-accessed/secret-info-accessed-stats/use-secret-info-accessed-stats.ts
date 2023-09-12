@@ -3,23 +3,24 @@ import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { accountActions } from 'smart-contracts/account/actions';
 import { passingSecretInfoContract } from 'smart-contracts/passing-secret-info/actions';
-import { getAccessedIds, getSecretInfos, getSecretInfosStatus } from 'smart-contracts/passing-secret-info/slice';
+import {
+  getAccessedIds,
+  getSecretInfos,
+  getSecretInfosStatus,
+} from 'smart-contracts/passing-secret-info/slice';
 import { getAccount } from 'smart-contracts/slice';
 import { defaultStats } from 'utils/constans/stats';
 import { calcChange } from 'utils/helpers/calc';
 import { CookiesEnum } from 'utils/types/cookies';
-
 
 const useSecretInfoAccessedStats = () => {
   const status = useSelector(getSecretInfosStatus);
   const account = useSelector(getAccount);
   const secretInfos = useSelector(getSecretInfos);
   const accessedIds = useSelector(getAccessedIds);
-  const { data: accountBalance } = useQuery(
-    'accountBalance',
-    accountActions.getBalance,
-    { cacheTime: 0 }
-  );
+  const { data: accountBalance } = useQuery('accountBalance', accountActions.getBalance, {
+    cacheTime: 0,
+  });
 
   const getStats = () => {
     if (!secretInfos || !account || !accountBalance) return defaultStats;
@@ -31,37 +32,40 @@ const useSecretInfoAccessedStats = () => {
     let positiveRates = 0;
     let ratesCounter = 0;
 
-    [...secretInfos].filter(([secret_info_id]) => accessedIds.some(accessedId => accessedId === secret_info_id)).forEach(([
-      secret_info_id,
-      owner_address,
-      amount,
-      title,
-      description,
-      zero_knowledge_proof,
-      max_uses,
-      current_uses,
-      created_at,
-      replies,
-      rates
-    ]) => {
+    [...secretInfos]
+      .filter(([secret_info_id]) => accessedIds.some((accessedId) => accessedId === secret_info_id))
+      .forEach(
+        ([
+          secret_info_id,
+          owner_address,
+          amount,
+          title,
+          description,
+          zero_knowledge_proof,
+          max_uses,
+          current_uses,
+          created_at,
+          replies,
+          rates,
+        ]) => {
+          if (owner_address.toLocaleLowerCase() === account) {
+            ownerSecretInfosAccessedCounter++;
+            earnings += Number(current_uses) * Number(amount);
+            sold += Number(current_uses);
 
-      if (owner_address.toLocaleLowerCase() === account) {
-        ownerSecretInfosAccessedCounter++;
-        earnings += Number(current_uses) * Number(amount);
-        sold += Number(current_uses);
-
-        ratesCounter += rates.length;
-        rates.forEach(([rate_id, owner_address_rate, rate]) => {
-          if (rate) {
-            positiveRates++;
+            ratesCounter += rates.length;
+            rates.forEach(([rate_id, owner_address_rate, rate]) => {
+              if (rate) {
+                positiveRates++;
+              }
+            });
           }
-        });
-      }
 
-      if (owner_address.toLocaleLowerCase() !== account) {
-        expenses += Number(amount);
-      }
-    });
+          if (owner_address.toLocaleLowerCase() !== account) {
+            expenses += Number(amount);
+          }
+        }
+      );
 
     let lastStats = defaultStats;
 
@@ -118,7 +122,10 @@ const useSecretInfoAccessedStats = () => {
       !Cookies.get(CookiesEnum.TIME_TO_REFRESH_LAST_STATS)
     ) {
       Cookies.set(CookiesEnum.LAST_STATS, JSON.stringify(stats));
-      Cookies.set(CookiesEnum.TIME_TO_REFRESH_LAST_STATS, String(Number(new Date()) + 86400000 * 7));
+      Cookies.set(
+        CookiesEnum.TIME_TO_REFRESH_LAST_STATS,
+        String(Number(new Date()) + 86400000 * 7)
+      );
     }
 
     return stats;
@@ -129,7 +136,7 @@ const useSecretInfoAccessedStats = () => {
     getStats,
     accountBalance,
     // secretInfosAccessed,
-    status
+    status,
   };
 };
 
