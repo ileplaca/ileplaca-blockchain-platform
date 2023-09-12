@@ -82,7 +82,7 @@ const useSecretInfoAccessedStats = () => {
         value: accessedIds.length - ownerSecretInfosAccessedCounter,
         change: calcChange(
           accessedIds.length - ownerSecretInfosAccessedCounter,
-          lastStats.bought.value
+          lastStats.bought.value && 0
         ),
       },
       earnings: {
@@ -91,7 +91,7 @@ const useSecretInfoAccessedStats = () => {
       },
       expenses: {
         value: expenses,
-        change: calcChange(expenses, lastStats.expenses.value),
+        change: calcChange(expenses, lastStats.expenses.value && 0),
       },
       sold: {
         value: sold,
@@ -107,7 +107,7 @@ const useSecretInfoAccessedStats = () => {
       },
       accessToSecretInfos: {
         value: accessedIds.length,
-        change: calcChange(accessedIds.length, lastStats.accessToSecretInfos.value),
+        change: calcChange(accessedIds.length, lastStats.accessToSecretInfos.value && 0),
       },
     };
 

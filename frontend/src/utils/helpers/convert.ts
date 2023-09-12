@@ -2,6 +2,8 @@ import { BigNumberish } from 'ethers';
 import { UnitType } from 'utils/types/units';
 
 export const convertEthGweiWei = (num: number | BigNumberish | bigint) => {
+  if (!num || Number(num) === 0) return 0
+
   num = Number(num);
   if (num < 1e5) {
     return `${num} WEI`;
