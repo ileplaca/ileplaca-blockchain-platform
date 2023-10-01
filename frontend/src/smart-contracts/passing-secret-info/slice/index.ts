@@ -5,7 +5,7 @@ import { passingSecretInfoExtraReducers } from './extra-reducers';
 import { passingSecretInfoReducers } from './reducers';
 
 const PassingSecretInfoSlice = createSlice({
-  name: 'smart-contracts',
+  name: 'passing-secret-info',
   initialState: passingSecretInfoSliceInitialState,
   reducers: passingSecretInfoReducers,
   extraReducers: passingSecretInfoExtraReducers,

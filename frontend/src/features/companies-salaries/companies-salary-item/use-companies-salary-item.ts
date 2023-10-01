@@ -7,18 +7,20 @@ const useCompaniesSalaryItem = ({
   salary: [
     salary_id,
     owner_address,
-    current,
     first,
+    last,
     speed_of_growth,
-    raise_change,
+    company_id,
+    company_name,
     role,
     experience,
     opinion,
-    company_id,
-    company_name,
+    location,
+    employment_type,
+    operating_mode,
     created_at,
     replies,
-    rates,
+    rates
   ],
 }: CompaniesSalaryItemProps) => {
   const account = useSelector(getAccount);

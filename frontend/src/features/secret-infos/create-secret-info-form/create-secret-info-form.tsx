@@ -7,7 +7,7 @@ import { Loading } from 'features/components';
 import { Link } from 'react-router-dom';
 import { ModalLayout, WarningText } from 'features/ui';
 import Tooltip from 'features/components/tooltip/tooltip';
-import { zeroKnowledgeProofText } from 'features/components/tooltip/tooltip-texts';
+import { zeroKnowledgeProofText } from 'features/components/tooltip/tooltip.texts';
 
 export interface CreateSecretInfoFormProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,7 +39,7 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
         </div>
 
         <div className="form-input-block">
-          <label className="form-label flex items-center" htmlFor="">
+          <label className="flex items-center form-label" htmlFor="">
             <div>
               Zero knowledge proof
             </div>

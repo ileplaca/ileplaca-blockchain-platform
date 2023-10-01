@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { accountActions } from 'smart-contracts/account/actions';
@@ -18,9 +19,18 @@ const useSecretInfoAccessedStats = () => {
   const account = useSelector(getAccount);
   const secretInfos = useSelector(getSecretInfos);
   const accessedIds = useSelector(getAccessedIds);
+  const [stats, setStats] = useState(defaultStats);
+  const getCookie = Cookies.get(CookiesEnum.LAST_STATS);
+
   const { data: accountBalance } = useQuery('accountBalance', accountActions.getBalance, {
     cacheTime: 0,
   });
+
+  useEffect(() => {
+    if (!Cookies.get(CookiesEnum.LAST_STATS) && secretInfos.length === 0) return
+    console.log(Cookies.get(CookiesEnum.LAST_STATS))
+    setStats(getStats() as any);
+  }, [secretInfos, getCookie]);
 
   const getStats = () => {
     if (!secretInfos || !account || !accountBalance) return defaultStats;
@@ -133,10 +143,9 @@ const useSecretInfoAccessedStats = () => {
 
   return {
     account,
-    getStats,
     accountBalance,
-    // secretInfosAccessed,
     status,
+    stats
   };
 };
 

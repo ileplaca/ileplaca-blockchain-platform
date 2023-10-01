@@ -17,28 +17,32 @@ const createEthereumContract = async () => {
 
 export const companiesSalariesContract: CompaniesSalaries = {
   async addSalary(
-    current,
     first,
+    last,
     speed_of_growth,
-    raise_change,
+    company_id,
+    company_name,
     role,
     experience,
     opinion,
-    company_id,
-    company_name
+    location,
+    employment_type,
+    operating_mode
   ) {
     try {
       const companiesSalariesContract = await createEthereumContract();
       await companiesSalariesContract.addSalary(
-        current,
         first,
+        last,
         speed_of_growth,
-        raise_change,
+        company_id,
+        company_name,
         role,
         experience,
         opinion,
-        company_id,
-        company_name
+        location,
+        employment_type,
+        operating_mode
       );
 
       return ResponseContractEnum.SUCCESS;
@@ -51,21 +55,6 @@ export const companiesSalariesContract: CompaniesSalaries = {
   async getSalaries() {
     const contract = await createEthereumContract();
     return await contract.getSalaries();
-  },
-
-  async getSalaryById(salary_id: number) {
-    const contract = await createEthereumContract();
-    return await contract.getSalaryById(salary_id);
-  },
-
-  async getSalariesByCompanyId(company_id) {
-    const contract = await createEthereumContract();
-    return await contract.getSalariesByCompanyId(company_id);
-  },
-
-  async addSalaryReply(salary_id, content) {
-    const contract = await createEthereumContract();
-    return await contract.addSalaryReply(salary_id, content);
   },
 
   async addSalaryRate(salary_id, rate) {

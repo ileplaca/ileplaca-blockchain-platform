@@ -1,1 +1,0 @@
-export const zeroKnowledgeProofText = 'This section should make sure you this secret info is not a scam'

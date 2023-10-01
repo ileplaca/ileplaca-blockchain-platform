@@ -8,7 +8,7 @@ const Tooltip: FC<TooltipProps> = ({ text }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="relative ml-2 flex justify-center">
+    <div className="relative flex justify-center ml-1">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="transition-colors duration-200 focus:outline-none dark:hover:text-primary hover:text-primary"
@@ -30,11 +30,11 @@ const Tooltip: FC<TooltipProps> = ({ text }) => {
       </button>
 
       {isOpen ? (
-        <p className="absolute flex items-center justify-center p-3  text-gray-600 -translate-x-1/2 bg-white rounded-lg shadow-lg -top-16 left-1/2 dark:shadow-none shadow-gray-200 dark:bg-gray-800 dark:text-white">
-          <span className="truncate text-xs">{text}</span>
+        <p className="absolute z-30 flex items-center justify-center p-3 text-black -translate-x-1/2 rounded-lg shadow-lg bg-text -top-16 left-1/2 dark:shadow-none shadow-gray-200">
+          <span className="text-xs truncate">{text}</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="w-6 h-6 absolute rotate-45 -translate-x-1/2 left-1/2 bottom-0.5 -mb-3 transform text-white dark:text-gray-800 fill-current"
+            className="w-6 h-6 absolute rotate-45 text-text -translate-x-1/2 left-1/2 bottom-0.5 -mb-3 transform  fill-current"
             stroke="currentColor"
             viewBox="0 0 24 24"
           >

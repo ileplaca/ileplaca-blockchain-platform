@@ -11,16 +11,10 @@ import { ResponseStatus } from 'utils/types/api';
 import { copy } from 'utils/helpers/copy';
 
 const Profile: FC = () => {
-  const { account, accountBalance, getStats, status } = useSecretInfoAccessedStats();
-  const getCookie = Cookies.get(CookiesEnum.LAST_STATS);
-  const [stats, setStats] = useState(defaultStats);
-
-  useEffect(() => {
-    setStats(getStats() as any);
-  }, [accountBalance, getCookie]);
+  const { account, accountBalance, status, stats } = useSecretInfoAccessedStats();
 
   if (status === ResponseStatus.FAILED) return <ErrorMessage />;
-  if (!stats || isNaN(Number(accountBalance))) return <Loading />;
+  if (!stats || isNaN(Number(accountBalance)) || !accountBalance) return <Loading />;
 
   return (
     <motion.main whileInView={{ opacity: [0, 100] }} className="flex flex-col items-start">

@@ -17,7 +17,7 @@ import {
 } from 'features/secret-infos-accessed';
 import { useNavigate } from 'react-router-dom';
 import Tooltip from 'features/components/tooltip/tooltip';
-import { zeroKnowledgeProofText } from 'features/components/tooltip/tooltip-texts';
+import { zeroKnowledgeProofText } from 'features/components/tooltip/tooltip.texts';
 
 export interface SecretInfoItemProps {
   secretInfo: SecretInfo;
@@ -153,8 +153,8 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
       <div>
         <div className="text-base font-semibold lg:text-lg xl:text-xl">{title}</div>
         <div className="text-sm sm:text-base">{description}</div>
-        <div className="mt-2 flex  items-center ">
-          <div className="text-base font-semibold lg:text-lg">Zero knowledge proof</div>
+        <div className="flex items-center mt-2 ">
+          <div className="text-base font-medium lg:text-lg">Zero knowledge proof</div>
           <Tooltip text={zeroKnowledgeProofText} />
         </div>
         <div className="text-sm sm:text-base">{zero_knowledge_proof}</div>
