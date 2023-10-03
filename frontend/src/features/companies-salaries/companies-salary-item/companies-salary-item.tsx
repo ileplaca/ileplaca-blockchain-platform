@@ -29,13 +29,15 @@ const CompaniesSalaryItem: FC<CompaniesSalaryItemProps> = ({ salary }) => {
     location,
     employment_type,
     operating_mode,
+    salary_currency,
+    experience_in_company,
     created_at,
     replies,
     rates
   ] = salary;
 
   return (
-    <div key={salary_id} className="w-full p-6 mt-10 border border-gray-600 rounded text-text">
+    <div key={Number(salary_id)} className="w-full p-6 mt-10 border border-gray-600 rounded text-text">
       <div className="flex flex-row">
         <div className="w-full text-sm font-light dont-break-out">{owner_address}</div>
         <div className="flex flex-row items-center justify-end w-full gap-4">
@@ -76,12 +78,14 @@ const CompaniesSalaryItem: FC<CompaniesSalaryItemProps> = ({ salary }) => {
       <div>{opinion}</div>
       <div className="font-light">{parseDateFns(Number(created_at))}</div>
       <div className="flex flex-wrap items-center gap-4 mt-4">
-        <InfoBox name='Last salary' value={`${Number(last)}zł`} />
-        <InfoBox name='First salary' value={`${Number(first)}zł`} />
+        <InfoBox name='Last salary' value={`${Number(last)} ${salary_currency}`} />
+        <InfoBox name='First salary' value={`${Number(first)} ${salary_currency}`} />
         <InfoBox name='Speed of growth' value={Number(speed_of_growth)} />
         <InfoBox name='Location' value={location} />
         <InfoBox name='Employment type' value={employment_type} />
         <InfoBox name='Operating mode' value={operating_mode} />
+        <InfoBox name='Experience in company' value={`${Number(experience_in_company)} months`} />
+        <InfoBox name='Experience' value={`${Number(experience)} months`} />
       </div>
     </div>
   );

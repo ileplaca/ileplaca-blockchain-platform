@@ -13,44 +13,35 @@ contract CompaniesSalaries {
   CompaniesSalariesStructs.Salary[] salaries;
 
   function addSalary(
-    uint256 _first,
-    uint256 _last,
-    uint256 _speed_of_growth,
-    uint256 _company_id,
-    string memory _company_name,
-    string memory _role,
-    string memory _experience,
-    string memory _opinion,
-    string memory _location,
-    string memory _employment_type,
-    string memory _operating_mode
+    CompaniesSalariesStructs.SalaryDto memory companiesSalaries
   ) public {
     CompaniesSalariesStructs.Salary storage salary = salaries.push();
-    Helpers.validateInt(_first, 1e9);
-    Helpers.validateInt(_last, 1e9);
-    Helpers.validateInt(_speed_of_growth, 1e9);
-    Helpers.validateInt(_company_id, 1e18);
-    Helpers.validateStringLength(_company_name, 300);
-    Helpers.validateStringLength(_role, 100);
-    Helpers.validateStringLength(_experience, 50);
-    Helpers.validateStringLength(_opinion, 1000);
-    Helpers.validateStringLength(_location, 50);
-    Helpers.validateStringLength(_employment_type, 50);
-    Helpers.validateStringLength(_operating_mode, 50);
+    Helpers.validateInt(companiesSalaries.first, 1e12);
+    Helpers.validateInt(companiesSalaries.last, 1e12);
+    Helpers.validateInt(companiesSalaries.speed_of_growth, 1e9);
+    Helpers.validateStringLength(companiesSalaries.company_name, 100);
+    Helpers.validateStringLength(companiesSalaries.role, 100);
+    Helpers.validateStringLength(companiesSalaries.opinion, 1000);
+    Helpers.validateStringLength(companiesSalaries.location, 50);
+    Helpers.validateStringLength(companiesSalaries.employment_type, 50);
+    Helpers.validateStringLength(companiesSalaries.operating_mode, 50);
+    Helpers.validateStringLength(companiesSalaries.salary_currency, 4);
 
     salary.salary_id = salary_id;
     salary.owner_address = msg.sender;
-    salary.first = _first;
-    salary.last = _last;
-    salary.speed_of_growth = _speed_of_growth;
-    salary.company_id = _company_id;
-    salary.company_name = _company_name;
-    salary.role = _role;
-    salary.experience = _experience;
-    salary.opinion = _opinion;
-    salary.location = _location;
-    salary.employment_type = _employment_type;
-    salary.operating_mode = _operating_mode;
+    salary.first = companiesSalaries.first;
+    salary.last = companiesSalaries.last;
+    salary.speed_of_growth = companiesSalaries.speed_of_growth;
+    salary.company_id = companiesSalaries.company_id;
+    salary.company_name = companiesSalaries.company_name;
+    salary.role = companiesSalaries.role;
+    salary.experience = companiesSalaries.experience;
+    salary.opinion = companiesSalaries.opinion;
+    salary.location = companiesSalaries.location;
+    salary.employment_type = companiesSalaries.employment_type;
+    salary.operating_mode = companiesSalaries.operating_mode;
+    salary.salary_currency = companiesSalaries.salary_currency;
+    salary.experience_in_company = companiesSalaries.experience_in_company;
     salary.created_at = block.timestamp;
 
     salary_id++;

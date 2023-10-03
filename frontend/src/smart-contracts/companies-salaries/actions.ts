@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import { ethereum } from 'smart-contracts';
 import { companiesSalariesAbi, companiesSalariesAddress } from '.';
-import { CompaniesSalaries } from './types';
+import { CompaniesSalaries, Salary, SalaryDto } from './types';
 import { ResponseContractEnum } from 'utils/types/api';
 
 const createEthereumContract = async () => {
@@ -17,32 +17,12 @@ const createEthereumContract = async () => {
 
 export const companiesSalariesContract: CompaniesSalaries = {
   async addSalary(
-    first,
-    last,
-    speed_of_growth,
-    company_id,
-    company_name,
-    role,
-    experience,
-    opinion,
-    location,
-    employment_type,
-    operating_mode
+    salary: SalaryDto
   ) {
     try {
       const companiesSalariesContract = await createEthereumContract();
       await companiesSalariesContract.addSalary(
-        first,
-        last,
-        speed_of_growth,
-        company_id,
-        company_name,
-        role,
-        experience,
-        opinion,
-        location,
-        employment_type,
-        operating_mode
+        salary
       );
 
       return ResponseContractEnum.SUCCESS;

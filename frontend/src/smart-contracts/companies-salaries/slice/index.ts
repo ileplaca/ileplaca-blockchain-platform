@@ -11,7 +11,7 @@ const CompaniesSalariesSlice = createSlice({
   extraReducers: companiesSalariesExtraReducers,
 });
 
-export const { setManipulatedSecretInfos } = CompaniesSalariesSlice.actions;
+export const { setManipulatedCompaniesSalaries } = CompaniesSalariesSlice.actions;
 
 export const getCompaniesSalaries = (state: RootState) => state.companiesSalaries.companiesSalaries;
 export const getManipulatedCompaniesSalaries = (state: RootState) =>

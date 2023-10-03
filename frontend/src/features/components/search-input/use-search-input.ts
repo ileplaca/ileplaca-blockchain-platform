@@ -6,13 +6,13 @@ import {
   setManipulatedSecretInfos,
 } from 'smart-contracts/passing-secret-info/slice';
 import {
-  PASSING_SECRET_INFO_TYPES,
   SecretInfo,
   SecretInfoAccessedResponse,
 } from 'smart-contracts/passing-secret-info/types';
 import { SearchInputProps } from './search-input';
 import { searchAndPushSecretInfos } from 'utils/helpers/search';
 import { SEARCH_TYPE, SearchType } from './search-inputs.types';
+import { SMART_CONTRACTS_DATA_ENUM } from 'smart-contracts/types';
 
 const useSearchInput = ({ type }: SearchInputProps) => {
   const secretInfos = useSelector(getSecretInfos);
@@ -24,7 +24,7 @@ const useSearchInput = ({ type }: SearchInputProps) => {
     if (value === '') {
       setResult([]);
 
-      if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO) {
+      if (type === SMART_CONTRACTS_DATA_ENUM.SECRET_INFO) {
         dispatch(setManipulatedSecretInfos(secretInfos));
       }
 
@@ -32,35 +32,35 @@ const useSearchInput = ({ type }: SearchInputProps) => {
     }
 
     const searchedSecretInfos: SecretInfo[] | SecretInfoAccessedResponse[] = [];
-    if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO) {
+    if (type === SMART_CONTRACTS_DATA_ENUM.SECRET_INFO) {
       secretInfos.forEach((secretInfo, index) => {
         searchAndPushSecretInfos(
           secretInfos,
           searchedSecretInfos,
           secretInfo,
           value,
-          PASSING_SECRET_INFO_TYPES.SECRET_INFO,
+          SMART_CONTRACTS_DATA_ENUM.SECRET_INFO,
           index
         );
       });
     }
 
     if (searchType === SEARCH_TYPE.TIP) {
-      if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO) {
+      if (type === SMART_CONTRACTS_DATA_ENUM.SECRET_INFO) {
         setResult(searchedSecretInfos.splice(0, 5) as any);
       }
     }
 
     if (searchType === SEARCH_TYPE.RESULT) {
       setResult([]);
-      if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO) {
+      if (type === SMART_CONTRACTS_DATA_ENUM.SECRET_INFO) {
         dispatch(setManipulatedSecretInfos(searchedSecretInfos as SecretInfo[]));
       }
     }
   };
 
   const setEntitiesById = (id: number) => {
-    if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO) {
+    if (type === SMART_CONTRACTS_DATA_ENUM.SECRET_INFO) {
       const index = secretInfos.findIndex(
         ([secret_info_id]) => Number(secret_info_id) === Number(id)
       );

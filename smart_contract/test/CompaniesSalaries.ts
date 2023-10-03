@@ -16,10 +16,24 @@ describe(SMART_CONTRACTS.COMPANIES_SALARIES, () => {
   });
 
   describe('salaries', () => {
-    it('get and add salaries', async () => {
-      await companiesSalaries.addSalary(5000, 10000, 50, 0, "Samsung filia Warszawa", "Junior backend developer Golang", "1 year Junior", "Generalnie wszystko spoko ok nawet polecam serdecznie, ale nie ma juz etatow.", "Warszawa", "B2B", "Zdalnie");
+    it.only('get and add salaries', async () => {
+      await companiesSalaries.addSalary({
+        company_id: 1,
+        company_name: 'asdfdsaf',
+        employment_type: 'sdfsafasdf',
+        experience: 1231,
+        first: 123123,
+        last: 123123,
+        experience_in_company: 12,
+        location: 'asdfsdaf',
+        operating_mode: 'asdfasdfasdf',
+        opinion: 'asdfsafasdf',
+        role: 'asdfdasfdasf',
+        salary_currency: 'PLN',
+        speed_of_growth: 123
+      });
       const salaries = await companiesSalaries.getSalaries();
-      assert.equal(salaries[0].last, Number(10000));
+      assert.equal(salaries[0].last, Number(123123));
     });
   });
 });

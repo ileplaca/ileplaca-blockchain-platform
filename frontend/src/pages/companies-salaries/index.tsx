@@ -1,11 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { companiesSalariesContract } from 'smart-contracts/companies-salaries/actions';
 import { useQuery } from 'react-query';
 import { CompaniesSalaryList } from 'features/companies-salaries';
-import { SearchInput, Sort } from 'features/components';
+import { IsOwnerCheckbox, SearchInput, Sort } from 'features/components';
+import CreateCompaniesSalaryForm from 'features/companies-salaries/create-companies-salary-form';
+import { SMART_CONTRACTS_DATA_ENUM } from 'smart-contracts/types';
 
 const CompaniesSalaries: FC = () => {
   const { data, error } = useQuery('companies-salaries', companiesSalariesContract.getSalaries);
+  const [isCreateCompaniesSalaryModalOpen, setIsCreateCompaniesSalaryModalOpen] = useState(false);
 
   if (!data) {
     return <>Loading...</>;
@@ -17,13 +20,16 @@ const CompaniesSalaries: FC = () => {
 
   return (
     <>
-      <section className="flex items-center gap-8">
-        <SearchInput type='SecretInfo' />
-        <Sort type='SecretInfo'  />
-        <button onClick={() => {
-          companiesSalariesContract.addSalary(5000, 10000, 50, 0, "Samsung filia Warszawa", "Junior backend developer Golang", "1 year Junior", "Generalnie wszystko spoko ok nawet polecam serdecznie, ale nie ma juz etatow.", "Warszawa", "B2B", "Zdalnie")
-        }} className="px-4 py-3 font-medium duration-100 rounded-button bg-primary hover:bg-primary-hover">
-          Add company salary
+      {isCreateCompaniesSalaryModalOpen && <CreateCompaniesSalaryForm setIsModalOpen={setIsCreateCompaniesSalaryModalOpen} />}
+
+      <section className="flex flex-wrap items-center gap-2 lg:gap-4 xl:gap-8">
+        <SearchInput type={SMART_CONTRACTS_DATA_ENUM.COMPANIES_SALARY} />
+        <Sort type={SMART_CONTRACTS_DATA_ENUM.COMPANIES_SALARY}  />
+        <button 
+          onClick={() => setIsCreateCompaniesSalaryModalOpen(true)}
+          className='button'
+        >
+          Create company salary
         </button>
       </section>
 

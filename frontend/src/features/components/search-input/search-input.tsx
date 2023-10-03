@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 import useSearchInput from './use-search-input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { PassingSecretInfoTypes } from 'smart-contracts/passing-secret-info/types';
 import { SEARCH_TYPE } from './search-inputs.types';
+import { SmartContractsDataTypes } from 'smart-contracts/types';
 
 export interface SearchInputProps {
-  type: PassingSecretInfoTypes;
+  type: SmartContractsDataTypes;
 }
 
 const SearchInput: FC<SearchInputProps> = ({ type }) => {

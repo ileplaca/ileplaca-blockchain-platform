@@ -1,10 +1,9 @@
 import {
-  PASSING_SECRET_INFO_TYPES,
-  PassingSecretInfoTypes,
   SecretInfo,
   SecretInfoAccessedResponse,
 } from 'smart-contracts/passing-secret-info/types';
 import { convertEthGweiWei } from './convert';
+import { SMART_CONTRACTS_DATA_ENUM, SmartContractsDataTypes } from 'smart-contracts/types';
 
 export const searchBySingleWord = (a: string, b: string) => {
   return a
@@ -23,7 +22,7 @@ export const searchAndPushSecretInfos = (
   searchedSecretInfos: SecretInfo[] | SecretInfoAccessedResponse[],
   secretInfo: SecretInfo,
   value: string,
-  type: PassingSecretInfoTypes,
+  type: SmartContractsDataTypes,
   index: number
 ) => {
   const [secret_info_id, owner_address, amount, title, description] = secretInfo;
@@ -34,10 +33,10 @@ export const searchAndPushSecretInfos = (
     searchBySingleWord(title, value) ||
     searchBySingleWord(description, value)
   ) {
-    if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO) {
+    if (type === SMART_CONTRACTS_DATA_ENUM.SECRET_INFO) {
       searchedSecretInfos.push(secretInfos[index] as any);
     }
-    if (type === PASSING_SECRET_INFO_TYPES.SECRET_INFO_ACCESSED) {
+    if (type === SMART_CONTRACTS_DATA_ENUM.COMPANIES_SALARY) {
       searchedSecretInfos.push(secretInfos[index] as any);
     }
   }

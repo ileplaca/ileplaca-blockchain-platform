@@ -3,7 +3,7 @@ import { Salary } from '../types';
 import { CompaniesSalariesSliceInitialState } from './initial-state';
 
 export const companiesSalariesReducers = {
-  setManipulatedSecretInfos: (
+  setManipulatedCompaniesSalaries: (
     state: CompaniesSalariesSliceInitialState,
     action: PayloadAction<Salary[]>
   ) => {

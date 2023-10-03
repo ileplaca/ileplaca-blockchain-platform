@@ -11,29 +11,37 @@ export interface Salary {
   company_id: number;
   company_name: string;
   role: string;
-  experience: string;
+  experience: number;
   opinion: string;
   location: string;
   employment_type: string;
   operating_mode: string;
+  salary_currency: string;
+  experience_in_company: number;
   created_at: number;
   replies: Reply[];
   rates: Rate[];
 }
 
+export interface SalaryDto {
+  first: number;
+  last: number;
+  speed_of_growth: number;
+  company_id: number;
+  company_name: string;
+  role: string;
+  experience: number;
+  opinion: string;
+  location: string;
+  employment_type: string;
+  operating_mode: string;
+  salary_currency: string;
+  experience_in_company: number;
+}
+
 export interface CompaniesSalaries {
   addSalary: (
-    first: number,
-    last: number,
-    speed_of_growth: number,
-    company_id: number,
-    company_name: string,
-    role: string,
-    experience: string,
-    opinion: string,
-    location: string,
-    employment_type: string,
-    operating_mode: string,
+    salary: SalaryDto
   ) => Promise<void>;
   getSalaries: () => Promise<Salary[]>;
   addSalaryRate: (salary_id: number, rate: boolean) => Promise<void>;

@@ -53,9 +53,3 @@ export interface PassingSecretInfo {
   addAccountOpinion: (account_address: string, content: string, rate: boolean) => Promise<void>;
   getAccountOpinionsByAddress: (account_address: string) => Promise<AccountOpinion[]>;
 }
-
-export enum PASSING_SECRET_INFO_TYPES {
-  SECRET_INFO = 'SecretInfo',
-  SECRET_INFO_ACCESSED = 'SecretInfoAccessed',
-}
-export type PassingSecretInfoTypes = `${PASSING_SECRET_INFO_TYPES}`;

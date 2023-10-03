@@ -13,7 +13,7 @@ import {
   getSecretInfosError,
   getSecretInfosStatus,
 } from 'smart-contracts/passing-secret-info/slice';
-import { PASSING_SECRET_INFO_TYPES } from 'smart-contracts/passing-secret-info/types';
+import { SMART_CONTRACTS_DATA_ENUM } from 'smart-contracts/types';
 import { ResponseStatus } from 'utils/types/api';
 
 const SecretInfos: FC = () => {
@@ -31,9 +31,9 @@ const SecretInfos: FC = () => {
       ) : null}
 
       <section className="flex flex-wrap items-center gap-2 lg:gap-4 xl:gap-8">
-        <SearchInput type={PASSING_SECRET_INFO_TYPES.SECRET_INFO} />
-        <Sort type={PASSING_SECRET_INFO_TYPES.SECRET_INFO} />
-        <IsOwnerCheckbox type={PASSING_SECRET_INFO_TYPES.SECRET_INFO} />
+        <SearchInput type={SMART_CONTRACTS_DATA_ENUM.SECRET_INFO} />
+        <Sort type={SMART_CONTRACTS_DATA_ENUM.SECRET_INFO} />
+        <IsOwnerCheckbox type={SMART_CONTRACTS_DATA_ENUM.SECRET_INFO} />
         <button onClick={() => setIsCreateSecretInfoModalOpen(true)} className="button">
           Create secret info
         </button>

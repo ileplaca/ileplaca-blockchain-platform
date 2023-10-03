@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { PassingSecretInfoTypes } from 'smart-contracts/passing-secret-info/types';
 import useIsOwnerCheckbox from './use-is-owner-checkbox';
+import { SmartContractsDataTypes } from 'smart-contracts/types';
 
 export interface IsOwnerCheckboxProps {
-  type: PassingSecretInfoTypes;
+  type: SmartContractsDataTypes;
 }
 
 const IsOwnerCheckbox: FC<IsOwnerCheckboxProps> = ({ type }) => {
