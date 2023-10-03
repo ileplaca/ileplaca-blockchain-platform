@@ -27,14 +27,12 @@ const useSecretInfoAccessedStats = () => {
   });
 
   useEffect(() => {
-    if (!Cookies.get(CookiesEnum.LAST_STATS) && secretInfos.length === 0) return
-    console.log(Cookies.get(CookiesEnum.LAST_STATS))
     setStats(getStats() as any);
-  }, [secretInfos, getCookie]);
+  }, [secretInfos, getCookie, account, accessedIds]);
 
   const getStats = () => {
-    if (!secretInfos || !account || !accountBalance) return defaultStats;
-
+    if (!secretInfos || !accessedIds || !account || !accountBalance) return defaultStats;
+    console.log(secretInfos.length)
     let ownerSecretInfosAccessedCounter = 0;
     let earnings = 0;
     let expenses = 0;
@@ -126,8 +124,10 @@ const useSecretInfoAccessedStats = () => {
     };
 
     if (
-      (JSON.stringify(stats) !== Cookies.get(CookiesEnum.LAST_STATS) &&
-        Number(Cookies.get(CookiesEnum.TIME_TO_REFRESH_LAST_STATS)) < Number(new Date())) ||
+      (
+        JSON.stringify(stats) !== Cookies.get(CookiesEnum.LAST_STATS) &&
+        Number(Cookies.get(CookiesEnum.TIME_TO_REFRESH_LAST_STATS)) < Number(new Date())
+      ) ||
       !Cookies.get(CookiesEnum.LAST_STATS) ||
       !Cookies.get(CookiesEnum.TIME_TO_REFRESH_LAST_STATS)
     ) {
