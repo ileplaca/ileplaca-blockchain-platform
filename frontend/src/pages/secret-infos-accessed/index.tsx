@@ -1,26 +1,20 @@
-import { Loading, SearchInput } from 'features/components';
-import { ErrorMessage, IsOwnerCheckbox, Sort } from 'features/components';
+import { SearchInput } from 'features/components';
+import { IsOwnerCheckbox, Sort } from 'features/components';
 import { SecretInfoList } from 'features/secret-infos';
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import {
   getAccessedIds,
   getManipulatedSecretInfos,
-  getSecretInfosStatus,
 } from 'smart-contracts/passing-secret-info/slice';
 import { SMART_CONTRACTS_DATA_ENUM } from 'smart-contracts/types';
-import { ResponseStatus } from 'utils/types/api';
 
 const SecretInfosAccessed: FC = () => {
-  const status = useSelector(getSecretInfosStatus);
   const secretInfos = useSelector(getManipulatedSecretInfos);
   const accessedIds = useSelector(getAccessedIds);
   const secretInfosAccesseed = [...secretInfos].filter(([secret_info_id]) =>
     accessedIds.some((accessedId) => accessedId === secret_info_id)
   );
-
-  if (status === ResponseStatus.FAILED) return <ErrorMessage />;
-  if (status === ResponseStatus.PENDING) return <Loading />;
 
   return (
     <>

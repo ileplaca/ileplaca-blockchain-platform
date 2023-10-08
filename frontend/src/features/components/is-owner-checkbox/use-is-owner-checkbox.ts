@@ -6,7 +6,10 @@ import {
 import { getAccount } from 'smart-contracts/slice';
 import { IsOwnerCheckboxProps } from './is-owner-checkbox';
 import { SMART_CONTRACTS_DATA_ENUM } from 'smart-contracts/types';
-import { getCompaniesSalaries, setManipulatedCompaniesSalaries } from 'smart-contracts/companies-salaries/slice';
+import {
+  getCompaniesSalaries,
+  setManipulatedCompaniesSalaries,
+} from 'smart-contracts/companies-salaries/slice';
 
 const useIsOwnerCheckbox = ({ type }: IsOwnerCheckboxProps) => {
   const dispatch = useDispatch();

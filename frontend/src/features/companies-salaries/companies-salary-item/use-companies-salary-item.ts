@@ -22,7 +22,7 @@ const useCompaniesSalaryItem = ({
     experience_in_company,
     created_at,
     replies,
-    rates
+    rates,
   ],
 }: CompaniesSalaryItemProps) => {
   const account = useSelector(getAccount);

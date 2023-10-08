@@ -16,14 +16,10 @@ const createEthereumContract = async () => {
 };
 
 export const companiesSalariesContract: CompaniesSalaries = {
-  async addSalary(
-    salary: SalaryDto
-  ) {
+  async addSalary(salary: SalaryDto) {
     try {
       const companiesSalariesContract = await createEthereumContract();
-      await companiesSalariesContract.addSalary(
-        salary
-      );
+      await companiesSalariesContract.addSalary(salary);
 
       return ResponseContractEnum.SUCCESS;
     } catch (err) {

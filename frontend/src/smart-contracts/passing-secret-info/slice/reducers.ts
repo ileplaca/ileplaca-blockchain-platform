@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { PassingSecretInfoSliceInitialState } from './initial-state';
-import { SecretInfo, SecretInfoAccessedResponse } from '../types';
+import { SecretInfo } from '../types';
 
 export const passingSecretInfoReducers = {
   setManipulatedSecretInfos: (

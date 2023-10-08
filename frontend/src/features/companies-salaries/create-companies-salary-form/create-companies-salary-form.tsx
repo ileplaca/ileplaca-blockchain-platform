@@ -7,8 +7,7 @@ export interface CreateSecretInfoFormProps {
 }
 
 const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen }) => {
-  const { onSubmit, loading, error, handleSubmit, register, errors } =
-    useCreateSecretInfoForm();
+  const { onSubmit, loading, error, handleSubmit, register, errors } = useCreateSecretInfoForm();
 
   return (
     <ModalLayout>
@@ -41,7 +40,12 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
           <label className="flex items-center form-label" htmlFor="">
             Speed of growth
           </label>
-          <input className="w-64 form-input" type="number" defaultValue={0} {...register('speed_of_growth')} />
+          <input
+            className="w-64 form-input"
+            type="number"
+            defaultValue={0}
+            {...register('speed_of_growth')}
+          />
           <span className="text-red-600">{errors.speed_of_growth?.message as string}</span>
         </div>
 
@@ -65,7 +69,11 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
           <label className="form-label" htmlFor="">
             Experience in company {'(months)'}
           </label>
-          <input className="w-20 form-input" defaultValue={0} {...register('experience_in_company')} />
+          <input
+            className="w-20 form-input"
+            defaultValue={0}
+            {...register('experience_in_company')}
+          />
           <span className="text-red-600">{errors.experience?.message as string}</span>
         </div>
 
@@ -128,7 +136,7 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
           }`}
           type="submit"
         >
-          Create secret info
+          Create salary
         </button>
         <button
           disabled={loading}

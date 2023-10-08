@@ -14,16 +14,18 @@ import { store } from 'redux/store';
 import { ethereum } from 'smart-contracts';
 import { CookiesEnum } from 'utils/types/cookies';
 import Account from 'pages/accounts/[account_address]';
+import { fetchCompaniesSalaries } from 'smart-contracts/companies-salaries/slice/thunks';
 
 store.dispatch(fetchSecretInfos());
 store.dispatch(fetchAccessedIds());
+store.dispatch(fetchCompaniesSalaries());
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(setAccount(Cookies.get('account')));
+    dispatch(setAccount(Cookies.get(CookiesEnum.ACCOUNT)));
 
     ethereum.on('accountsChanged', function (accounts: string[]) {
       Cookies.remove(CookiesEnum.LAST_STATS);

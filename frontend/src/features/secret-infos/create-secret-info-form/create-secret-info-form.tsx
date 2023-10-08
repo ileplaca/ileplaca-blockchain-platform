@@ -40,9 +40,7 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
 
         <div className="form-input-block">
           <label className="flex items-center form-label" htmlFor="">
-            <div>
-              Zero knowledge proof
-            </div>
+            <div>Zero knowledge proof</div>
             <Tooltip text={zeroKnowledgeProofText} />
           </label>
           <textarea className="h-20 form-input" {...register('zero_knowledge_proof')} />

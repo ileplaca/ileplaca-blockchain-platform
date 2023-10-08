@@ -6,7 +6,10 @@ import {
   getManipulatedSecretInfos,
   setManipulatedSecretInfos,
 } from 'smart-contracts/passing-secret-info/slice';
-import { getManipulatedCompaniesSalaries, setManipulatedCompaniesSalaries } from 'smart-contracts/companies-salaries/slice';
+import {
+  getManipulatedCompaniesSalaries,
+  setManipulatedCompaniesSalaries,
+} from 'smart-contracts/companies-salaries/slice';
 
 const useSort = ({ type }: SortProps) => {
   const dispatch = useDispatch();

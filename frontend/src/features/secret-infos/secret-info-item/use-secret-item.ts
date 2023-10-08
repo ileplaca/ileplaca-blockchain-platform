@@ -2,8 +2,7 @@ import { useSelector } from 'react-redux';
 import { passingSecretInfoContract } from 'smart-contracts/passing-secret-info/actions';
 import { getAccount } from 'smart-contracts/slice';
 import { SecretInfoItemProps } from './secret-info-item';
-import { useEffect, useState } from 'react';
-import { Rate } from 'smart-contracts/types';
+import { useState } from 'react';
 import { convertEthGweiWei } from 'utils/helpers/convert';
 import { getAccessedIds } from 'smart-contracts/passing-secret-info/slice';
 

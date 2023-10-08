@@ -11,8 +11,10 @@ export const companiesSalariesExtraReducers = (
   });
 
   builder.addCase(fetchCompaniesSalaries.fulfilled, (state, action) => {
-    state.manipulatedCompaniesSalaries = [...action.payload].sort((a, b) => Number(b[0]) - Number(a[0]));
-    state.companiesSalaries = [...action.payload].sort((a, b) => Number(b[0]) - Number(a[0]));
+    state.manipulatedCompaniesSalaries = [...action.payload].sort(
+      (a, b) => Number(b[0]) - Number(a[0])
+    );
+    state.companiesSalaries = [...state.manipulatedCompaniesSalaries];
     state.status = ResponseStatus.SUCCEEDED;
   });
 

@@ -52,6 +52,9 @@ contract CompaniesSalaries {
   }
 
   function addSalaryRate(uint256 _salary_id, bool _rate) public {
+    if (msg.sender == salaries[_salary_id].owner_address) {
+      revert('You are owner of this salaray');
+    }
     for (uint256 i = 0; i < salaries[_salary_id].rates.length; i++) {
       if (salaries[_salary_id].rates[i].owner_address == msg.sender) {
         revert('You already rate this info');

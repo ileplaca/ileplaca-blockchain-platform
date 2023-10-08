@@ -7,6 +7,6 @@ export const companiesSalariesReducers = {
     state: CompaniesSalariesSliceInitialState,
     action: PayloadAction<Salary[]>
   ) => {
-    state.companiesSalaries = action.payload;
+    state.manipulatedCompaniesSalaries = action.payload;
   },
 };

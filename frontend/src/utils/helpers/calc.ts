@@ -3,11 +3,11 @@ export const calcChange = (value: number, lastValue: number) => {
     return '0.00';
   }
 
-  const calculatedValue = (((Number(value) - Number(lastValue)) / Number(value)) * 100);
+  const calculatedValue = ((Number(value) - Number(lastValue)) / Number(value)) * 100;
 
   if (isNaN(calculatedValue)) {
-    return '0.00'
+    return '0.00';
   }
 
-  return calculatedValue.toFixed(2)
+  return calculatedValue.toFixed(2);
 };

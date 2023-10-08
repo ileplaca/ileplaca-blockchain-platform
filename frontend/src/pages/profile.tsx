@@ -1,12 +1,9 @@
 import { ErrorMessage, Loading } from 'features/components';
 import useSecretInfoAccessedStats from 'features/secret-infos-accessed/secret-info-accessed-stats/use-secret-info-accessed-stats';
 import SecretInfoProfileStatistic from 'features/secret-infos-accessed/secret-info-profile-statistic/secret-info-profile-statistic';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { convertEthGweiWei } from 'utils/helpers/convert';
 import { motion } from 'framer-motion';
-import Cookies from 'js-cookie';
-import { defaultStats } from 'utils/constans/stats';
-import { CookiesEnum } from 'utils/types/cookies';
 import { ResponseStatus } from 'utils/types/api';
 import { copy } from 'utils/helpers/copy';
 

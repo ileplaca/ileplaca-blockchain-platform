@@ -20,7 +20,7 @@ export type Salary = [
   created_at: bigint,
   replies: Reply[],
   rates: Rate[]
-]
+];
 
 export interface SalaryDto {
   first: bigint;
@@ -39,9 +39,7 @@ export interface SalaryDto {
 }
 
 export interface CompaniesSalaries {
-  addSalary: (
-    salary: SalaryDto
-  ) => Promise<ResponseContractType>;
+  addSalary: (salary: SalaryDto) => Promise<ResponseContractType>;
   getSalaries: () => Promise<Salary[]>;
   addSalaryRate: (salary_id: number, rate: boolean) => Promise<void>;
   removeSalaryRate: (salary_id: number) => Promise<void>;

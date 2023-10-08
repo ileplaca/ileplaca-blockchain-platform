@@ -20,19 +20,23 @@ const useSecretInfoAccessedStats = () => {
   const secretInfos = useSelector(getSecretInfos);
   const accessedIds = useSelector(getAccessedIds);
   const [stats, setStats] = useState(defaultStats);
-  const getCookie = Cookies.get(CookiesEnum.LAST_STATS);
+  const cookieStats = Cookies.get(CookiesEnum.LAST_STATS);
 
   const { data: accountBalance } = useQuery('accountBalance', accountActions.getBalance, {
     cacheTime: 0,
   });
 
   useEffect(() => {
-    setStats(getStats() as any);
-  }, [secretInfos, getCookie, account, accessedIds]);
+    if (!secretInfos || !accessedIds || !account || !accountBalance) {
+      setStats(defaultStats);
+    } else {
+      setStats(getStats() as any);
+    }
+  }, [secretInfos, cookieStats, account, accessedIds, accountBalance]);
 
   const getStats = () => {
     if (!secretInfos || !accessedIds || !account || !accountBalance) return defaultStats;
-    console.log(secretInfos.length)
+
     let ownerSecretInfosAccessedCounter = 0;
     let earnings = 0;
     let expenses = 0;
@@ -77,7 +81,7 @@ const useSecretInfoAccessedStats = () => {
 
     let lastStats = defaultStats;
 
-    const lastStatsCookie = Cookies.get(CookiesEnum.LAST_STATS);
+    const lastStatsCookie = cookieStats;
     if (lastStatsCookie) {
       lastStats = JSON.parse(lastStatsCookie);
     }
@@ -124,11 +128,9 @@ const useSecretInfoAccessedStats = () => {
     };
 
     if (
-      (
-        JSON.stringify(stats) !== Cookies.get(CookiesEnum.LAST_STATS) &&
-        Number(Cookies.get(CookiesEnum.TIME_TO_REFRESH_LAST_STATS)) < Number(new Date())
-      ) ||
-      !Cookies.get(CookiesEnum.LAST_STATS) ||
+      (JSON.stringify(stats) !== cookieStats &&
+        Number(Cookies.get(CookiesEnum.TIME_TO_REFRESH_LAST_STATS)) < Number(new Date())) ||
+      !cookieStats ||
       !Cookies.get(CookiesEnum.TIME_TO_REFRESH_LAST_STATS)
     ) {
       Cookies.set(CookiesEnum.LAST_STATS, JSON.stringify(stats));
@@ -145,7 +147,7 @@ const useSecretInfoAccessedStats = () => {
     account,
     accountBalance,
     status,
-    stats
+    stats,
   };
 };
 

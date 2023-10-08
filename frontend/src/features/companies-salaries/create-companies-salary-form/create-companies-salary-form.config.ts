@@ -33,7 +33,6 @@ export const seYupValidationResolver = (validationSchema: any) =>
     [validationSchema]
   );
 
-
 export const createCompaniesSalaryFormValidationSchema = yup.object({
   company_name: yup.string().required('Company name is required').max(100),
   role: yup.string().required('Role is required').max(100),

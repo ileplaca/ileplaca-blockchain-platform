@@ -7,7 +7,7 @@ export const store = configureStore({
   reducer: {
     smartContracts: SmartContractsReducer,
     secretInfos: SecretInfosReducer,
-    companiesSalaries: CompaniesSalariesReducer
+    companiesSalaries: CompaniesSalariesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

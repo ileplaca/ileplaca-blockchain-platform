@@ -22,7 +22,6 @@ const useCreateSecretInfoForm = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-
   const onSubmit = async (data: SalaryDto) => {
     setLoading(true);
 
@@ -31,10 +30,10 @@ const useCreateSecretInfoForm = () => {
       data.experience_in_company = BigInt(data.experience_in_company);
       data.first = BigInt(data.first);
       data.last = BigInt(data.last);
-      data.speed_of_growth = BigInt(data.speed_of_growth)
-      data.company_id = BigInt(0)
+      data.speed_of_growth = BigInt(data.speed_of_growth);
+      data.company_id = BigInt(0);
 
-      await companiesSalariesContract.addSalary(data)
+      await companiesSalariesContract.addSalary(data);
 
       successAlert({
         title: 'First step success!',

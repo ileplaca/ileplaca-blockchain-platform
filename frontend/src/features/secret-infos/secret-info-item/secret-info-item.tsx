@@ -15,9 +15,15 @@ import {
   SecretInfoAccessedContentModal,
   SecretInfoAccessedStatsModal,
 } from 'features/secret-infos-accessed';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Tooltip from 'features/components/tooltip/tooltip';
 import { zeroKnowledgeProofText } from 'features/components/tooltip/tooltip.texts';
+import { handleCopyAddress } from 'utils/helpers/alert';
+import { ROTUES } from 'utils/types/routes';
+import { getSecretInfosStatus } from 'smart-contracts/passing-secret-info/slice';
+import { useSelector } from 'react-redux';
+import { ResponseStatus } from 'utils/types/api';
+import { ErrorMessage, Loading } from 'features/components';
 
 export interface SecretInfoItemProps {
   secretInfo: SecretInfo;
@@ -59,6 +65,11 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
     setIsStatsModalOpen,
     account,
   } = useSecretInfoAccessedItem();
+
+  const status = useSelector(getSecretInfosStatus);
+
+  if (status === ResponseStatus.FAILED) return <ErrorMessage />;
+  if (status === ResponseStatus.PENDING) return <Loading />;
 
   return (
     <motion.div
@@ -105,10 +116,15 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
 
       <div className="flex flex-col w-full gap-2 lg:flex-row">
         <div
-          onClick={() => copy(owner_address)}
+          onClick={() => {
+            handleCopyAddress(owner_address);
+          }}
           className="w-full text-xs font-light duration-75 cursor-pointer lg:text-sm xl:text-base dont-break-out"
         >
           {owner_address}
+          <div className="underline">
+            <Link to={`/${ROTUES.accounts}/${owner_address}`}>Checkout</Link>
+          </div>
         </div>
         <div className="flex flex-row items-center justify-between w-full gap-4 lg:justify-end">
           <button
@@ -161,7 +177,7 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
         <div className="text-sm font-light sm:text-base">{parseDateFns(created_at)}</div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+      <div className="flex flex-wrap items-center gap-2">
         <div className="px-2 py-1 text-sm border border-gray-500 md:text-base rounded-button">
           <span className="font-light">Left to buy </span>
           {Number(max_uses) - Number(current_uses)}

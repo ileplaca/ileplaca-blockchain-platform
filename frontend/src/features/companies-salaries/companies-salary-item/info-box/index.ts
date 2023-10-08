@@ -1,1 +1,1 @@
-export { default } from './info-box'
+export { default } from './info-box';
