@@ -1,7 +1,7 @@
 # ileplaca-blockchain-platform
 Application with blockchain(solidity) to publish the earnings of companies from given positions , sell and buy secret informations for ETH along with a panel with statistics, it's part of platform ileplaca
 
-## Some screenshots from apps
+## Some screenshots from app
 ![Screenshot_8](https://github.com/ileplaca/ileplaca-blockchain-platform/assets/64974010/e4f7ab8e-fe44-4a92-aa0c-836817837fbc)
 ![Screenshot_9](https://github.com/ileplaca/ileplaca-blockchain-platform/assets/64974010/71c0fe78-8eb7-4a9f-a231-0a99e997a643)
 ![Screenshot_10](https://github.com/ileplaca/ileplaca-blockchain-platform/assets/64974010/9ce8b455-626f-4ed4-88ec-9d562b725e00)
