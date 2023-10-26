@@ -29,7 +29,7 @@ const useSecretItem = ({
     ([id, owner_address, rate]) => owner_address.toLocaleLowerCase() === account
   );
   const currentRate = currentRateArray.length > 0 ? currentRateArray[0] : null;
-  const [isRepliesModalOpen, setIsRespliesModalOpen] = useState(false);
+  const [isRepliesModalOpen, setIsRepliesModalOpen] = useState(false);
   const [isPayModalOpen, setIsPayModalOpen] = useState(false);
 
   const like = async () => {
@@ -83,7 +83,7 @@ const useSecretItem = ({
     like,
     unlike,
     isRepliesModalOpen,
-    setIsRespliesModalOpen,
+    setIsRepliesModalOpen,
     isPayModalOpen,
     setIsPayModalOpen,
   };

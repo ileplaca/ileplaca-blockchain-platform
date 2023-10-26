@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 import { getManipulatedCompaniesSalaries } from 'smart-contracts/companies-salaries/slice';
 import { SecretInfoList } from 'features/secret-infos';
 import { getManipulatedSecretInfos } from 'smart-contracts/passing-secret-info/slice';
+import { SMART_CONTRACTS_DATA_ENUM } from 'smart-contracts/types';
+import { SearchInput, Sort } from 'features/components';
 
 const Account: FC = () => {
   const { account_address } = useParams();
@@ -42,6 +44,10 @@ const Account: FC = () => {
         </TabList>
 
         <TabPanel>
+          <section className="flex flex-wrap items-center gap-2 mt-4 lg:gap-4 xl:gap-8">
+            <SearchInput type={SMART_CONTRACTS_DATA_ENUM.COMPANIES_SALARY} />          
+            <Sort type={SMART_CONTRACTS_DATA_ENUM.COMPANIES_SALARY} />
+          </section>
           <CompaniesSalaryList
             companiesSalaries={companiesSalaries.filter(
               ([salary_id, owner_address]) => account_address === owner_address
@@ -49,6 +55,10 @@ const Account: FC = () => {
           />
         </TabPanel>
         <TabPanel>
+          <section className="flex flex-wrap items-center gap-2 mt-4 lg:gap-4 xl:gap-8">
+            <SearchInput type={SMART_CONTRACTS_DATA_ENUM.SECRET_INFO} />
+            <Sort type={SMART_CONTRACTS_DATA_ENUM.SECRET_INFO} />
+          </section>
           <SecretInfoList
             secretInfos={secretInfos.filter(
               ([secret_info_id, owner_address]) => account_address === owner_address

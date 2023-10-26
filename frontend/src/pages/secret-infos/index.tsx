@@ -20,7 +20,7 @@ const SecretInfos: FC = () => {
       <section className="flex flex-wrap items-center gap-2 lg:gap-4 xl:gap-8">
         <SearchInput type={SMART_CONTRACTS_DATA_ENUM.SECRET_INFO} />
         <Sort type={SMART_CONTRACTS_DATA_ENUM.SECRET_INFO} />
-        <IsOwnerCheckbox type={SMART_CONTRACTS_DATA_ENUM.SECRET_INFO} />
+        {/* <IsOwnerCheckbox type={SMART_CONTRACTS_DATA_ENUM.SECRET_INFO} /> */}
         <button onClick={() => setIsCreateSecretInfoModalOpen(true)} className="button">
           Create secret info
         </button>
