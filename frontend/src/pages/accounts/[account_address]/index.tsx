@@ -45,7 +45,7 @@ const Account: FC = () => {
 
         <TabPanel>
           <section className="flex flex-wrap items-center gap-2 mt-4 lg:gap-4 xl:gap-8">
-            <SearchInput type={SMART_CONTRACTS_DATA_ENUM.COMPANIES_SALARY} />          
+            <SearchInput type={SMART_CONTRACTS_DATA_ENUM.COMPANIES_SALARY} />
             <Sort type={SMART_CONTRACTS_DATA_ENUM.COMPANIES_SALARY} />
           </section>
           <CompaniesSalaryList
