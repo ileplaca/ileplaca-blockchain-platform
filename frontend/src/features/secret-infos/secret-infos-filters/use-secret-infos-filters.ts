@@ -1,12 +1,12 @@
-import { useSelector } from "react-redux"
-import { getSecretInfos } from "smart-contracts/passing-secret-info/slice";
+import { useSelector } from 'react-redux';
+import { getSecretInfos } from 'smart-contracts/passing-secret-info/slice';
 
 const useSecretInfosFilters = () => {
   const secretInfos = useSelector(getSecretInfos);
 
   const getSecretInfosByAccount = (accountAddress: string) => {
-    return
-  }
-}
+    return;
+  };
+};
 
-export default useSecretInfosFilters
+export default useSecretInfosFilters;

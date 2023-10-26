@@ -1,5 +1,3 @@
-const useAlert = () => {
-  
-}
+const useAlert = () => {};
 
 export default useAlert;

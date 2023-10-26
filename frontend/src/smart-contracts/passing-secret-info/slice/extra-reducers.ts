@@ -12,7 +12,7 @@ export const passingSecretInfoExtraReducers = (
 
   builder.addCase(fetchSecretInfos.fulfilled, (state, action) => {
     state.manipulatedSecretInfos = [...action.payload].sort((a, b) => Number(b[0]) - Number(a[0]));
-    state.secretInfos = [...action.payload].sort((a, b) => Number(b[0]) - Number(a[0]));
+    state.secretInfos = [...state.manipulatedSecretInfos];
     state.status = ResponseStatus.SUCCEEDED;
   });
 

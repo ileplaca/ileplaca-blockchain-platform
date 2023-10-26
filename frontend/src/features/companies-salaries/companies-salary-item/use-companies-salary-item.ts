@@ -7,15 +7,19 @@ const useCompaniesSalaryItem = ({
   salary: [
     salary_id,
     owner_address,
-    current,
     first,
+    last,
     speed_of_growth,
-    raise_change,
+    company_id,
+    company_name,
     role,
     experience,
     opinion,
-    company_id,
-    company_name,
+    location,
+    employment_type,
+    operating_mode,
+    salary_currency,
+    experience_in_company,
     created_at,
     replies,
     rates,
@@ -31,29 +35,29 @@ const useCompaniesSalaryItem = ({
 
   const like = async () => {
     if (currentRate && currentRate[2]) {
-      await companiesSalariesContract.removeSalaryRate(salary_id);
+      await companiesSalariesContract.removeSalaryRate(Number(salary_id));
       return;
     }
 
     if (currentRate && !currentRate[2]) {
-      await companiesSalariesContract.changeSalaryRate(salary_id);
+      await companiesSalariesContract.changeSalaryRate(Number(salary_id));
       return;
     }
 
-    await companiesSalariesContract.addSalaryRate(salary_id, true);
+    await companiesSalariesContract.addSalaryRate(Number(salary_id), true);
   };
 
   const unlike = async () => {
     if (currentRate && !currentRate[2]) {
-      await companiesSalariesContract.removeSalaryRate(salary_id);
+      await companiesSalariesContract.removeSalaryRate(Number(salary_id));
       return;
     }
 
     if (currentRate && currentRate[2]) {
-      await companiesSalariesContract.changeSalaryRate(salary_id);
+      await companiesSalariesContract.changeSalaryRate(Number(salary_id));
     }
 
-    await companiesSalariesContract.addSalaryRate(salary_id, false);
+    await companiesSalariesContract.addSalaryRate(Number(salary_id), false);
   };
 
   return {

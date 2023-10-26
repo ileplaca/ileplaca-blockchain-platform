@@ -4,9 +4,7 @@ import { getSecretInfosError } from 'smart-contracts/passing-secret-info/slice';
 
 const ErrorMessage: FC = () => {
   const error = useSelector(getSecretInfosError);
-  return (
-    <div className='text-lg font-medium'>{error}</div>
-  )
-}
+  return <div className="text-lg font-medium">{error}</div>;
+};
 
 export default ErrorMessage;

@@ -1,6 +1,13 @@
 export const calcChange = (value: number, lastValue: number) => {
-  if (lastValue === Number(0)) {
-    return (0).toFixed(2)
+  if (isNaN(value) || isNaN(lastValue)) {
+    return '0.00';
   }
-  return (((Number(value) - Number(lastValue)) / Number(value)) * 100).toFixed(2);
+
+  const calculatedValue = ((Number(value) - Number(lastValue)) / Number(value)) * 100;
+
+  if (isNaN(calculatedValue)) {
+    return '0.00';
+  }
+
+  return calculatedValue.toFixed(2);
 };

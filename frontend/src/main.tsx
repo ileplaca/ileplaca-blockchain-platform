@@ -14,6 +14,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <QueryClientProvider client={queryClient}>
       <Router>
         <App />
+        <div className="h-24"></div>
       </Router>
     </QueryClientProvider>
   </ReduxProvider>

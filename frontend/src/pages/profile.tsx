@@ -1,31 +1,24 @@
 import { ErrorMessage, Loading } from 'features/components';
 import useSecretInfoAccessedStats from 'features/secret-infos-accessed/secret-info-accessed-stats/use-secret-info-accessed-stats';
 import SecretInfoProfileStatistic from 'features/secret-infos-accessed/secret-info-profile-statistic/secret-info-profile-statistic';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { convertEthGweiWei } from 'utils/helpers/convert';
 import { motion } from 'framer-motion';
-import Cookies from 'js-cookie';
-import { defaultStats } from 'utils/constans/stats';
-import { CookiesEnum } from 'utils/types/cookies';
 import { ResponseStatus } from 'utils/types/api';
 import { copy } from 'utils/helpers/copy';
 
 const Profile: FC = () => {
-  const { account, accountBalance, getStats, status } = useSecretInfoAccessedStats();
-  const getCookie = Cookies.get(CookiesEnum.LAST_STATS);
-  const [stats, setStats] = useState(defaultStats);
-
-  useEffect(() => {
-    setStats(getStats() as any);
-  },[accountBalance, getCookie]);
+  const { account, accountBalance, status, stats } = useSecretInfoAccessedStats();
 
   if (status === ResponseStatus.FAILED) return <ErrorMessage />;
-  if (!stats || isNaN(Number(accountBalance))) return <Loading />;
+  if (!stats || isNaN(Number(accountBalance)) || !accountBalance) return <Loading />;
 
   return (
     <motion.main whileInView={{ opacity: [0, 100] }} className="flex flex-col items-start">
       <h1 className="text-5xl font-bold">Hello</h1>
-      <h2 className="text-xl dont-break-out" onClick={() => copy(account)}>{account}</h2>
+      <h2 className="text-xl dont-break-out" onClick={() => copy(account)}>
+        {account}
+      </h2>
       <SecretInfoProfileStatistic
         variant="dark"
         name="Balance"
@@ -73,8 +66,8 @@ const Profile: FC = () => {
         <SecretInfoProfileStatistic
           variant="dark"
           name="Average rate"
-          value={isNaN(stats.averageRate.value) ? "0" : stats.averageRate.value*100+"%"}
-          change={isNaN(stats.averageRate.change) ? "0" : stats.averageRate.change}
+          value={isNaN(stats.averageRate.value) ? '0' : stats.averageRate.value * 100 + '%'}
+          change={isNaN(stats.averageRate.change) ? '0' : stats.averageRate.change}
         />
       </div>
     </motion.main>

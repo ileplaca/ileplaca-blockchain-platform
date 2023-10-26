@@ -4,7 +4,7 @@ import { SecretInfo } from '../types';
 export interface PassingSecretInfoSliceInitialState {
   manipulatedSecretInfos: SecretInfo[];
   secretInfos: SecretInfo[];
-  accessedIds: number[],
+  accessedIds: number[];
   status: ResponseStatusType;
   error: string | null;
 }

@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
 import useSort from './use-sort';
-import { PassingSecretInfoTypes } from 'smart-contracts/passing-secret-info/types';
 import { sortTypes } from './sort.types';
+import { SmartContractsDataTypes } from 'smart-contracts/types';
 
 export interface SortProps {
-  type: PassingSecretInfoTypes;
+  type: SmartContractsDataTypes;
 }
 
 const Sort: FC<SortProps> = ({ type }) => {

@@ -1,4 +1,4 @@
 import CompaniesSalariesAbiJson from './companies-salaries-abi.json';
 
-export const companiesSalariesAddress = '0xae04c5Eb9D41F006CA3d6769905486e15EB967c7';
+export const companiesSalariesAddress = '0x6cAD76e90a91Dcc9cF3C91e39E4eA945740baFdB';
 export const companiesSalariesAbi = CompaniesSalariesAbiJson.abi;

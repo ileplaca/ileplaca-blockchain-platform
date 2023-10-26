@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 interface Props {
   children: ReactNode;
-  type?: "form"
+  type?: 'form';
 }
 
 const Modal: FCC<Props> = ({ children, type }: Props) => {

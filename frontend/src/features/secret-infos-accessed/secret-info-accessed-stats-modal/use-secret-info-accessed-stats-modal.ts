@@ -15,7 +15,7 @@ const useSecretInfoAccessedStatsModal = ({
     current_uses,
     created_at,
     replies,
-    rates
+    rates,
   ] = secretInfo;
 
   const calcRate = () => {

@@ -2,8 +2,7 @@ import { useSelector } from 'react-redux';
 import { passingSecretInfoContract } from 'smart-contracts/passing-secret-info/actions';
 import { getAccount } from 'smart-contracts/slice';
 import { SecretInfoItemProps } from './secret-info-item';
-import { useEffect, useState } from 'react';
-import { Rate } from 'smart-contracts/types';
+import { useState } from 'react';
 import { convertEthGweiWei } from 'utils/helpers/convert';
 import { getAccessedIds } from 'smart-contracts/passing-secret-info/slice';
 
@@ -19,7 +18,7 @@ const useSecretItem = ({
     current_uses,
     created_at,
     replies,
-    rates
+    rates,
   ],
 }: SecretInfoItemProps) => {
   const account = useSelector(getAccount);
@@ -30,7 +29,7 @@ const useSecretItem = ({
     ([id, owner_address, rate]) => owner_address.toLocaleLowerCase() === account
   );
   const currentRate = currentRateArray.length > 0 ? currentRateArray[0] : null;
-  const [isRepliesModalOpen, setIsRespliesModalOpen] = useState(false);
+  const [isRepliesModalOpen, setIsRepliesModalOpen] = useState(false);
   const [isPayModalOpen, setIsPayModalOpen] = useState(false);
 
   const like = async () => {
@@ -62,12 +61,10 @@ const useSecretItem = ({
 
   const getUserAccess = () => {
     if (owner_address.toLocaleLowerCase() === account) {
-      return 'You are owner of this information'
+      return 'You are owner of this information';
     }
 
-    if (
-      accessedIds.some((id) => Number(id) === Number(secret_info_id))
-    ) {
+    if (accessedIds.some((id) => Number(id) === Number(secret_info_id))) {
       return 'You have access to this information';
     }
 
@@ -86,7 +83,7 @@ const useSecretItem = ({
     like,
     unlike,
     isRepliesModalOpen,
-    setIsRespliesModalOpen,
+    setIsRepliesModalOpen,
     isPayModalOpen,
     setIsPayModalOpen,
   };

@@ -9,13 +9,11 @@ export interface AlertProps {
 
 const Alert: FC<AlertProps> = ({ message, icon }) => {
   return (
-    <motion.div
-    
-    >
+    <motion.div>
       <FontAwesomeIcon icon={icon} />
       {message}
     </motion.div>
-  )
-}
+  );
+};
 
 export default Alert;

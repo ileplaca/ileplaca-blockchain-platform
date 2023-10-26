@@ -17,7 +17,9 @@ const SecretInfoAccessedContentModal: FC<SecretInfoAccessedContentModalProps> = 
   secret_info_id,
   setIsModalOpen,
 }) => {
-  const { data, isLoading } = useQuery(`secret-infos-accessed/${secret_info_id}`, () => passingSecretInfoContract.getSecretInfoAccessedById(BigInt(secret_info_id)))
+  const { data, isLoading } = useQuery(`secret-infos-accessed/${secret_info_id}`, () =>
+    passingSecretInfoContract.getSecretInfoAccessedById(BigInt(secret_info_id))
+  );
 
   return (
     <ModalLayout>
@@ -37,9 +39,9 @@ const SecretInfoAccessedContentModal: FC<SecretInfoAccessedContentModalProps> = 
             maxHeight: '60vh',
           }}
         >
-          <div className='text-black'>
+          <div className="text-black">
             {secret_info_id}
-            {isLoading ? "Loading..." : data}
+            {isLoading ? 'Loading...' : data}
           </div>
         </div>
       </div>

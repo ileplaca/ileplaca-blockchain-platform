@@ -6,6 +6,8 @@ import useCreateSecretInfoForm from './use-create-secret-info-form';
 import { Loading } from 'features/components';
 import { Link } from 'react-router-dom';
 import { ModalLayout, WarningText } from 'features/ui';
+import Tooltip from 'features/components/tooltip/tooltip';
+import { zeroKnowledgeProofText } from 'features/components/tooltip/tooltip.texts';
 
 export interface CreateSecretInfoFormProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,8 +39,9 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
         </div>
 
         <div className="form-input-block">
-          <label className="form-label" htmlFor="">
-            Zero knowledge proof
+          <label className="flex items-center form-label" htmlFor="">
+            <div>Zero knowledge proof</div>
+            <Tooltip text={zeroKnowledgeProofText} />
           </label>
           <textarea className="h-20 form-input" {...register('zero_knowledge_proof')} />
           <span className="text-red-600">{errors.zero_knowledge_proof?.message as string}</span>
@@ -54,7 +57,11 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
         <WarningText>This information will be secret until someone buys it</WarningText>
         <WarningText>
           If you want to pass more data than 10k chars checkout{' '}
-          <Link target="_blank" className="underline text-primary hover:text-primary-hover" to={'/'}>
+          <Link
+            target="_blank"
+            className="underline text-primary hover:text-primary-hover"
+            to={'/'}
+          >
             ileplaca blockchain big data sharing{'(100k chars per data)'}
           </Link>
         </WarningText>
@@ -87,15 +94,21 @@ const CreateSecretInfoForm: FC<CreateSecretInfoFormProps> = ({ setIsModalOpen })
           <input
             min={1}
             defaultValue={1}
-            className="w-64 form-input" 
-            type="number" 
+            className="w-64 form-input"
+            type="number"
             {...register('max_uses', { onChange: handleOnChangeAmount })}
-            />
+          />
         </div>
 
         <div className="text-red-600">{error}</div>
 
-        <button disabled={loading} className={`mt-4 button bg-primary ${loading ? 'bg-opacity-80 cursor-not-allowed hover:bg-primary hover:bg-opacity-80' : ''}`} type="submit">
+        <button
+          disabled={loading}
+          className={`mt-4 button bg-primary ${
+            loading ? 'bg-opacity-80 cursor-not-allowed hover:bg-primary hover:bg-opacity-80' : ''
+          }`}
+          type="submit"
+        >
           Create secret info
         </button>
         <button

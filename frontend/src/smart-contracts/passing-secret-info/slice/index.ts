@@ -5,14 +5,13 @@ import { passingSecretInfoExtraReducers } from './extra-reducers';
 import { passingSecretInfoReducers } from './reducers';
 
 const PassingSecretInfoSlice = createSlice({
-  name: 'smart-contracts',
+  name: 'passing-secret-info',
   initialState: passingSecretInfoSliceInitialState,
   reducers: passingSecretInfoReducers,
   extraReducers: passingSecretInfoExtraReducers,
 });
 
-export const { setManipulatedSecretInfos } =
-  PassingSecretInfoSlice.actions;
+export const { setManipulatedSecretInfos } = PassingSecretInfoSlice.actions;
 
 export const getSecretInfos = (state: RootState) => state.secretInfos.secretInfos;
 export const getManipulatedSecretInfos = (state: RootState) =>

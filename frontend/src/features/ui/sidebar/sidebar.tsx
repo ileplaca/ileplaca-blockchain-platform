@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Sidebar: FC = () => {
   return (
-    <aside className="fixed h-screen p-2 border-r border-gray-600 xl:w-1/4 xl:p-10 bg-bg">
+    <aside className="fixed p-2 border-r h-full border-gray-600 xl:w-1/4 xl:p-10 bg-bg">
       <h1 className="flex flex-col items-end text-base font-black sm:flex-row xl:text-3xl">
         ileplaca
         <div className="text-xs font-thin sm:-mb-3 sm:-ml-8 xl:-mb-1 xl:-ml-0">blockchain</div>
@@ -23,9 +23,7 @@ const Sidebar: FC = () => {
                 window.location.href.includes(route.route) ? 'text-secondary' : ''
               }`}
             />
-            <span className="hidden xl:inline-block">
-              {route.name}
-            </span>
+            <span className="hidden xl:inline-block">{route.name}</span>
           </Link>
         ))}
       </nav>
