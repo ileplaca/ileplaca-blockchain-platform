@@ -1,4 +1,4 @@
-import { faBuilding, faLock, faUserSecret, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faLock, faUserSecret, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 export const sidebarRoutes = [
   {
@@ -20,5 +20,10 @@ export const sidebarRoutes = [
     route: '/profile',
     name: 'Profile',
     icon: faUser,
+  },
+  {
+    route: '/accounts',
+    name: 'Profiles',
+    icon: faUsers,
   },
 ];

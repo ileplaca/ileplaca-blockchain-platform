@@ -15,6 +15,7 @@ import { ethereum } from 'smart-contracts';
 import { CookiesEnum } from 'utils/types/cookies';
 import Account from 'pages/accounts/[account_address]';
 import { fetchCompaniesSalaries } from 'smart-contracts/companies-salaries/slice/thunks';
+import Accounts from 'pages/accounts';
 
 store.dispatch(fetchSecretInfos());
 store.dispatch(fetchAccessedIds());
@@ -28,11 +29,9 @@ function App() {
     dispatch(setAccount(Cookies.get(CookiesEnum.ACCOUNT)));
 
     ethereum.on('accountsChanged', function (accounts: string[]) {
-      Cookies.remove(CookiesEnum.LAST_STATS);
-      Cookies.remove(CookiesEnum.TIME_TO_REFRESH_LAST_STATS);
       Cookies.set(CookiesEnum.ACCOUNT, accounts[0]);
       dispatch(setAccount(accounts[0]));
-      navigate(0);
+      window.location.reload();
     });
   }, []);
 
@@ -87,6 +86,7 @@ function App() {
         }
         path="accounts"
       >
+        <Route index element={<Accounts />} />
         <Route path=":account_address" element={<Account />} />
       </Route>
     </Routes>

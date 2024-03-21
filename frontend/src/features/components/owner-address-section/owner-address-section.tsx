@@ -20,7 +20,7 @@ const OwnerAddressSection: FC<OwnerAddressSectionProps> = ({ owner_address }) =>
         <Link to={`/${ROTUES.accounts}/${owner_address}`}>Checkout</Link>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default OwnerAddressSection;

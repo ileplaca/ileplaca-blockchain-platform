@@ -10,7 +10,7 @@ const Tooltip: FC<TooltipProps> = ({ text }) => {
   return (
     <div className="relative flex justify-center ml-1">
       <button
-        type='button'
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="transition-colors duration-200 focus:outline-none dark:hover:text-primary hover:text-primary"
       >

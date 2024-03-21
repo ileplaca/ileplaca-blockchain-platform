@@ -4,9 +4,7 @@ import { SearchInput, Sort } from 'features/components';
 import CreateCompaniesSalaryForm from 'features/companies-salaries/create-companies-salary-form';
 import { SMART_CONTRACTS_DATA_ENUM } from 'smart-contracts/types';
 import { useSelector } from 'react-redux';
-import {
-  getManipulatedCompaniesSalaries
-} from 'smart-contracts/companies-salaries/slice';
+import { getManipulatedCompaniesSalaries } from 'smart-contracts/companies-salaries/slice';
 
 const CompaniesSalaries: FC = () => {
   const [isCreateCompaniesSalaryModalOpen, setIsCreateCompaniesSalaryModalOpen] = useState(false);

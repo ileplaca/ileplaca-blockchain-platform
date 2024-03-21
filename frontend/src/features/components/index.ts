@@ -8,4 +8,14 @@ import OwnerAddressSection from './owner-address-section';
 import ReplyAndRateSection from './reply-and-rate-section';
 import ComponentInfoBox from './component-info-box';
 
-export { SearchInput, Sort, IsOwnerCheckbox, Loading, ErrorMessage, Tooltip, OwnerAddressSection, ReplyAndRateSection, ComponentInfoBox };
+export {
+  SearchInput,
+  Sort,
+  IsOwnerCheckbox,
+  Loading,
+  ErrorMessage,
+  Tooltip,
+  OwnerAddressSection,
+  ReplyAndRateSection,
+  ComponentInfoBox,
+};

@@ -1,1 +1,1 @@
-export { default } from './owner-address-section'
+export { default } from './owner-address-section';

@@ -6,12 +6,13 @@ import { convertEthGweiWei } from 'utils/helpers/convert';
 import { motion } from 'framer-motion';
 import { ResponseStatus } from 'utils/types/api';
 import { copy } from 'utils/helpers/copy';
+import SecretInfoChart from 'features/secret-infos/secret-info-chart';
 
 const Profile: FC = () => {
-  const { account, accountBalance, status, stats } = useSecretInfoAccessedStats();
+  const { account, accountBalance, status, stats, userSecretInfos } = useSecretInfoAccessedStats();
 
   if (status === ResponseStatus.FAILED) return <ErrorMessage />;
-  if (!stats || isNaN(Number(accountBalance)) || !accountBalance) return <Loading />;
+  if (!stats || isNaN(Number(accountBalance)) || !accountBalance || !userSecretInfos) return <Loading />;
 
   return (
     <motion.main whileInView={{ opacity: [0, 100] }} className="flex flex-col items-start">
@@ -70,6 +71,8 @@ const Profile: FC = () => {
           change={isNaN(stats.averageRate.change) ? '0' : stats.averageRate.change}
         />
       </div>
+      <SecretInfoChart secretInfos={userSecretInfos} />
+      
     </motion.main>
   );
 };

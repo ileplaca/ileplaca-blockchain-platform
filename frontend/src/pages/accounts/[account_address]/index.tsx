@@ -10,6 +10,8 @@ import { SecretInfoList } from 'features/secret-infos';
 import { getManipulatedSecretInfos } from 'smart-contracts/passing-secret-info/slice';
 import { SMART_CONTRACTS_DATA_ENUM } from 'smart-contracts/types';
 import { SearchInput, Sort } from 'features/components';
+import { Link } from 'react-router-dom';
+import { ROTUES } from 'utils/types/routes';
 
 const Account: FC = () => {
   const { account_address } = useParams();
@@ -18,6 +20,13 @@ const Account: FC = () => {
 
   if (!account_address) {
     return <>Wrong route</>;
+  }
+
+  if (companiesSalaries.some(salary => salary[1] !== account_address) && secretInfos.some(secretInfo => secretInfo[1] !== account_address)) {
+    return <div>
+      There wasn't any interactions with contract by {account_address} <br />
+      <Link to={"/" + ROTUES.accounts} className='underline'>Go back</Link>
+    </div>
   }
 
   return (

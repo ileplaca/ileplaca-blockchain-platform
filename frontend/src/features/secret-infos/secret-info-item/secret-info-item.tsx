@@ -23,7 +23,13 @@ import { ROTUES } from 'utils/types/routes';
 import { getSecretInfosStatus } from 'smart-contracts/passing-secret-info/slice';
 import { useSelector } from 'react-redux';
 import { ResponseStatus } from 'utils/types/api';
-import { ComponentInfoBox, ErrorMessage, Loading, OwnerAddressSection, ReplyAndRateSection } from 'features/components';
+import {
+  ComponentInfoBox,
+  ErrorMessage,
+  Loading,
+  OwnerAddressSection,
+  ReplyAndRateSection,
+} from 'features/components';
 
 export interface SecretInfoItemProps {
   secretInfo: SecretInfo;
@@ -80,7 +86,7 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
     >
       <div className="flex flex-col w-full gap-2 lg:flex-row">
         <OwnerAddressSection owner_address={owner_address} />
-        <ReplyAndRateSection 
+        <ReplyAndRateSection
           like={like}
           unlike={unlike}
           currentRate={currentRate}
@@ -88,7 +94,7 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
           positiveRates={positiveRates}
           replySection={{
             repliesLength: replies.length,
-            setIsRepliesModalOpen
+            setIsRepliesModalOpen,
           }}
         />
       </div>
@@ -105,14 +111,8 @@ const SecretInfoItem: FC<SecretInfoItemProps> = ({ secretInfo, accessed }) => {
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <ComponentInfoBox 
-          name='Left to buy'
-          value={Number(max_uses) - Number(current_uses)}
-        />
-        <ComponentInfoBox 
-          name='Already bought'
-          value={Number(current_uses)}
-        />
+        <ComponentInfoBox name="Left to buy" value={Number(max_uses) - Number(current_uses)} />
+        <ComponentInfoBox name="Already bought" value={Number(current_uses)} />
       </div>
 
       {!accessed ? (

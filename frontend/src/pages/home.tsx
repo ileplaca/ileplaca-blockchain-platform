@@ -20,7 +20,7 @@ const Index: FC = () => {
   };
 
   return (
-    <main className="flex items-center justify-center w-screen h-screen text-center">
+    <main className="flex items-center justify-center h-screen text-center">
       <img src="../../images/eth_logo.png" className="absolute z-10 w-96 opacity-30 rotating-360" />
       <section className="z-10">
         <div>

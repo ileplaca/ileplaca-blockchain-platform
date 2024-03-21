@@ -49,7 +49,7 @@ const CompaniesSalaryItem: FC<CompaniesSalaryItemProps> = ({ salary }) => {
     >
       <div className="flex flex-col w-full gap-2 lg:flex-row">
         <OwnerAddressSection owner_address={owner_address} />
-        <ReplyAndRateSection 
+        <ReplyAndRateSection
           like={like}
           unlike={unlike}
           currentRate={currentRate}
@@ -73,7 +73,10 @@ const CompaniesSalaryItem: FC<CompaniesSalaryItemProps> = ({ salary }) => {
         <ComponentInfoBox name="Location" value={location} />
         <ComponentInfoBox name="Employment type" value={employment_type} />
         <ComponentInfoBox name="Operating mode" value={operating_mode} />
-        <ComponentInfoBox name="Experience in company" value={`${Number(experience_in_company)} months`} />
+        <ComponentInfoBox
+          name="Experience in company"
+          value={`${Number(experience_in_company)} months`}
+        />
         <ComponentInfoBox name="Experience" value={`${Number(experience)} months`} />
       </div>
     </motion.div>

@@ -5,21 +5,28 @@ import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { Rate } from 'smart-contracts/types';
 
 export interface ReplyAndRateSectionProps {
-  like: () => void
-  unlike: () => void
-  currentRate: Rate | null
-  positiveRates: number
-  negativeRates: number
+  like: () => void;
+  unlike: () => void;
+  currentRate: Rate | null;
+  positiveRates: number;
+  negativeRates: number;
   replySection?: {
     repliesLength: number;
-    setIsRepliesModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-  }
+    setIsRepliesModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 }
 
-const ReplyAndRateSection: FC<ReplyAndRateSectionProps> = ({ like, unlike, currentRate, positiveRates, negativeRates, replySection }) => {
+const ReplyAndRateSection: FC<ReplyAndRateSectionProps> = ({
+  like,
+  unlike,
+  currentRate,
+  positiveRates,
+  negativeRates,
+  replySection,
+}) => {
   return (
     <div className="flex flex-row items-center justify-between w-full gap-4 lg:justify-end">
-      { replySection && (
+      {replySection && (
         <>
           <button
             onClick={() => replySection.setIsRepliesModalOpen(true)}
@@ -28,7 +35,7 @@ const ReplyAndRateSection: FC<ReplyAndRateSectionProps> = ({ like, unlike, curre
             Reply {`(${replySection.repliesLength})`}
           </button>
         </>
-      ) }
+      )}
 
       <div className="flex gap-2">
         <motion.button
@@ -39,9 +46,7 @@ const ReplyAndRateSection: FC<ReplyAndRateSectionProps> = ({ like, unlike, curre
             },
           }}
           onClick={like}
-          className={`hover:text-green-400 duration-75 ${
-            currentRate?.[2] ? 'text-green-500' : ''
-          }`}
+          className={`hover:text-green-400 duration-75 ${currentRate?.[2] ? 'text-green-500' : ''}`}
         >
           <FontAwesomeIcon icon={faThumbsUp} /> {positiveRates}
         </motion.button>
@@ -61,7 +66,7 @@ const ReplyAndRateSection: FC<ReplyAndRateSectionProps> = ({ like, unlike, curre
         </motion.button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ReplyAndRateSection;

@@ -1,1 +1,1 @@
-export { default } from './reply-and-rate-section'
+export { default } from './reply-and-rate-section';

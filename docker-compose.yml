@@ -9,8 +9,3 @@ services:
       - ./frontend:/app
       - /app/node_modules
     stdin_open: true
-  smart_contract:
-    build: ./smart_contract
-    container_name: ileplaca_blockchain_platform_smart_contract
-    ports:
-      - "8455:8455"

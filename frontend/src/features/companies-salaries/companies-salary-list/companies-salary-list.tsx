@@ -18,7 +18,7 @@ const CompaniesSalariesList: FC<CompaniesSalariesListProps> = ({ companiesSalari
   if (companiesSalaries.length === 0) {
     return <div className="mt-4">There is no companies salaries here</div>;
   }
-  
+
   return (
     <>
       {companiesSalaries.map((salary) => (
